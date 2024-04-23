@@ -25,6 +25,7 @@ namespace Inventory_Management_System.Controllers
         public IActionResult Index()
         {
             // Retrieve client details from the database
+            var user = _dbContext.Users.ToList();
             var clients = _dbContext.Client_Model.ToList();
             return View(clients);
         }

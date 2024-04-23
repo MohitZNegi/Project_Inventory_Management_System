@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<Inventory_Management_System.Models.Client>
-
+@using Microsoft.AspNetCore.Identity
+@using Inventory_Management_System.Areas.Identity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <h1>Clients</h1>
 
 <table class="table">
@@ -8,6 +11,7 @@
             <th>Client ID</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Email</th>
             <!-- Add other columns as needed -->
         </tr>
     </thead>
@@ -18,6 +22,7 @@
                 <td>@client.Client_Id</td>
                 <td>@client.First_name</td>
                 <td>@client.Last_name</td>
+                <td>@client.User.Email</td>
                 <!-- Add other columns as needed -->
             </tr>
         }
