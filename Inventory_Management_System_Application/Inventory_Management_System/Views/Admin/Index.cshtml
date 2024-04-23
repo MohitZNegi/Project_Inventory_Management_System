@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Inventory_Management_System.Models.Client>
+
+<h1>Clients</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Client ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <!-- Add other columns as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.Client_Id</td>
+                <td>@client.First_name</td>
+                <td>@client.Last_name</td>
+                <!-- Add other columns as needed -->
+            </tr>
+        }
+    </tbody>
+</table>

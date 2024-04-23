@@ -27,9 +27,6 @@ namespace Inventory_Management_System.Models
         [Display(Name = "Last Name")]
         public string Last_name { get; set; }
 
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
 
 
 
