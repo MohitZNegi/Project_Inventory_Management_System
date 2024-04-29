@@ -8,10 +8,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Inventory_Management_System.Service;
 using WebPWrecover.Services;
 using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+
 //builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 //var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 

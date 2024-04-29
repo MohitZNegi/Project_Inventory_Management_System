@@ -22,6 +22,7 @@ namespace Inventory_Management_System.Service
 
         public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
 
+
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
             if (string.IsNullOrEmpty(Options.SendGridKey))
@@ -36,7 +37,7 @@ namespace Inventory_Management_System.Service
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("aakesh.sharma@techtorium.ac.nz", "NoReply"),
+                From = new EmailAddress("waremaster2024@gmail.com", "NoReply"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
