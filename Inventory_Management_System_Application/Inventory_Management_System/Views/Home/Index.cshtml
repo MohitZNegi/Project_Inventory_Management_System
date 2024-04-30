@@ -1,8 +1,291 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    /* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Header */
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* Hero Section */
+.hero {
+  background-color: #000;
+  color: #fff;
+  padding: 100px 0;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background-color: #ff6600;
+  border-color: #ff6600;
+}
+
+.btn-outline-secondary {
+  color: #fff;
+  border-color: #fff;
+}
+
+/* Features Section */
+.features {
+  padding: 80px 0;
+}
+
+.feature {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.feature i {
+  font-size: 3rem;
+  color: #ff6600;
+  margin-bottom: 1rem;
+}
+
+/* Benefits Section */
+.benefits {
+  background-color: #f8f9fa;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.benefit {
+  margin-bottom: 2rem;
+}
+
+.benefit i {
+  font-size: 2rem;
+  color: #ff6600;
+  margin-bottom: 1rem;
+}
+
+/* Product Categories Section */
+.product-categories {
+  padding: 80px 0;
+}
+
+.product-item {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.product-item img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 40px 0;
+}
+
+footer h4, footer h5 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: 0.5rem;
+}
+
+footer ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer ul li a:hover {
+  color: #ccc;
+}
+
+.input-group-append .btn {
+  background-color: #ff6600;
+  border-color: #ff6600;
+  color: #fff;
+}
+</style>
+<div class="container">
+    <section class="hero">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Delivering quality food products to businesses</h1>
+                <button class="btn btn-primary">Buy Now</button>
+                <button class="btn btn-outline-secondary">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Discover Our Wide Range of Products for Purchase and Delivery</h2>
+                <p>At our company, we take pride in offering a wide variety of high-quality food products from our suppliers to satisfy all your needs.</p>
+            </div>
+            <div class="col-md-3">
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <h5>Quality Assurance</h5>
+                    <p>Our stringent quality control system ensures you always get the finest quality.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature">
+                    <i class="fas fa-truck"></i>
+                    <h5>Fast Delivery</h5>
+                    <p>We are committed to providing your orders in a timely manner.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <h2>Why Choose Our Inventory Distribution Services?</h2>
+        <p>Our company offers a comprehensive inventory handling process for reliable products, efficiency, and cost-effectiveness.</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="benefit">
+                    <i class="fas fa-stream"></i>
+                    <h5>Streamlined Inventory Distribution Process</h5>
+                    <p>Our company has developed a process to streamline the entire inventory distribution process.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit">
+                    <i class="fas fa-chart-line"></i>
+                    <h5>Expertise in Food Product Distribution</h5>
+                    <p>Our years of experience, we specialize in coordinating the distribution of your products.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="benefit">
+                    <i class="fas fa-box"></i>
+                    <h5>Flexible Distribution Solutions</h5>
+                    <p>We offer flexible distribution solutions tailored to meet your specific business needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-categories">
+        <h2>Explore Our Products</h2>
+        <p>Explore our wide range of mouth-watering food products.</p>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Cheese">
+                    <h6>Cheese</h6>
+                    <p>$3.99</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Bread">
+                    <h6>Bread</h6>
+                    <p>$2.99</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Desserts">
+                    <h6>Desserts</h6>
+                    <p>$5.99</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Ice Cream">
+                    <h6>Ice Cream</h6>
+                    <p>$4.99</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Coffee">
+                    <h6>Coffee</h6>
+                    <p>$3.99</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Pizza">
+                    <h6>Pizza</h6>
+                    <p>$8.99</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Burger">
+                    <h6>Burger</h6>
+                    <p>$6.99</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="placeholder.jpg" alt="Salad">
+                    <h6>Salad</h6>
+                    <p>$7.99</p>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Logo</h4>
+            </div>
+            <div class="col-md-3">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>Subscribe</h4>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+                <p>Sign up to receive updates and special offers!</p>
+            </div>
+        </div>
+    </div>
+</footer>

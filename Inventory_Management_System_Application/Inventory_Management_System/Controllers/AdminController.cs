@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Inventory_Management_System.Areas.Identity.Data;
 using Inventory_Management_System.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Inventory_Management_System.ViewModels;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -29,6 +30,8 @@ namespace Inventory_Management_System.Controllers
             var clients = _dbContext.Client_Model.ToList();
             return View(clients);
         }
+
+       
 
     }
 }
