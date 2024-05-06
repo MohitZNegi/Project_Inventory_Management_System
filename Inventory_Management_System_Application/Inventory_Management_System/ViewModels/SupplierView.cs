@@ -1,16 +1,13 @@
-﻿using Inventory_Management_System.Areas.Identity.Data;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Inventory_Management_System.Models
+namespace Inventory_Management_System.ViewModels
 {
-    public class Supplier
-    {
-        [Key]
-        public int SupplierID { get; set; }
+
+        public class SupplierView
+        {
+
+
+       
 
         [Required]
         [MaxLength(100)]
@@ -34,4 +31,6 @@ namespace Inventory_Management_System.Models
         [Required]
         public DateTime UpdatedAt { get; set; }
     }
-}
+    }
+
+

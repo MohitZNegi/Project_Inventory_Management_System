@@ -36,10 +36,10 @@ namespace Inventory_Management_System.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Products()
         {
-            // Retrieve all products from the database
             var products = await _dbContext.Product_Model.ToListAsync();
             return View(products);
         }
+
         // GET: Admin/AddProduct
         public IActionResult AddProduct()
         {
@@ -49,79 +49,43 @@ namespace Inventory_Management_System.Controllers
         // POST: Admin/AddProduct
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(ProductView PV)
+        public async Task<IActionResult> AddProduct(Product product)
         {
-            
-            
+            product.CreatedDate = DateTime.Now;
 
-            // Create the product object
-            var product = new Product
-            {
-                ProductName = PV.ProductName,
-                ProductDescription = PV.ProductDescription,
-                ProductPrice = PV.ProductPrice,
-                ProductQuantity = PV.ProductQuantity,
-                CreatedBy = PV.CreatedBy,
-                Supplier = PV.Supplier,
-                //  ProductImg = PV.ProductImg,
-                CreatedDate = DateTime.Now,
-              
-            };
-
-            // Save the product to the database
             if (ModelState.IsValid)
             {
                 _dbContext.Add(product);
                 await _dbContext.SaveChangesAsync();
-                return RedirectToAction("Products", "Admin");
+                return RedirectToAction(nameof(Products));
             }
 
             return View(product);
         }
 
-       // GET: Admin/EditProduct/{id}
-        [HttpGet]
-        public async Task<IActionResult> EditProduct(int? Id)
+        // GET: Admin/EditProduct/{id}
+        public async Task<IActionResult> EditProduct(int? id)
         {
-            // Retrieve the product from the database using the id
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            var product = _dbContext.Product_Model.Find(Id);
-
+            var product = await _dbContext.Product_Model.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            // Map the product to a ProductViewModel
-            var productViewModel = new Product
-            {
-                ProductID = product.ProductID,
-                ProductName = product.ProductName,
-                ProductDescription = product.ProductDescription,
-                ProductPrice = product.ProductPrice,
-                ProductQuantity = product.ProductQuantity,
-                Supplier = product.Supplier,
-                CreatedBy = product.CreatedBy,
-                UpdatedDate = product.UpdatedDate
-            // No need to map ProductImg in Edit action
-        };
-
-            return View(productViewModel);
+            return View(product);
         }
 
         // POST: Admin/EditProduct/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct(int? id, ProductView productViewModel)
+        public async Task<IActionResult> EditProduct(int id, Product product)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(productViewModel);
-            }
-
-            var product = _dbContext.Product_Model.Find(id);
-
-            if (product == null)
+            if (id != product.ProductID)
             {
                 return NotFound();
             }
@@ -130,34 +94,44 @@ namespace Inventory_Management_System.Controllers
             {
                 try
                 {
+                    // Retrieve the existing product from the database
+                    var existingProduct = await _dbContext.Product_Model.FindAsync(id);
+                    if (existingProduct == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the properties of the existing product except CreatedAt
+                    existingProduct.ProductName = product.ProductName;
+                    existingProduct.ProductDescription = product.ProductDescription;
+                    existingProduct.ProductPrice = product.ProductPrice;
+                    existingProduct.ProductQuantity = product.ProductQuantity;
+                    existingProduct.Supplier = product.Supplier;
+                    existingProduct.CreatedBy = product.CreatedBy;
+                    existingProduct.UpdatedDate = DateTime.Now; // Update the UpdatedDate
+
+                    _dbContext.Update(existingProduct);
+                    await _dbContext.SaveChangesAsync();
                 
-
-                    // Update the properties of the existing product
-                    product.ProductName = productViewModel.ProductName;
-                    product.ProductDescription = productViewModel.ProductDescription;
-                    product.ProductPrice = productViewModel.ProductPrice;
-                    product.ProductQuantity = productViewModel.ProductQuantity;
-                    product.Supplier = productViewModel.Supplier;
-                    product.CreatedBy = productViewModel.CreatedBy;
-                    product.UpdatedDate = DateTime.Now;
-
-                    // Save the changes to the database
-                   _dbContext.SaveChanges();
-
-                    return RedirectToAction("Products", "Admin");
                 }
-                catch (Exception)
+                catch (DbUpdateConcurrencyException)
                 {
-                    // Handle exceptions
-                    throw;
+                    if (!ProductExists(product.ProductID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+                return RedirectToAction(nameof(Products));
             }
 
-            return View(productViewModel);
+            return View(product);
         }
 
-        // GET: Admin/ConfirmDelete/{id}
-        [HttpGet]
+        // GET: Admin/ConfirmDeleteProduct/{id}
         public async Task<IActionResult> ConfirmDeleteProduct(int? id)
         {
             if (id == null)
@@ -165,7 +139,7 @@ namespace Inventory_Management_System.Controllers
                 return NotFound();
             }
 
-            var product = _dbContext.Product_Model.Find(id);
+            var product = await _dbContext.Product_Model.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -173,23 +147,158 @@ namespace Inventory_Management_System.Controllers
 
             return View(product);
         }
+
         // POST: Admin/DeleteProduct/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProduct(int? id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = _dbContext.Product_Model.Find(id);
+            var product = await _dbContext.Product_Model.FindAsync(id);
+            _dbContext.Product_Model.Remove(product);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Products));
+        }
 
-            if (product == null)
+        private bool ProductExists(int id)
+        {
+            return _dbContext.Product_Model.Any(e => e.ProductID == id);
+        }
+
+        // GET: Admin/Suppliers
+        public async Task<IActionResult> Suppliers()
+        {
+            // Retrieve all suppliers from the database
+            var suppliers = await _dbContext.Supplier_Model.ToListAsync();
+            return View(suppliers);
+        }
+
+        // GET: Admin/AddSupplier
+        public IActionResult AddSupplier()
+        {
+            return View();
+        }
+
+        // POST: Admin/AddSupplier
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSupplier(Supplier supplier)
+        {
+            // Create the supplier object
+            supplier.CreatedAt = DateTime.Now;
+           
+
+            // Save the supplier to the database
+            if (ModelState.IsValid)
+            {
+                _dbContext.Add(supplier);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Suppliers));
+            }
+
+            return View(supplier);
+        }
+
+        // GET: Admin/EditSupplier/{id}
+        [HttpGet]
+        public async Task<IActionResult> EditSupplier(int? id)
+        {
+            // Retrieve the supplier from the database using the id
+            var supplier = await _dbContext.Supplier_Model.FindAsync(id);
+
+            if (supplier == null)
             {
                 return NotFound();
             }
-            _dbContext.Product_Model.Remove(product);
-            _dbContext.SaveChanges();
-           return RedirectToAction("Products", "Admin");
+
+            supplier.CreatedAt = supplier.CreatedAt;
+
+
+            return View(supplier);
         }
 
+        // POST: Admin/EditSupplier/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditSupplier(int id, Supplier supplier)
+        {
+            if (id != supplier.SupplierID)
+            {
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Retrieve the existing product from the database
+                    var existingSupplier = await _dbContext.Supplier_Model.FindAsync(id);
+                    if (existingSupplier == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update the properties of the existing product except CreatedAt
+                    existingSupplier.SupplierName = supplier.SupplierName;
+                    existingSupplier.Location = supplier.Location;
+                    existingSupplier.Products = supplier.Products;
+                    existingSupplier.ContactDetails = supplier.ContactDetails;
+                    existingSupplier.CreatedBy = supplier.CreatedBy;
+                    existingSupplier.UpdatedAt = DateTime.Now; // Update the UpdatedDate
+
+                    _dbContext.Update(existingSupplier);
+                    await _dbContext.SaveChangesAsync();
+       
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SupplierExists(supplier.SupplierID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Suppliers));
+            }
+
+            return View(supplier);
+        }
+
+        // GET: Admin/ConfirmDeleteSupplier/{id}
+        [HttpGet]
+        public async Task<IActionResult> ConfirmDeleteSupplier(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var supplier = await _dbContext.Supplier_Model.FindAsync(id);
+            if (supplier == null)
+            {
+                return NotFound();
+            }
+
+            return View(supplier);
+        }
+
+        // POST: Admin/DeleteSupplier/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteSupplier(int id)
+        {
+            var supplier = await _dbContext.Supplier_Model.FindAsync(id);
+            _dbContext.Supplier_Model.Remove(supplier);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Suppliers));
+        }
+
+        private bool SupplierExists(int id)
+        {
+            return _dbContext.Supplier_Model.Any(e => e.SupplierID == id);
+        }
 
     }
 }
