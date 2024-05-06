@@ -1,0 +1,46 @@
+﻿@model Inventory_Management_System.Models.Supplier
+
+@{
+    ViewData["Title"] = "Add Supplier";
+}
+
+<h1>Add Supplier</h1>
+
+<form asp-action="AddSupplier" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="SupplierName" class="control-label"></label>
+        <input asp-for="SupplierName" class="form-control" />
+        <span asp-validation-for="SupplierName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Location" class="control-label"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContactDetails" class="control-label"></label>
+        <input asp-for="ContactDetails" class="form-control" />
+        <span asp-validation-for="ContactDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Products" class="control-label"></label>
+        <input asp-for="Products" class="form-control" />
+        <span asp-validation-for="Products" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CreatedBy" class="control-label"></label>
+        <input asp-for="CreatedBy" class="form-control" />
+        <span asp-validation-for="CreatedBy" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add Supplier</button>
+    </div>
+</form>

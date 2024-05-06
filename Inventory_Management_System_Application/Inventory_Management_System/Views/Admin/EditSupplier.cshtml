@@ -1,0 +1,47 @@
+﻿@model Inventory_Management_System.Models.Supplier
+
+@{
+    ViewData["Title"] = "Edit Supplier";
+}
+
+<h1>Edit Supplier</h1>
+
+<form asp-action="EditSupplier" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="SupplierID" />
+
+    <div class="form-group">
+        <label asp-for="SupplierName" class="control-label"></label>
+        <input asp-for="SupplierName" class="form-control" />
+        <span asp-validation-for="SupplierName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Location" class="control-label"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContactDetails" class="control-label"></label>
+        <input asp-for="ContactDetails" class="form-control" />
+        <span asp-validation-for="ContactDetails" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Products" class="control-label"></label>
+        <input asp-for="Products" class="form-control" />
+        <span asp-validation-for="Products" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CreatedBy" class="control-label"></label>
+        <input asp-for="CreatedBy" class="form-control" />
+        <span asp-validation-for="CreatedBy" class="text-danger"></span>
+    </div>
+
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update Supplier</button>
+    </div>
+</form>
