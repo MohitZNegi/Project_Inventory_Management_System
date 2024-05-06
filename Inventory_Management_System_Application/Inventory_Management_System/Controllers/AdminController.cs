@@ -62,6 +62,7 @@ namespace Inventory_Management_System.Controllers
                 ProductPrice = PV.ProductPrice,
                 ProductQuantity = PV.ProductQuantity,
                 CreatedBy = PV.CreatedBy,
+                Supplier = PV.Supplier,
                 //  ProductImg = PV.ProductImg,
                 CreatedDate = DateTime.Now,
               
@@ -99,6 +100,7 @@ namespace Inventory_Management_System.Controllers
                 ProductDescription = product.ProductDescription,
                 ProductPrice = product.ProductPrice,
                 ProductQuantity = product.ProductQuantity,
+                Supplier = product.Supplier,
                 CreatedBy = product.CreatedBy,
                 UpdatedDate = product.UpdatedDate
             // No need to map ProductImg in Edit action
@@ -135,6 +137,7 @@ namespace Inventory_Management_System.Controllers
                     product.ProductDescription = productViewModel.ProductDescription;
                     product.ProductPrice = productViewModel.ProductPrice;
                     product.ProductQuantity = productViewModel.ProductQuantity;
+                    product.Supplier = productViewModel.Supplier;
                     product.CreatedBy = productViewModel.CreatedBy;
                     product.UpdatedDate = DateTime.Now;
 
