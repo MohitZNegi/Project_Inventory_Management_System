@@ -27,7 +27,12 @@ namespace Inventory_Management_System.Models
         [Range(0, int.MaxValue)]
         public int ProductQuantity { get; set; }
 
-        public string ProductImg { get; set; }
+        public string? ProductImg { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string CreatedBy { get; set; }
+
 
         [Required]
         [DataType(DataType.DateTime)]

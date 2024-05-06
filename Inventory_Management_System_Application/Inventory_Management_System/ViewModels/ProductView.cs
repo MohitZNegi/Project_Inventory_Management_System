@@ -20,7 +20,9 @@ namespace Inventory_Management_System.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
         public int ProductQuantity { get; set; }
 
-        public IFormFile ProductImg { get; set; }
+        public string CreatedBy { get; set; }
+
+        // public IFormFile ProductImg { get; set; }
     }
     }
 

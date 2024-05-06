@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Inventory_Management_System.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h1>Product List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Updated Date</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.ProductDescription</td>
+                <td>@product.ProductPrice</td>
+                <td>@product.ProductQuantity</td>
+                <td>@product.CreatedBy</td>
+                <td>@product.CreatedDate</td>
+                @if (product.UpdatedDate == DateTime.MinValue)
+                {
+                    <td>N/A</td>
+                }
+                else
+                {
+                    <td>@product.UpdatedDate</td>
+                }
+              
+                <td>
+                    @if (!string.IsNullOrEmpty(product.ProductImg))
+                    {
+                        <img src="@Url.Content(product.ProductImg)" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
+                    }
+                    else
+                    {
+                        <span>No Image Available</span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditProduct", "Admin", new { id = product.ProductID }, new { @class = "button-29" })
+                    <a asp-action="ConfirmDeleteProduct" asp-route-id="@product.ProductID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="col-md-5 d-flex justify-content-center">
+    <fieldset>
+        @Html.ActionLink("Add new Product", "AddProduct", "Admin", null, new { @class = "button-29", @id = "save" })
+    </fieldset>
+</div>
