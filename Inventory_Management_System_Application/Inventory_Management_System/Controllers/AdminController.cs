@@ -64,7 +64,7 @@ namespace Inventory_Management_System.Controllers
                     ProductDescription = productView.ProductDescription,
                     ProductPrice = productView.ProductPrice,
                     ProductQuantity = productView.ProductQuantity,
-                    Supplier = productView.Supplier,
+                    //Supplier = productView.Supplier,
                     CreatedBy = productView.CreatedBy,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now
@@ -135,7 +135,7 @@ namespace Inventory_Management_System.Controllers
                     existingProduct.ProductDescription = product.ProductDescription;
                     existingProduct.ProductPrice = product.ProductPrice;
                     existingProduct.ProductQuantity = product.ProductQuantity;
-                    existingProduct.Supplier = product.Supplier;
+                    //existingProduct.Supplier = product.Supplier;
                     existingProduct.CreatedBy = product.CreatedBy;
                     existingProduct.UpdatedDate = DateTime.Now; // Update the UpdatedDate
 

@@ -33,9 +33,9 @@ namespace Inventory_Management_System.Models
         [MaxLength(100)]
         public string CreatedBy { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string Supplier { get; set; }
+        //[Required]
+        //[MaxLength(100)]
+        //public string Supplier { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]

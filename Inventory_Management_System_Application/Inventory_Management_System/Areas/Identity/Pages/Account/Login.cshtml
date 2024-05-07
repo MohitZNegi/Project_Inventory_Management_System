@@ -8,204 +8,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <link href="~/css/site.css" rel="stylesheet" />
-
-<style>
-        /* Styles for the Glassmorphism login form */
-
-        *,
-        *:before,
-        *:after {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/css/site.css" rel="stylesheet">
+    <title>Login</title>
+    <style>
         body {
-            background-color: white;
-            color: #000000; /* Set text color to black */
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .content {
+            margin-top: 60px; /* Adjust margin to avoid overlap with fixed navbar */
+            padding: 20px;
         }
 
-        .background {
-            width: 630px; /* Increased width */
-            height: 620px; /* Increased height */
-            position: absolute;
-            transform: translate(-50%, -50%);
-            left: 50%;
-            top: 50%;
-        }
-
-            .background .shape {
-                height: 200px;
-                width: 200px;
-                position: absolute;
-                border-radius: 50%;
-            }
-
-        .shape:first-child {
-            background: linear-gradient( #1845ad, #23a2f6 );
-            left: -80px;
-            top: -80px;
-        }
-
-        .shape:last-child {
-            background: linear-gradient( to right, #ff512f, #f09819 );
-            right: -30px;
-            bottom: -80px;
-        }
-
-        form {
-            height: 550px;
-            width: 500px; /* Increased width */
-            background-color: rgba(255, 255, 255, 0.13);
-            position: absolute;
-            transform: translate(-50%, -50%);
-            top: 50%;
-            left: 50%;
+        .login-container {
+            background-color: #ffffff;
             border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-            padding: 50px 35px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            margin: auto;
         }
 
-            form * {
-                font-family: 'Poppins', sans-serif;
-                color: #000000; /* Set text color to black */
-                letter-spacing: 0.5px;
-                outline: none;
-                border: none;
+            .login-container h1 {
+                text-align: center;
+                margin-bottom: 20px;
             }
 
-            form h3 {
-                font-size: 32px;
-                font-weight: 500;
-                line-height: 42px;
+            .login-container p {
                 text-align: center;
+                margin-bottom: 30px;
             }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left; /* Align form elements to the left */
+        }
 
         label {
             display: block;
-            margin-top: 30px;
-            font-size: 16px;
-            font-weight: 500;
+            margin-bottom: 5px; /* Adjust margin for spacing */
+            font-weight: normal; /* Set font weight to normal */
         }
 
-        .form-label input {
-            display: inline-block;
-            vertical-align: middle;
-            transform: scale(1);
-            margin-right: 5px; /* Adjust spacing between the checkbox and label text */
-            margin-bottom: 10px;
+        input[type="email"],
+        input[type="password"] {
+            width: 100%; /* Set width to 100% to match the container */
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px; /* Add bottom margin for spacing */
         }
 
-
-        input {
-            display: block;
-            height: 50px;
+        button[type="submit"] {
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.07);
-            border-radius: 3px;
-            padding: 0 10px;
-            margin-top: 8px;
-            font-size: 14px;
-            font-weight: 300;
-        }
-
-        ::placeholder {
-            color: #e5e5e5;
-        }
-
-        button {
-            margin-top: 50px;
-            width: 100%;
-            background-color: #ffffff;
-            color: #080710;
-            padding: 15px 0;
-            font-size: 18px;
-            font-weight: 600;
+            padding: 10px;
+            background-color: black;
+            color: #fff;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s, color 0.3s; /* Add transition for hover effect */
         }
 
-        .social {
-            margin-top: 30px;
-            display: flex;
-        }
-
-            .social div {
-                background: red;
-                width: 150px;
-                border-radius: 3px;
-                padding: 5px 10px 10px 5px;
-                background-color: rgba(255, 255, 255, 0.27);
-                color: #eaf0fb;
-                text-align: center;
+            button[type="submit"]:hover {
+                background-color: white !important; /* Set background to white on hover */
+                color: black !important; /* Set text color to black on hover */
+                border: 1px solid black;
             }
 
-                .social div:hover {
-                    background-color: rgba(255, 255, 255, 0.47);
+        .social-login {
+            margin-bottom: 20px;
+        }
+
+            .social-login button {
+                width: 100%;
+                padding: 10px;
+                background-color: white;
+                color: black;
+                border: 1px solid black;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s; /* Add transition for hover effect */
+            }
+
+                .social-login button:hover {
+                    background-color: #0d6efd;
+                    color: white; /* Change text color on hover */
+                    border: #0d6efd;
                 }
 
-            .social .fb {
-                margin-left: 25px;
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signup-link {
+            text-align: center;
+        }
+
+            .signup-link a {
+                color: #007bff;
             }
 
-            .social i {
-                margin-right: 4px;
-            }
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 40px 0;
+    text-align: left; /* Align text to the left */
+    width: 100%;
+    position: absolute;
+    margin-top: 20px;
+    margin-left: -120px;
+}
 
+footer button.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+    padding: 6px 10px; /* Adjust button padding for smaller size */
+    margin-top: 10px; /* Add margin to separate from form */
+    font-size: 14px; /* Adjust font size */
+    width: 20%;
+}
 
-</style>
+footer .form-group {
+    margin-bottom: 0; /* Remove bottom margin for form group */
+}
+
+footer .signup-link {
+    text-align: left; /* Align signup text to the left */
+    margin-top: 20px; /* Add top margin to separate from form */
+}
+
+footer .signup-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer .input-group {
+    margin-bottom: 10px; /* Add margin below input group */
+}
+
+footer .input-group-append .btn {
+    padding: 8px 12px; /* Adjust button padding for smaller size */
+}
+
+footer h4, footer h5 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: 0.5rem;
+}
+
+footer ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer ul li a:hover {
+  color: #ccc;
+}
+
+    </style>
 </head>
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
+    <div class="content">
+        <div class="login-container">
+            <h1>Login</h1>
+            <p>Welcome back! Log in to your account.</p>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Input.Email" class="form-label">Email*</label>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password" class="form-label">Password*</label>
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Log In</button>
+                </div>
+            </form>
+            <div class="social-login">
+                <button>
+                    <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715086435/Google-removebg-preview_qqctvv.png" alt="Google Logo" style="height: 20px; margin-bottom: 2px; margin-right: 2px;">
+                    Login with Google
+                </button>
+            </div>
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+            <div class="signup-link">
+                <p>Don't have an account? <a href="#">Sign up</a></p>
+            </div>
+        </div>
     </div>
-    <form id="account" method="post" class="glassmorphism-form">
-        <h3>Login Here</h3>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-floating">
-            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" style="font-family: 'Poppins', sans-serif;" />
-            <label asp-for="Input.Email" class="form-label" style="font-family: 'Poppins', sans-serif;"></label>
-            <span asp-validation-for="Input.Email" class="text-danger" style="font-family: 'Poppins', sans-serif;"></span>
+    <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Logo</h4>
+            </div>
+            <div class="col-md-3">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>Subscribe</h4>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+                <p>Sign up to receive updates and special offers!</p>
+            </div>
         </div>
-        <div class="form-floating">
-            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" style="font-family: 'Poppins', sans-serif;" />
-            <label asp-for="Input.Password" class="form-label" style="font-family: 'Poppins', sans-serif;"></label>
-            <span asp-validation-for="Input.Password" class="text-danger" style="font-family: 'Poppins', sans-serif;"></span>
-        </div>
-        <div>
-            <label class="form-label" style="font-family: 'Poppins', sans-serif;">
-                <input class="form-check-input" asp-for="Input.RememberMe" style="margin-right: 5px;" />
-                @Html.DisplayNameFor(m => m.Input.RememberMe)
-            </label>
-        </div>
-        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary" style="font-family: 'Poppins', sans-serif;">Log in</button>
-        <div class="additional-links" style="font-family: 'Poppins', sans-serif;">
-            <p>
-                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-            </p>
-            <p>
-                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-            </p>
-            <p>
-                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-            </p>
-        </div>
-    </form>
+    </div>
+</footer>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
 </body>
 </html>
-

@@ -12,3 +12,100 @@ html {
   position: relative;
   min-height: 100%;
 }
+
+/* Navbar Styles */
+.navbar {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+    .nav-links li {
+        margin-right: 20px;
+    }
+
+    .nav-links a {
+        color: #fff !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+.navbar-brand img {
+    max-height: 100%;
+    width: auto;
+    margin-top: -4px;
+}
+
+.dropdown-menu {
+    background-color: #fff; /* Set background color to white */
+    color: #000; /* Set text color to black */
+    display: none;
+    position: absolute;
+    padding: 10px;
+    z-index: 1;
+}
+
+    .dropdown-menu .dropdown-item {
+        color: #000; /* Set text color of dropdown items to black */
+    }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #ccc; /* Set background color of hovered dropdown items */
+        }
+
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.square-button {
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#login:hover {
+    background-color: black !important; /* Set background to black on hover */
+    color: white !important; /* Set text color to white on hover */
+}
+
+#register:hover {
+    background-color: white !important; /* Set background to white on hover */
+    color: black !important; /* Set text color to black on hover */
+}
+
+.auth-buttons a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+    .auth-buttons a:hover {
+        color: #ff9900;
+    }
+}
