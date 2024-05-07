@@ -4,6 +4,7 @@ using Inventory_Management_System.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory_Management_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240507043327_foreignKeyAdded")]
+    partial class foreignKeyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,7 +153,7 @@ namespace Inventory_Management_System.Migrations
                     b.Property<int>("ProductQuantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductSuppliers")
+                    b.Property<string>("Supplier")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -383,25 +385,25 @@ namespace Inventory_Management_System.Migrations
 
             modelBuilder.Entity("Inventory_Management_System.Models.Product", b =>
                 {
-                    b.HasOne("Inventory_Management_System.Models.Supplier", "Supplier")
+                    b.HasOne("Inventory_Management_System.Models.Supplier", "Suppliers")
                         .WithMany()
                         .HasForeignKey("SupplierID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Supplier");
+                    b.Navigation("Suppliers");
                 });
 
             modelBuilder.Entity("Inventory_Management_System.Models.ProductSupplier", b =>
                 {
                     b.HasOne("Inventory_Management_System.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductSuppliers")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Inventory_Management_System.Models.Supplier", "Supplier")
-                        .WithMany()
+                        .WithMany("ProductSuppliers")
                         .HasForeignKey("SupplierID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -460,6 +462,16 @@ namespace Inventory_Management_System.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Inventory_Management_System.Models.Product", b =>
+                {
+                    b.Navigation("ProductSuppliers");
+                });
+
+            modelBuilder.Entity("Inventory_Management_System.Models.Supplier", b =>
+                {
+                    b.Navigation("ProductSuppliers");
                 });
 #pragma warning restore 612, 618
         }

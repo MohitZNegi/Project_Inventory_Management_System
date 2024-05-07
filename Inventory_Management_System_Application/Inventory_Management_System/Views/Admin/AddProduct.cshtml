@@ -1,4 +1,4 @@
-﻿@model Inventory_Management_System.ViewModels.ProductView
+﻿@model Inventory_Management_System.Models.Product
 
 @{
     ViewData["Title"] = "Add Product";
@@ -18,18 +18,24 @@
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
-
+        
             <div class="form-group">
                 <label asp-for="ProductDescription" class="control-label"></label>
                 <input asp-for="ProductDescription" class="form-control" />
                 <span asp-validation-for="ProductDescription" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Supplier" class="control-label"></label>
-                <input asp-for="Supplier" class="form-control" />
-                <span asp-validation-for="Supplier" class="text-danger"></span>
-            </div>
-
+          
+                  <div class="form-group">
+            <label for="supplier">Supplier</label>
+            <select id="supplier" name="supplier" class="form-control">
+                <option value="">Select Supplier</option>
+                @foreach (var supplier in ViewBag.Suppliers)
+                {
+                    <option value="@supplier.Value">@supplier.Text</option>
+                }
+            </select>
+        </div>
+           
             <div class="form-group">
                 <label asp-for="ProductPrice" class="control-label"></label>
                 <input asp-for="ProductPrice" class="form-control" />
@@ -62,7 +68,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Products">Back to List</a>
 </div>
 
 @section Scripts {

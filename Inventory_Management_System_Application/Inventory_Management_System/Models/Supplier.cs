@@ -12,6 +12,8 @@ namespace Inventory_Management_System.Models
         [Key]
         public int SupplierID { get; set; }
 
+
+
         [Required]
         [MaxLength(100)]
         public string SupplierName { get; set; }
@@ -22,7 +24,8 @@ namespace Inventory_Management_System.Models
         [MaxLength(100)]
         public string ContactDetails { get; set; }
 
-        public string Products { get; set; }
+        [NotMapped]
+        public string? Products { get; set; } 
 
         [Required]
         [MaxLength(100)]
@@ -33,5 +36,8 @@ namespace Inventory_Management_System.Models
 
         [Required]
         public DateTime UpdatedAt { get; set; }
+
+        // Navigation property for products supplied by this supplier
+     //   public List<ProductSupplier>? ProductSuppliers { get; set; }
     }
 }

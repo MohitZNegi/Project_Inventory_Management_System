@@ -4,6 +4,7 @@ using Inventory_Management_System.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory_Management_System.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240506080317_ProductSupplier_Model_added")]
+    partial class ProductSupplier_Model_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,20 +153,15 @@ namespace Inventory_Management_System.Migrations
                     b.Property<int>("ProductQuantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductSuppliers")
+                    b.Property<string>("Supplier")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("SupplierID")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("ProductID");
-
-                    b.HasIndex("SupplierID");
 
                     b.ToTable("Product_Model");
                 });
@@ -217,6 +214,10 @@ namespace Inventory_Management_System.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Products")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SupplierName")
                         .IsRequired()
@@ -381,27 +382,16 @@ namespace Inventory_Management_System.Migrations
                     b.Navigation("UserData");
                 });
 
-            modelBuilder.Entity("Inventory_Management_System.Models.Product", b =>
-                {
-                    b.HasOne("Inventory_Management_System.Models.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Supplier");
-                });
-
             modelBuilder.Entity("Inventory_Management_System.Models.ProductSupplier", b =>
                 {
                     b.HasOne("Inventory_Management_System.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductSuppliers")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Inventory_Management_System.Models.Supplier", "Supplier")
-                        .WithMany()
+                        .WithMany("ProductSuppliers")
                         .HasForeignKey("SupplierID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -460,6 +450,16 @@ namespace Inventory_Management_System.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Inventory_Management_System.Models.Product", b =>
+                {
+                    b.Navigation("ProductSuppliers");
+                });
+
+            modelBuilder.Entity("Inventory_Management_System.Models.Supplier", b =>
+                {
+                    b.Navigation("ProductSuppliers");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,6 +12,12 @@ namespace Inventory_Management_System.Models
         [Key]
         public int ProductID { get; set; }
 
+        // Foreign key referencing the Supplier entity
+        [ForeignKey("SupplierKey")]
+        public int SupplierID { get; set; }
+
+        // Navigation property to represent the relationship
+        public Supplier Supplier { get; set; }
         [Required]
         [MaxLength(100)]
         public string ProductName { get; set; }
@@ -35,7 +41,7 @@ namespace Inventory_Management_System.Models
 
         [Required]
         [MaxLength(100)]
-        public string Supplier { get; set; }
+        public string ProductSuppliers { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -44,5 +50,8 @@ namespace Inventory_Management_System.Models
         [DataType(DataType.DateTime)]
         public DateTime UpdatedDate { get; set; }
 
+        // Navigation property for suppliers supplying this product
+
+      //  public List<ProductSupplier> ProductSuppliers { get; set; }
     }
 }
