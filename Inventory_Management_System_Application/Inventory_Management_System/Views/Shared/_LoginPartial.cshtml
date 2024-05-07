@@ -8,13 +8,16 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzP8EuFZHOfz0SJUGiyhU2lmvQvBixikdXpycVWfGlog&s" alt="Profile Image" style="height: 30px; width: 30px;" />
+            </a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+
 }
 else
 {
@@ -22,7 +25,7 @@ else
             <a class="nav-link btn btn-light btn-outline-dark text-black square-button" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </li>
     <li class="nav-item">
-            <a class="nav-link btn btn-dark text-white square-button" id="register" asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
+            <a class="nav-link btn btn-dark text-white square-button" id="register" asp-area="Identity" asp-page="/Account/Register">Join Us</a>
     </li>
 }
 </ul>

@@ -13,6 +13,13 @@
         margin: 0;
     }
 
+    .container-fluid {
+        padding-right: 0px;
+        padding-left: 0px;
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
     .navbar {
         background-color: #333;
         color: #fff;
@@ -43,6 +50,12 @@
 
     .nav-links a:hover {
         color: #000;
+    }
+
+    .navbar-brand img {
+        max-height: 100%;
+        width: auto;
+        margin-top: -4px;
     }
 
     .dropdown-menu {
@@ -100,9 +113,11 @@
 
 /* Hero Section */
 .hero {
-  background-color: #000;
-  color: #fff;
-  padding: 100px 0;
+        background-color: #000;
+        color: #fff;
+        padding: 100px 0;
+        text-align: center;
+        width: 100%;
 }
 
 .hero h1 {
@@ -111,9 +126,18 @@
   margin-bottom: 2rem;
 }
 
+    .custom-padding {
+        padding-right: 25px; /* Adjust the padding as needed */
+    }
+
+    .hero .col-md-6 {
+        position: relative;
+        right: 300px;
+    }
+
 .btn-primary {
-  background-color: #ff6600;
-  border-color: #ff6600;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
 }
 
 .btn-outline-secondary {
@@ -124,6 +148,7 @@
 /* Features Section */
 .features {
   padding: 80px 0;
+  margin-bottom: -500px;
 }
 
 .feature {
@@ -133,15 +158,20 @@
 
 .feature i {
   font-size: 3rem;
-  color: #ff6600;
+  color: #0d6efd;
   margin-bottom: 1rem;
 }
 
+    .mb-4 {
+        margin-bottom: 20px; /* Adjust as needed */
+    }
+
 /* Benefits Section */
 .benefits {
-  background-color: #f8f9fa;
+  background-color: white;
   padding: 80px 0;
   text-align: center;
+  margin-top: -120px;
 }
 
 .benefit {
@@ -150,9 +180,31 @@
 
 .benefit i {
   font-size: 2rem;
-  color: #ff6600;
+  color: #0d6efd;
   margin-bottom: 1rem;
 }
+
+    .btn-custom-white {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+    }
+
+    .btn-custom-none {
+        background-color: transparent;
+        color: black;
+        border: none;
+    }
+
+    .btn-custom-white:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .btn-custom-none:hover {
+        transform: scale(1); /* Increases size on hover */
+        font-weight: bold; /* Makes text bold on hover */
+    }
 
 /* Product Categories Section */
 .product-categories {
@@ -201,72 +253,101 @@ footer ul li a:hover {
 }
 
 .input-group-append .btn {
-  background-color: #ff6600;
-  border-color: #ff6600;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
   color: #fff;
 }
+
 </style>
-<div class="container">
-    <section class="hero">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Delivering quality food products to businesses</h1>
-                <button class="btn btn-primary">Buy Now</button>
+<div class="container-fluid">
+<section class="hero custom-padding">
+    <div class="row justify-content-end">
+        <div class="col-md-6">
+            <h1>Delivering Quality Food Products to Businesses</h1>
+            <p>At our company, we are dedicated to distributing the finest food products to businesses, ensuring their success and satisfaction.</p>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary me-2">Buy Now</button>
                 <button class="btn btn-outline-secondary">Learn More</button>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+</div>
 
-    <section class="features">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Discover Our Wide Range of Products for Purchase and Delivery</h2>
-                <p>At our company, we take pride in offering a wide variety of high-quality food products from our suppliers to satisfy all your needs.</p>
+<section class="features mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h2>Discover Our Wide Range of Products for Purchase and Delivery</h2>
+            <p>At our company, we take pride in offering a wide variety of high-quality food products. From fresh produce to pantry staples, we have everything you need to create delicious meals.</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <!-- Added justify-content-center to center the columns -->
+        <div class="col-md-3 text-center">
+            <!-- Added text-center to center the content -->
+            <div class="text-center">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715073321/quality-control-quality-assurance-mobile-phones-mobile-phone-signal-symbol-removebg-preview_ityjwl.png" alt="Quality Assurance" class="img-fluid mb-3" style="height: 50px; width: 50px;">
             </div>
-            <div class="col-md-3">
-                <div class="feature">
-                    <i class="fas fa-check-circle"></i>
-                    <h5>Quality Assurance</h5>
-                    <p>Our stringent quality control system ensures you always get the finest quality.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="feature">
-                    <i class="fas fa-truck"></i>
-                    <h5>Fast Delivery</h5>
-                    <p>We are committed to providing your orders in a timely manner.</p>
-                </div>
+            <div class="feature">
+                <h5>Quality Assurance</h5>
+                <p>Our stringent quality control system ensures you always get the finest quality.</p>
             </div>
         </div>
-    </section>
-
-    <section class="benefits">
-        <h2>Why Choose Our Inventory Distribution Services?</h2>
-        <p>Our company offers a comprehensive inventory handling process for reliable products, efficiency, and cost-effectiveness.</p>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="benefit">
-                    <i class="fas fa-stream"></i>
-                    <h5>Streamlined Inventory Distribution Process</h5>
-                    <p>Our company has developed a process to streamline the entire inventory distribution process.</p>
-                </div>
+        <div class="col-md-3 text-center">
+            <!-- Added text-center to center the content -->
+            <div class="text-center">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715073321/216-2168273_png-file-svg-fast-delivery-icon-png-clipart-removebg-preview_me3pro.png" alt="Fast Delivery" class="img-fluid mb-3" style="height: 50px; width: 50px;">
             </div>
-            <div class="col-md-4">
-                <div class="benefit">
-                    <i class="fas fa-chart-line"></i>
-                    <h5>Expertise in Food Product Distribution</h5>
-                    <p>Our years of experience, we specialize in coordinating the distribution of your products.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="benefit">
-                    <i class="fas fa-box"></i>
-                    <h5>Flexible Distribution Solutions</h5>
-                    <p>We offer flexible distribution solutions tailored to meet your specific business needs.</p>
-                </div>
+            <div class="feature">
+                <h5>Fast Delivery</h5>
+                <p>We are committed to providing your orders in a timely manner.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+
+
+
+
+
+<section class="benefits">
+    <h2>Why Choose Our Inventory Distribution Services?</h2>
+    <p>Our company offers a streamlined machine learning inventory distribution process, ensuring timely delivery and optimal stock management.</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="benefit">
+                <img src="https://blog.cyberstockroom.com/wp-content/uploads/2023/03/5.png?w=1024" alt="Streamlined Inventory Distribution Process Image" class="img-fluid mb-3" style="height: 100px; width: 100px;">
+                <i class="fas fa-stream"></i>
+                <h5>Streamlined Inventory Distribution Process</h5>
+                <p>Our company has developed a process to streamline the entire inventory distribution process.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="benefit">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715074046/m2H7i8i8A0K9b1H7-removebg-preview_i6my4b.png" alt="Expertise in Food Product Distribution Image" class="img-fluid mb-3" style="height: 100px; width: 200px;">
+                <i class="fas fa-chart-line"></i>
+                <h5>Expertise in Food Product Distribution</h5>
+                <p>Our years of experience, we specialize in coordinating the distribution of your products.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="benefit">
+                <img src="https://t3.ftcdn.net/jpg/05/25/48/58/360_F_525485816_5AOwvR0ZnuzzgfCvX4PVQY3bEuudz25J.jpg" alt="Flexible Distribution Solutions Image" class="img-fluid mb-3" style="height: 100px; width: 100px;">
+                <i class="fas fa-box"></i>
+                <h5>Flexible Distribution Solutions</h5>
+                <p>We offer flexible distribution solutions tailored to meet your specific business needs.</p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="#" class="btn btn-custom-white me-3">Learn More</a>
+        <a href="#" class="btn btn-custom-none">Join Now ></a>
+    </div>
+</section>
+
+
+
 
     <section class="product-categories">
         <h2>Explore Our Products</h2>
