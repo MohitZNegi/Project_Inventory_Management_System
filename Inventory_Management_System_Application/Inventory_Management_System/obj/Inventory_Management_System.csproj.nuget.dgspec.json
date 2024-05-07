@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj": {}
+    "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj": {}
   },
   "projects": {
-    "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj": {
+    "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
+        "projectUniqueName": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
         "projectName": "Inventory_Management_System",
-        "projectPath": "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
-        "packagesPath": "C:\\Users\\23021700\\.nuget\\packages\\",
-        "outputPath": "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\obj\\",
+        "projectPath": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
+        "packagesPath": "C:\\Users\\Cameron\\.nuget\\packages\\",
+        "outputPath": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\23021700\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Cameron\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -47,6 +47,10 @@
             "Azure.Identity": {
               "target": "Package",
               "version": "[1.6.0, )"
+            },
+            "CloudinaryDotNet": {
+              "target": "Package",
+              "version": "[1.26.2, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
@@ -94,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

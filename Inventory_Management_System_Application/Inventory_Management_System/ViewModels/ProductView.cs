@@ -24,7 +24,7 @@ namespace Inventory_Management_System.ViewModels
         public string Supplier { get; set; }
         public string CreatedBy { get; set; }
 
-        // public IFormFile ProductImg { get; set; }
+        public IFormFile ProductImg { get; set; }
     }
     }
 

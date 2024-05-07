@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Inventory_Management_System.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
+using Inventory_Management_System.Interfaces;
+
+using Inventory_Management_System.Service;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -16,12 +19,14 @@ namespace Inventory_Management_System.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IPhotoService _photoService;
 
-        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
+        public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext, IPhotoService photoService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _dbContext = dbContext;
+            _photoService = photoService;
         }
 
         [HttpGet]
@@ -49,18 +54,42 @@ namespace Inventory_Management_System.Controllers
         // POST: Admin/AddProduct
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(Product product)
+        public async Task<IActionResult> AddProduct(ProductView productView)
         {
-            product.CreatedDate = DateTime.Now;
-
             if (ModelState.IsValid)
             {
+                var product = new Product
+                {
+                    ProductName = productView.ProductName,
+                    ProductDescription = productView.ProductDescription,
+                    ProductPrice = productView.ProductPrice,
+                    ProductQuantity = productView.ProductQuantity,
+                    Supplier = productView.Supplier,
+                    CreatedBy = productView.CreatedBy,
+                    CreatedDate = DateTime.Now,
+                    UpdatedDate = DateTime.Now
+                };
+
+                if (productView.ProductImg != null && productView.ProductImg.Length > 0)
+                {
+                    var uploadResult = await _photoService.AddPhotoAsync(productView.ProductImg);
+                    if (uploadResult.Error == null)
+                    {
+                        product.ProductImg = uploadResult.Url.AbsoluteUri; // Save the image URL in the database
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ProductImgFile", "Failed to upload image.");
+                        return View(productView);
+                    }
+                }
+                product.CreatedDate = DateTime.Now;
                 _dbContext.Add(product);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Products));
             }
 
-            return View(product);
+            return View(productView);
         }
 
         // GET: Admin/EditProduct/{id}

@@ -9,6 +9,8 @@ using Inventory_Management_System.Service;
 using WebPWrecover.Services;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Inventory_Management_System.Helpers;
+using Inventory_Management_System.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
