@@ -11,19 +11,19 @@ namespace Inventory_Management_System.ViewModels
 
         [Required]
         [MaxLength(100)]
-        public string SupplierName { get; set; }
+        public string? SupplierName { get; set; }
 
         [MaxLength(100)]
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
         [MaxLength(100)]
-        public string ContactDetails { get; set; }
+        public string? ContactDetails { get; set; }
 
-        public string Products { get; set; }
+        public string? Products { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         [Required]
         public DateTime CreatedAt { get; set; }

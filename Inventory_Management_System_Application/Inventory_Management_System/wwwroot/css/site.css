@@ -108,4 +108,21 @@ html {
     .auth-buttons a:hover {
         color: #ff9900;
     }
+    @keyframes floatIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+@keyframes showFloatingMessage {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

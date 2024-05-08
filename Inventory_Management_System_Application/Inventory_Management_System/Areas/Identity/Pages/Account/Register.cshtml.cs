@@ -25,7 +25,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Management_System.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -114,15 +113,22 @@ namespace Inventory_Management_System.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            public string Name { get; set; }
+            [Required]
+            [DataType(DataType.Password)]
+            [Display(Name = "Password")]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm password")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            public string ConfirmPassword { get; set; }
+        }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-         
-
-            
-        }
 
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -142,6 +148,12 @@ namespace Inventory_Management_System.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
+
+                if (Input.Password != Input.ConfirmPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "The password and confirmation password do not match.");
+                    return Page();
+                }
                 // Generate a temporary password based on the email
                 var temporaryPassword = GenerateTemporaryPassword(Input.Email);
 

@@ -1,10 +1,9 @@
 ﻿using Inventory_Management_System.Areas.Identity.Data;
 using Inventory_Management_System.Models;
+using Inventory_Management_System.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -13,17 +12,21 @@ namespace Inventory_Management_System.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext) // Modify the constructor
+        public HomeController(ApplicationDbContext dbContext, ILogger<HomeController> logger)
         {
-            _logger = logger;
             _dbContext = dbContext;
+            _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Product> products = _dbContext.Product_Model.ToList(); // Fetch products from the database
-            return View(products); // Pass products to the view
+            // Retrieve products from the database
+            var products = await _dbContext.Product_Model.ToListAsync();
+
+            // Pass the productViews list to the view
+            return View(products);
         }
+
 
         public IActionResult Privacy()
         {
@@ -36,4 +39,5 @@ namespace Inventory_Management_System.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }

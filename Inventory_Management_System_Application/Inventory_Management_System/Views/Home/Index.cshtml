@@ -4,13 +4,16 @@
 <head>
     <link href="~/css/site.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
 </head>
 <style>
 
     /* Global Styles */
     body {
-        font-family: Arial, sans-serif;
-        margin: 0;
+        font-family: Raleway, sans-serif; margin: 0;
     }
 
     .container-fluid {
@@ -20,105 +23,17 @@
         margin-left: 0px;
     }
 
-    .navbar {
-        background-color: #333;
-        color: #fff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-    }
-
-    .logo img {
-        height: 40px;
-    }
-
-    .nav-links {
-        list-style-type: none;
-        display: flex;
-    }
-
-    .nav-links li {
-        margin-right: 20px;
-    }
-
-    .nav-links a {
-        color: #000 !important;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-        color: #000;
-    }
-
-    .navbar-brand img {
-        max-height: 100%;
-        width: auto;
-        margin-top: -4px;
-    }
-
-    .dropdown-menu {
-        background-color: #fff; /* Set background color to white */
-        color: #000; /* Set text color to black */
-        display: none;
-        position: absolute;
-        padding: 10px;
-        z-index: 1;
-    }
-
-    .dropdown-menu .dropdown-item {
-        color: #000; /* Set text color of dropdown items to black */
-    }
-
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #ccc; /* Set background color of hovered dropdown items */
-    }
-
-
-    .dropdown:hover .dropdown-menu {
-        display: block;
-    }
-
-    .square-button {
-        width: 100px;
-        height: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 0;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    #login:hover {
-        background-color: black !important; /* Set background to black on hover */
-        color: white !important; /* Set text color to white on hover */
-    }
-
-    #register:hover {
-        background-color: white !important; /* Set background to white on hover */
-        color: black !important; /* Set text color to black on hover */
-    }
-
-    .auth-buttons a {
-        color: #fff;
-        text-decoration: none;
-        margin-left: 20px;
-    }
-
-    .auth-buttons a:hover {
-        color: #ff9900;
-    }
-
-
 /* Hero Section */
 .hero {
         background-color: #000;
         color: #fff;
-        padding: 100px 0;
+        padding: 130px 0;
         text-align: center;
         width: 100%;
-}
+        max-width: 10000px; /* Adjust the max-width as needed */
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
 
 .hero h1 {
   font-size: 3rem;
@@ -207,20 +122,64 @@
     }
 
 /* Product Categories Section */
-.product-categories {
-  padding: 80px 0;
-}
+    .floating-box {
+        position: relative;
+        z-index: 1;
+        padding: 10px;
+        background-color: #fff; /* Adjust background color as needed */
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* Adjust shadow properties as needed */
+    }
+    .product-categories {
+        padding: 50px 0;
+    }
 
-.product-item {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+    .product-item {
+        text-align: left;   
+    }
 
-.product-item img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 1rem;
-}
+    .center-image {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .product-info {
+        padding: 10px;
+    }
+
+    .explore-header {
+        font-size: 48px;
+        font-weight: bold;
+    }
+
+    .product-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333; /* Adjust text color as needed */
+    }
+
+    .product-price {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .square-buttons {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        width: 25%;
+        margin-left: 550px;
+        margin-top: 25px;
+    }
+
+        .square-buttons:hover {
+            background-color: black;
+            color: white;
+        }
+
+
 
 /* Footer */
 footer {
@@ -230,6 +189,7 @@ footer {
     text-align: left; /* Align text to the left */
     width: 100%;
     position: absolute;
+    margin-left: -120px;
     margin-top: 20px;
 }
 footer button.btn-primary {
@@ -303,7 +263,7 @@ footer ul li a:hover {
 </section>
 </div>
 
-<section class="features mb-4">
+@* <section class="features mb-4">
     <div class="row justify-content-center">
         <div class="col-md-6 text-center">
             <h2>Discover Our Wide Range of Products for Purchase and Delivery</h2>
@@ -333,7 +293,7 @@ footer ul li a:hover {
             </div>
         </div>
     </div>
-</section>
+</section> *@
 
 
 
@@ -348,7 +308,7 @@ footer ul li a:hover {
             <div class="benefit">
                 <img src="https://blog.cyberstockroom.com/wp-content/uploads/2023/03/5.png?w=1024" alt="Streamlined Inventory Distribution Process Image" class="img-fluid mb-3" style="height: 100px; width: 100px;">
                 <i class="fas fa-stream"></i>
-                <h5>Streamlined Inventory Distribution Process</h5>
+                <h5 font-family: "Raleway, sans-serif;>Streamlined Inventory Distribution Process</h5>
                 <p>Our company has developed a process to streamline the entire inventory distribution process.</p>
             </div>
         </div>
@@ -380,20 +340,32 @@ footer ul li a:hover {
 
 @model List<Inventory_Management_System.Models.Product>
 
-<section class="product-categories">
-    <h2>Explore Our Products</h2>
-    <p>Explore our wide range of mouth-watering food products.</p>
-    <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="@product.ProductImg" alt="@product.ProductName">
-                    <h6>@product.ProductName</h6>
-                    <p>@product.ProductPrice.ToString("C")</p>
+<section class="floating-box">
+    <div class="product-categories">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="explore-header">Explore Our Products</h2>
+                    <p>Explore our wide range of mouth-watering food products.</p>
                 </div>
             </div>
-        }
+            <div class="row mt-4">
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-3">
+                        <div class="product-item">
+                            <img src="@product.ProductImg" alt="@product.ProductName" class="center-image" style="height: 364px; width: 304px;">
+                            <h6 class="product-title">@product.ProductName</h6>
+                            <p class="product-price">@product.ProductPrice.ToString("C")</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-6 text-right">
+                <a href="#" class="btn btn-primary square-buttons">Show All</a>
+            </div>
+        </div>
     </div>
 </section>
 

@@ -11,8 +11,10 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Inventory_Management_System.Helpers;
 using Inventory_Management_System.Interfaces;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 //var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
 //builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
@@ -25,6 +27,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+
+builder.Services.AddSingleton(new Cloudinary(new Account(
+    "dup5hdi05",
+    "159694719361822",
+    "fnnNRbmmRg2qhv2PD3yoc0GTaZE"
+)));
 
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
@@ -55,6 +63,7 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
