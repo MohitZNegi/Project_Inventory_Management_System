@@ -103,10 +103,13 @@ namespace Inventory_Management_System.Controllers
 
             if (!ModelState.IsValid)
             {
+                // Retrieve SupplierID from the selected supplier string
+                var supplierID = int.Parse(supplier.Split('-')[0]);
                 _dbContext.Add(product);
                 await _dbContext.SaveChangesAsync();
 
-                        
+                // Update the supplier's product list
+                await UpdateSupplierProductList(supplierID, product.ProductName);
                 return RedirectToAction(nameof(Products));
 
             }
@@ -158,6 +161,9 @@ namespace Inventory_Management_System.Controllers
             {
                 try
                 {
+                    // Retrieve SupplierID from the selected supplier string
+                    var supplierID = int.Parse(supplier.Split('-')[0]);
+
                     // Check if the supplier value is not null or empty
                     if (!string.IsNullOrEmpty(supplier))
                     {
@@ -191,9 +197,9 @@ namespace Inventory_Management_System.Controllers
 
                     _dbContext.Update(existingProduct);
                     await _dbContext.SaveChangesAsync();
-                   
-                    
-                    await _dbContext.SaveChangesAsync();
+
+                    // Update the supplier's product list
+                    await UpdateSupplierProductList(supplierID, product.ProductName);
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -213,6 +219,20 @@ namespace Inventory_Management_System.Controllers
             return View(product);
         }
 
+        // Helper method to update the Products property of the supplier
+        private async Task UpdateSupplierProductList(int supplierID, string productName)
+        {
+            var supplier = await _dbContext.Supplier_Model.FindAsync(supplierID);
+            if (supplier != null)
+            {
+                // Append the product name to the existing Products string, separated by comma or any other delimiter
+                supplier.Products += string.IsNullOrEmpty(supplier.Products) ? productName : "," + productName;
+                _dbContext.Update(supplier);
+            
+                // Save changes to the database
+                await _dbContext.SaveChangesAsync();
+            }
+        }
         // GET: Admin/ConfirmDeleteProduct/{id}
         public async Task<IActionResult> ConfirmDeleteProduct(int? id)
         {

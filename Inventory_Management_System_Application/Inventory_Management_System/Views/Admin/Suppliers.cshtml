@@ -26,7 +26,22 @@
                 <td>@supplier.SupplierName</td>
                 <td>@supplier.Location</td>
                 <td>@supplier.ContactDetails</td>
-                <td>@supplier.Products</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(supplier.Products))
+                    {
+                        string[] products = supplier.Products.Split(';');
+                        foreach (var product in products)
+                        {
+                            <span>@product</span>
+
+                            <br />
+                        }
+                    }
+                    else
+                    {
+                        <span>No products associated</span>
+                    }
+                </td>
                 <td>@supplier.CreatedBy</td>
                 <td>@supplier.CreatedAt</td>
                  @if (supplier.UpdatedAt == DateTime.MinValue)

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Inventory_Management_System.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inventory_Management_System.ViewModels
 {
@@ -19,7 +20,9 @@ namespace Inventory_Management_System.ViewModels
         [MaxLength(100)]
         public string ContactDetails { get; set; }
 
-        public string Products { get; set; }
+
+        // Additional property for products
+        public List<ProductView> Products { get; set; }
 
         [Required]
         [MaxLength(100)]
