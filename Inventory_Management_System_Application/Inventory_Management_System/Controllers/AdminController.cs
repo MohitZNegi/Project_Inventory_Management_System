@@ -123,7 +123,7 @@ namespace Inventory_Management_System.Controllers
             {
                 return NotFound();
             }
-
+            int selectedSupplierID = product.SupplierID;
             var supplierList = suppliers.Select(s => new SelectListItem
             {
                 Text = s.SupplierName,
@@ -132,6 +132,8 @@ namespace Inventory_Management_System.Controllers
             });
 
             ViewBag.Suppliers = supplierList;
+
+          
 
             if (id == null)
             {
@@ -156,7 +158,18 @@ namespace Inventory_Management_System.Controllers
             {
                 try
                 {
-                   
+                    // Check if the supplier value is not null or empty
+                    if (!string.IsNullOrEmpty(supplier))
+                    {
+                        // Split the selected value to extract SupplierID and SupplierName
+                        var supplierParts = supplier.Split('-');
+                        if (supplierParts.Length == 2)
+                        {
+                            product.SupplierID = int.Parse(supplierParts[0]);
+                            product.ProductSuppliers = supplierParts[1];
+                        }
+                    }
+
                     // Retrieve the existing product from the database
                     var existingProduct = await _dbContext.Product_Model.FindAsync(id);
                     if (existingProduct == null)
@@ -174,17 +187,7 @@ namespace Inventory_Management_System.Controllers
                     existingProduct.CreatedBy = product.CreatedBy;
                     existingProduct.UpdatedDate = DateTime.Now; // Update the UpdatedDate
 
-                    // Check if the supplier value is not null or empty
-                    if (!string.IsNullOrEmpty(supplier))
-                    {
-                        // Split the selected value to extract SupplierID and SupplierName
-                        var supplierParts = supplier.Split('-');
-                        if (supplierParts.Length == 2)
-                        {
-                            product.SupplierID = int.Parse(supplierParts[0]);
-                            product.ProductSuppliers = supplierParts[1];
-                        }
-                    }
+                  
 
                     _dbContext.Update(existingProduct);
                     await _dbContext.SaveChangesAsync();
