@@ -11,28 +11,37 @@ namespace Inventory_Management_System.Service
 
     public class EmailSender : IEmailSender
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<EmailSender> _logger;
+        private readonly AuthMessageSenderOptions _options;
 
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
-                           ILogger<EmailSender> logger)
+        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor, ILogger<EmailSender> logger)
         {
-            Options = optionsAccessor.Value;
+            _options = optionsAccessor.Value;
             _logger = logger;
         }
 
-        public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
-
-
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            if (string.IsNullOrEmpty(Options.SendGridKey))
+            try
             {
-                throw new Exception("Null SendGridKey");
+                if (string.IsNullOrEmpty(_options.SendGridKey))
+                {
+                    _logger.LogError("SendGrid API key is null or empty.");
+                    // You can return a status result here if needed
+                    return;
+                }
+
+                await Execute(_options.SendGridKey, subject, message, toEmail);
+                _logger.LogInformation($"Email to {toEmail} queued successfully!");
             }
-            await Execute(Options.SendGridKey, subject, message, toEmail);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to send email to {toEmail}: {ex.Message}");
+                // You can handle or log the exception further as needed
+            }
         }
 
-        public async Task Execute(string apiKey, string subject, string message, string toEmail)
+        private async Task Execute(string apiKey, string subject, string message, string toEmail)
         {
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
@@ -41,17 +50,21 @@ namespace Inventory_Management_System.Service
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
-
             };
             msg.AddTo(new EmailAddress(toEmail));
 
             // Disable click tracking.
             // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
             msg.SetClickTracking(false, false);
+
             var response = await client.SendEmailAsync(msg);
-            _logger.LogInformation(response.IsSuccessStatusCode
-                                   ? $"Email to {toEmail} queued successfully!"
-                                   : $"Failure Email to {toEmail}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError($"Failure sending email to {toEmail}. Status code: {response.StatusCode}");
+                // You can handle or log the failure further as needed
+            }
         }
     }
+
 }
