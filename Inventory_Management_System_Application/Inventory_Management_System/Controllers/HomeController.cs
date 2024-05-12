@@ -38,6 +38,16 @@ namespace Inventory_Management_System.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public async Task<IActionResult> Product()
+        {
+            // Retrieve products from the database
+            var products = await _dbContext.Product_Model.ToListAsync();
+
+            // Pass the productViews list to the view
+            return View(products);
+        }
+
     }
 
 }

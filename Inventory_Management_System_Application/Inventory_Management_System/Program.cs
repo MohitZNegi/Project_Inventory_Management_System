@@ -12,6 +12,7 @@ using Azure.Security.KeyVault.Secrets;
 using Inventory_Management_System.Helpers;
 using Inventory_Management_System.Interfaces;
 using CloudinaryDotNet;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +69,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "ProductItems",
+    pattern: "Product/ProductItems/{id:int}",
+    defaults: new { controller = "Product", action = "ProductItems" }
+);
+
 // to access the identity pages- add razor support
 app.MapRazorPages();
 
