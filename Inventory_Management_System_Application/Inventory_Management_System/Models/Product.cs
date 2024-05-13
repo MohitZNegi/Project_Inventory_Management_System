@@ -19,7 +19,9 @@ namespace Inventory_Management_System.Models
         public int SupplierID { get; set; }
 
         // Navigation property to represent the relationship
-        //public Supplier Supplier { get; set; }
+
+        public Supplier Supplier { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string? ProductName { get; set; }
@@ -44,7 +46,9 @@ namespace Inventory_Management_System.Models
         public string? CreatedBy { get; set; }
         [Required]
         [MaxLength(100)]
-        public string? ProductSuppliers { get; set; }
+
+        public string ProductSuppliers { get; set; }
+
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -54,8 +58,5 @@ namespace Inventory_Management_System.Models
         public DateTime UpdatedDate { get; set; }
 
 
-        // Navigation property for suppliers supplying this product
-
-        //  public List<ProductSupplier> ProductSuppliers { get; set; }
     }
 }

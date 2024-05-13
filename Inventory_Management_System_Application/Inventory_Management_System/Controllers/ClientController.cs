@@ -7,21 +7,24 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Inventory_Management_System.ViewModels;
 using SendGrid.Helpers.Mail;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Inventory_Management_System.Controllers
 {
     [Authorize(Roles = "Client")]
     public class ClientController : Controller
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _dbContext;
 
-        public ClientController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext)
+        public ClientController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _dbContext = dbContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult ViewProfile()
@@ -133,6 +136,69 @@ namespace Inventory_Management_System.Controllers
             }
 
             return View(clientVM);
+        }
+
+        public IActionResult AddToCart(int productId, string productName, int quantity)
+        {
+            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            var existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
+            if (existingItem != null)
+            {
+                existingItem.Quantity += quantity;
+            }
+            else
+            {
+                cart.Add(new CartItem { ProductId = productId, ProductName = productName, Quantity = quantity });
+            }
+
+            _httpContextAccessor.HttpContext.Session.SetObject("Cart", cart);
+
+            return RedirectToAction(nameof(ViewCart));
+        }
+
+        public IActionResult EditCartItem(int productId, int quantity)
+        {
+            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
+            if (cartItem != null)
+            {
+                cartItem.Quantity = quantity;
+            }
+
+            _httpContextAccessor.HttpContext.Session.SetObject("Cart", cart);
+
+            return RedirectToAction(nameof(ViewCart));
+        }
+
+        public IActionResult DeleteCartItem(int productId)
+        {
+            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
+            if (cartItem != null)
+            {
+                cart.Remove(cartItem);
+            }
+
+            _httpContextAccessor.HttpContext.Session.SetObject("Cart", cart);
+
+            return RedirectToAction(nameof(ViewCart));
+        }
+
+        public IActionResult DeleteCart()
+        {
+            _httpContextAccessor.HttpContext.Session.Remove("Cart");
+
+            return RedirectToAction(nameof(ViewCart));
+        }
+
+        public IActionResult ViewCart()
+        {
+            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            return View(cart);
         }
     }
 }

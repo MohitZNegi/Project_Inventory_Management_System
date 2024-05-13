@@ -37,4 +37,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Client> Client_Model { get; set; }
     public DbSet<Product> Product_Model { get; set; }
     public DbSet<Supplier> Supplier_Model { get; set; }
+    public DbSet<ProductSupplier> ProductSupplier_Model { get; set;}
+    public DbSet<CartItem> CartItem_Model { get; set; }
 }
