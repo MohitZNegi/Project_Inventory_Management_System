@@ -39,7 +39,7 @@ namespace Inventory_Management_System.Models
 
         public string? ProductImg { get; set; }
 
-        public Supplier? Supplier { get; set; }
+        //public Supplier? Supplier { get; set; }
 
         [Required]
         [MaxLength(100)]

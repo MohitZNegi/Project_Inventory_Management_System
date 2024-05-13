@@ -25,11 +25,6 @@ namespace Inventory_Management_System.Models
         public Supplier? Supplier { get; set; }
 
 
-        public Product Product { get; set; }
-
-        public int SupplierID { get; set; }
-        public Supplier Supplier { get; set; }
-
     }
 }
 

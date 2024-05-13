@@ -1,4 +1,4 @@
-﻿@model Inventory_Management_System.Models.Product
+﻿@model Inventory_Management_System.ViewModels.ProductView
 
 @{
     ViewData["Title"] = "Add Product";
@@ -14,6 +14,7 @@
         background-image: url('https://res.cloudinary.com/dup5hdi05/image/upload/v1715226768/Untitled_design_cty4ke.png');
         background-size: cover;
     }
+
     .floating-box {
         width: 400px;
         background-color: #f9f9f9;
@@ -72,11 +73,11 @@
             <span asp-validation-for="ProductDescription" class="text-danger"></span>
         </div>
 
-          <div class="form-group">
-            <label for="supplier">Supplier</label>
-            <select id="supplier" name="supplier" class="form-control">
+        <div class="form-group">
+            <label for="ProductSuppliers">Supplier</label>
+            <select id="ProductSuppliers" name="supplier" class="form-control">
                 <option value="">Select Supplier</option>
-                @foreach (var supplier in ViewBag.Suppliers)
+                @foreach (var supplier in Model.Suppliers)
                 {
                     <option value="@supplier.Value">@supplier.Text</option>
                 }

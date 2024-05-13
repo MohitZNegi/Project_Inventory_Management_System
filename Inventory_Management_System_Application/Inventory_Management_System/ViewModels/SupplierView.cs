@@ -21,8 +21,6 @@ namespace Inventory_Management_System.ViewModels
         public string? ContactDetails { get; set; }
 
 
-        public string? Products { get; set; }
-
 
         // Additional property for products
         public List<ProductView> Products { get; set; }

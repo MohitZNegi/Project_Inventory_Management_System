@@ -270,10 +270,41 @@ namespace Inventory_Management_System.Controllers
         // POST: Admin/DeleteProduct/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id, ProductView productView)
         {
-            var product = await _dbContext.Product_Model.FindAsync(id);
-            _dbContext.Product_Model.Remove(product);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingProduct = await _dbContext.Product_Model.FindAsync(id);
+                    if (existingProduct == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update product properties
+                    existingProduct.ProductName = productView.ProductName;
+                    existingProduct.ProductDescription = productView.ProductDescription;
+                    existingProduct.ProductPrice = productView.ProductPrice;
+                    existingProduct.ProductQuantity = productView.ProductQuantity;
+                    existingProduct.CreatedBy = productView.CreatedBy;
+                    existingProduct.UpdatedDate = DateTime.Now;
+                    existingProduct.ProductImg = productView.ProductImg;
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+
+                    _dbContext.Product_Model.Remove(productView);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Products));
         }
@@ -304,7 +335,7 @@ namespace Inventory_Management_System.Controllers
         {
             // Create the supplier object
             supplier.CreatedAt = DateTime.Now;
-           
+
 
             // Save the supplier to the database
             if (ModelState.IsValid)
@@ -366,7 +397,7 @@ namespace Inventory_Management_System.Controllers
 
                     _dbContext.Update(existingSupplier);
                     await _dbContext.SaveChangesAsync();
-       
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
