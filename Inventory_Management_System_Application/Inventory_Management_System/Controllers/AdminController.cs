@@ -109,7 +109,7 @@ namespace Inventory_Management_System.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 // Update the supplier's product list
-                await UpdateSupplierProductList(supplierID, product.ProductName);
+                await UpdateSupplierProductList(supplierID, null, product.ProductName);
                 return RedirectToAction(nameof(Products));
 
             }
@@ -182,7 +182,8 @@ namespace Inventory_Management_System.Controllers
                     {
                         return NotFound();
                     }
-
+                    // Get the old supplier ID before updating the product
+            var oldSupplierID = existingProduct.SupplierID;
                     // Update the properties of the existing product except CreatedAt
                     existingProduct.ProductName = product.ProductName;
                     existingProduct.ProductDescription = product.ProductDescription;
@@ -199,7 +200,7 @@ namespace Inventory_Management_System.Controllers
                     await _dbContext.SaveChangesAsync();
 
                     // Update the supplier's product list
-                    await UpdateSupplierProductList(supplierID, product.ProductName);
+                    await UpdateSupplierProductList(product.SupplierID, oldSupplierID, product.ProductName);
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -220,18 +221,34 @@ namespace Inventory_Management_System.Controllers
         }
 
         // Helper method to update the Products property of the supplier
-        private async Task UpdateSupplierProductList(int supplierID, string productName)
+        private async Task UpdateSupplierProductList(int newSupplierID, int? oldSupplierID, string productName)
         {
-            var supplier = await _dbContext.Supplier_Model.FindAsync(supplierID);
-            if (supplier != null)
+            // If the product was previously associated with a supplier, remove it from that supplier's product list
+            if (oldSupplierID.HasValue)
             {
-                // Append the product name to the existing Products string, separated by comma or any other delimiter
-                supplier.Products += string.IsNullOrEmpty(supplier.Products) ? productName : "," + productName;
-                _dbContext.Update(supplier);
-            
-                // Save changes to the database
-                await _dbContext.SaveChangesAsync();
+                var oldSupplier = await _dbContext.Supplier_Model.FindAsync(oldSupplierID);
+                if (oldSupplier != null)
+                {
+                    // Remove the product name from the existing Products string
+                    oldSupplier.Products = string.Join(",", oldSupplier.Products.Split(',').Where(p => p != productName));
+                    _dbContext.Update(oldSupplier);
+                }
             }
+
+            // If newSupplierID is not null, update the product list of the new supplier
+            if (newSupplierID != 0)
+            {
+                var supplier = await _dbContext.Supplier_Model.FindAsync(newSupplierID);
+                if (supplier != null)
+                {
+                    // Append the product name to the existing Products string, separated by comma or any other delimiter
+                    supplier.Products += string.IsNullOrEmpty(supplier.Products) ? productName : "," + productName;
+                    _dbContext.Update(supplier);
+                }
+            }
+
+            // Save changes to the database
+            await _dbContext.SaveChangesAsync();
         }
         // GET: Admin/ConfirmDeleteProduct/{id}
         public async Task<IActionResult> ConfirmDeleteProduct(int? id)
@@ -256,10 +273,27 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _dbContext.Product_Model.FindAsync(id);
+           
             _dbContext.Product_Model.Remove(product);
-          
+            // Remove the product from the supplier's product list
+            await RemoveProductFromSupplier(product);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Products));
+        }
+
+        // Helper method to remove the product from the supplier's product list
+        private async Task RemoveProductFromSupplier(Product product)
+        {
+            var suppliers = await _dbContext.Supplier_Model.Where(s => s.Products.Contains(product.ProductName)).ToListAsync();
+            foreach (var supplier in suppliers)
+            {
+                // Remove the product name from the supplier's product list
+                supplier.Products = string.Join(",", supplier.Products.Split(',').Where(p => p != product.ProductName));
+                _dbContext.Update(supplier);
+            }
+
+            // Save changes to the database
+            await _dbContext.SaveChangesAsync();
         }
 
         private bool ProductExists(int id)
@@ -395,6 +429,11 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> DeleteSupplier(int id)
         {
             var supplier = await _dbContext.Supplier_Model.FindAsync(id);
+            // Retrieve all products associated with the supplier
+            var productsToDelete = await _dbContext.Product_Model.Where(p => p.SupplierID == id).ToListAsync();
+
+            // Delete all associated products
+            _dbContext.Product_Model.RemoveRange(productsToDelete);
             _dbContext.Supplier_Model.Remove(supplier);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Suppliers));
