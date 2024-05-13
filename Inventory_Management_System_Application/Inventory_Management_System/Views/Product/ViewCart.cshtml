@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Inventory_Management_System.Models.CartItem>
+
+    <br />
+    <br />
+    <br />
+<h2>Shopping Cart</h2>
+
+
+@if (!Model.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table id="cart-table" class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr data-cart-item-id="@item.CartID">
+                    <td>@item.Product.ProductName</td>
+                    <td>
+                        <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" />
+                    </td>
+                    <td>@item.Product.ProductPrice</td>
+                    <td class="cart-item-total-price">$@(item.Product.ProductPrice * item.Quantity)</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger delete-cart-item">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button id="clear-cart" type="button" class="btn btn-danger">Clear Cart</button>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Update cart item quantity
+            $('.cart-item-quantity').on('change', function () {
+                var cartItemId = $(this).closest('tr').data('cart-item-id');
+                var newQuantity = $(this).val();
+
+                $.ajax({
+                    url: '@Url.Action("EditCartItem", "Product")',
+                    type: 'POST',
+                    data: { id: cartItemId, quantity: newQuantity },
+                    success: function (response) {
+                        if (response.success) {
+                            updateCartItemTotalPrice(cartItemId, newQuantity);
+                        } else {
+                            alert('Failed to update cart item quantity.');
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to update cart item quantity.');
+                    }
+                });
+            });
+
+            // Delete cart item
+            $('.delete-cart-item').on('click', function () {
+                var cartItemId = $(this).closest('tr').data('cart-item-id');
+
+                $.ajax({
+                    url: '@Url.Action("DeleteCartItem", "Product")',
+                    type: 'POST',
+                    data: { id: cartItemId },
+                    success: function (response) {
+                        if (response.success) {
+                            $('tr[data-cart-item-id="' + cartItemId + '"]').remove();
+                        } else {
+                            alert('Failed to delete cart item.');
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to delete cart item.');
+                    }
+                });
+            });
+
+            // Clear cart
+            $('#clear-cart').on('click', function () {
+                if (confirm('Are you sure you want to clear your cart?')) {
+                    $.ajax({
+                        url: '@Url.Action("ClearCart", "Product")',
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#cart-table tbody').empty();
+                            } else {
+                                alert('Failed to clear cart.');
+                            }
+                        },
+                        error: function () {
+                            alert('Failed to clear cart.');
+                        }
+                    });
+                }
+            });
+
+            // Helper function to update the total price for a cart item
+            function updateCartItemTotalPrice(cartItemId, newQuantity) {
+                var productPrice = $('tr[data-cart-item-id="' + cartItemId + '"] td:nth-child(3)').text().replace('$', '');
+                var totalPrice = productPrice * newQuantity;
+                $('tr[data-cart-item-id="' + cartItemId + '"] .cart-item-total-price').text('$' + totalPrice.toFixed(2));
+            }
+        });
+    </script>
+}

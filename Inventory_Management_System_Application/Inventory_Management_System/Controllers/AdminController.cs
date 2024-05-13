@@ -12,7 +12,6 @@ using Inventory_Management_System.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using SendGrid.Helpers.Mail;
 using Inventory_Management_System.Migrations;

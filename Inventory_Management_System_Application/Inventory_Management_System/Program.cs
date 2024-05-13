@@ -15,7 +15,7 @@ using Inventory_Management_System.Interfaces;
 using CloudinaryDotNet;
 using Microsoft.Data.SqlClient;
 
-using Microsoft.AspNetCore.Http;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,7 +51,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 builder.Services.AddControllersWithViews();
-builder.Services.AddSession(); // Add session support
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

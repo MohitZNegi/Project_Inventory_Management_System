@@ -1,6 +1,6 @@
 ﻿@model Inventory_Management_System.Models.Product
 <title>@ViewData["Product Items"]</title>
-<!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -149,7 +149,7 @@
         color: #007bff;
     }
 </style>
-<body>
+
     <!-- Product Details Section -->
     <div class="container mt-5">
         <div class="row align-items-center">
@@ -193,7 +193,7 @@
                             <label for="quantity">Quantity:</label>
                             <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
                         </div>
-                        <button type="button" class="btn btn-black">Add to Cart</button>
+                        <button id="add-to-cart-btn" class="btn btn-black">Add to Cart</button>
                         <button type="button" class="btn btn-white">Buy Now</button>
                     }
                     else
@@ -204,7 +204,7 @@
             </div>
         </div>
     </div>
-
+ 
     <div class="product-details">
         <hr>
     <!-- Horizontal line -->
@@ -284,5 +284,32 @@
                 });
             });
         </script>
+
+    <script>
+        $(function () {
+            // Add event listener for the "Add to Cart" button
+            $('#add-to-cart-btn').click(function () {
+                var productId = @Model.ProductID; // Get the product ID from the model
+                var quantity = $('#quantity').val(); // Get the quantity from the input field
+
+                // Make an AJAX request to the AddToCart action
+                $.post('@Url.Action("AddToCart", "Product")', { id: productId, quantity: quantity })
+                    .done(function (response) {
+                        if (response.success) {
+                            // Display a success message or update the UI as needed
+                            alert('Product added to cart!');
+                        } else {
+                            // Display an error message or handle the error scenario
+                            alert('Failed to add product to cart!');
+                        }
+                    })
+                    .fail(function () {
+                        // Display an error message or handle the error scenario
+                        alert('Failed to add product to cart!');
+                    });
+            });
+        });
+    </script>
+
     }
-</body>
+
