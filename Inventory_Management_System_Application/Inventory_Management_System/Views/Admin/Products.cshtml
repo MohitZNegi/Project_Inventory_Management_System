@@ -1,63 +1,86 @@
-﻿@model IEnumerable<Inventory_Management_System.Models.Product>
+﻿@model IEnumerable<Inventory_Management_System.Models.Supplier>
 
 @{
-    ViewData["Title"] = "Product List";
+    ViewData["Title"] = "Suppliers List";
 }
 
-<h1 class="text-center mb-4">Product List</h1>
+<h1 class="text-center mb-4">Suppliers List</h1>
 
 <div class="container">
     <div class="row">
         <div class="col">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Description</th>
-                        <th>Supplier</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Created By</th>
-                        <th>Created Date</th>
-                        <th>Updated Date</th>
-                        <th>Image</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
                         <tr>
-                            <td>@product.ProductName</td>
-                            <td>@product.ProductDescription</td>
-                            <td>@product.ProductSuppliers</td>
-                            <td>$@product.ProductPrice</td>
-                            <td>@product.ProductQuantity</td>
-                            <td>@product.CreatedBy</td>
-                            <td>@product.CreatedDate.ToShortDateString()</td>
-                            <td>@(product.UpdatedDate != DateTime.MinValue ? product.UpdatedDate.ToShortDateString() : "N/A")</td>
-                            <td>
-                                @if (!string.IsNullOrEmpty(product.ProductImg))
-                                {
-                                    <img src="@Url.Content(product.ProductImg)" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
-                                }
-                                else
-                                {
-                                    <span>No Image Available</span>
-                                }
-                            </td>
-                            <td>
-                                <a href="@Url.Action("EditProduct", "Admin", new { id = product.ProductID })" class="btn btn-primary">Edit</a>
-                                <a href="@Url.Action("ConfirmDeleteProduct", "Admin", new { id = product.ProductID })" class="btn btn-danger">Delete</a>
-                            </td>
+                            <th class="text-center">Supplier Name</th>
+                            <th class="text-center">Location</th>
+                            <th class="text-center">Contact Details</th>
+                            <th class="text-center">Products</th>
+                            <th class="text-center">Created By</th>
+                            <th class="text-center">Created At</th>
+                            <th class="text-center">Updated At</th>
+                            <th class="text-center">Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var supplier in Model)
+                        {
+                            <tr class="@((supplier.SupplierID % 2 == 0) ? "even-row" : "odd-row")">
+                                <td>@supplier.SupplierName</td>
+                                <td>@supplier.Location</td>
+                                <td>@supplier.ContactDetails</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(supplier.Products))
+                                    {
+                                        string[] products = supplier.Products.Split(';');
+                                        foreach (var product in products)
+                                        {
+                                            <span>@product</span>
+                                            <br />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>No products associated</span>
+                                    }
+                                </td>
+                                <td>@supplier.CreatedBy</td>
+                                <td>@supplier.CreatedAt</td>
+                                <td>@((supplier.UpdatedAt != DateTime.MinValue) ? supplier.UpdatedAt.ToString() : "N/A")</td>
+                                <td>
+                                    <a href="@Url.Action("EditSupplier", "Admin", new { id = supplier.SupplierID })" class="btn btn-primary btn-rounded mr-2">Edit</a>
+                                    <a href="@Url.Action("ConfirmDeleteSupplier", "Admin", new { id = supplier.SupplierID })" class="btn btn-danger btn-rounded">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="text-center">
-    <a href="@Url.Action("AddProduct", "Admin")" class="btn btn-success">Add New Product</a>
+<div class="text-center mt-4">
+    <a href="@Url.Action("AddSupplier", "Admin")" class="btn btn-success btn-rounded">Add New Supplier</a>
 </div>
+
+<style>
+    .even-row {
+        background-color: #f9f9f9;
+    }
+
+    .odd-row {
+        background-color: #f0f0f0;
+    }
+
+    .btn-rounded {
+        border-radius: 20px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-rounded:hover {
+            transform: translateY(-2px);
+        }
+</style>
