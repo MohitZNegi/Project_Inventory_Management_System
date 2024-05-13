@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Inventory_Management_System.Models;
+using System.Reflection.Emit;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory_Management_System.Areas.Identity.Data;
 
@@ -27,6 +29,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins", "security");
         builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "security");
         builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
+        builder.Entity<Product>()
+        .Property(p => p.ProductID)
+        .ValueGeneratedOnAdd();
     }
 
     public DbSet<Client> Client_Model { get; set; }

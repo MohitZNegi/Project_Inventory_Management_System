@@ -4,28 +4,75 @@
     ViewData["Title"] = "Add Product";
 }
 
+<style>
+
+    body {
+        font-family: font-family: Raleway, sans-serif;
+        margin: 0;
+        background-color: #f0f0f0;
+        margin: 0;
+        background-image: url('https://res.cloudinary.com/dup5hdi05/image/upload/v1715226768/Untitled_design_cty4ke.png');
+        background-size: cover;
+    }
+    .floating-box {
+        width: 400px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px auto;
+        z-index: 1000;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .btn-back {
+        color: black;
+        font-size: 13.5px;
+    }
+
+    .btn-back-container {
+        text-align: right;
+    }
+</style>
+
 <h1>Add Product</h1>
 
 <hr />
+<div class="floating-box">
+    <a href="/Admin/Products" class="btn-back">←Back to List</a>
+    <h2 style="text-align: center;">Add Product</h2>
+    <form asp-action="AddProduct" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddProduct" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-        
-            <div class="form-group">
-                <label asp-for="ProductDescription" class="control-label"></label>
-                <input asp-for="ProductDescription" class="form-control" />
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
-            </div>
-          
-                  <div class="form-group">
+
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label">Product Name</label>
+            <input asp-for="ProductName" class="form-control" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductDescription" class="control-label">Product Description</label>
+            <input asp-for="ProductDescription" class="form-control" />
+            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+        </div>
+
+          <div class="form-group">
             <label for="supplier">Supplier</label>
             <select id="supplier" name="supplier" class="form-control">
                 <option value="">Select Supplier</option>
@@ -35,41 +82,51 @@
                 }
             </select>
         </div>
-           
-            <div class="form-group">
-                <label asp-for="ProductPrice" class="control-label"></label>
-                <input asp-for="ProductPrice" class="form-control" />
-                <span asp-validation-for="ProductPrice" class="text-danger"></span>
-            </div>
 
-            <div class="form-group">
-                <label asp-for="ProductQuantity" class="control-label"></label>
-                <input asp-for="ProductQuantity" class="form-control" />
-                <span asp-validation-for="ProductQuantity" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+            <label asp-for="ProductPrice" class="control-label">Product Price</label>
+            <input asp-for="ProductPrice" class="form-control" />
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
+        <div class="form-group">
+            <label asp-for="ProductImg">Product Image</label>
+            <input asp-for="ProductImg" type="file" class="form-control" onchange="previewImage(event)" placeholder="Insert Image" accept=".png, .jpg, .jpeg">
+            <span asp-validation-for="ProductImg" class="text-danger"></span>
+        </div>
 
-        <!--   <div class="form-group">
-                <label asp-for="ProductImg" class="control-label"></label>
-                <input asp-for="ProductImg" type="file" class="form-control" />
-                <span asp-validation-for="ProductImg" class="text-danger"></span>
-            </div>
-                -->
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
-            </div>
-        </form>
+        <div class="form-group">
+            <label asp-for="ProductQuantity" class="control-label">Product Quantity</label>
+            <input asp-for="ProductQuantity" class="form-control" />
+            <span asp-validation-for="ProductQuantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedBy" class="control-label">Created By</label>
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Add" class="btn btn-primary" />
+        </div>
+
+    </form>
+
+</div>
+
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
     </div>
-</div>
-
-<div>
-    <a asp-action="Products">Back to List</a>
-</div>
+}
 
 @section Scripts {
     @{

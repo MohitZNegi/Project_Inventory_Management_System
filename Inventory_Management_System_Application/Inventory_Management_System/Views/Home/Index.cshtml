@@ -4,279 +4,369 @@
 <head>
     <link href="~/css/site.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
 </head>
 <style>
 
     /* Global Styles */
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-}
+    body {
+        font-family: Raleway, sans-serif; margin: 0;
+    }
 
-/* Header */
-.navbar {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
+    .container-fluid {
+        padding-right: 0px;
+        padding-left: 0px;
+        margin-right: 0px;
+        margin-left: 0px;
+    }
 
 /* Hero Section */
-.hero {
-  background-color: #000;
-  color: #fff;
-  padding: 100px 0;
-}
+    .hero {
+        background-color: #000;
+        color: #fff;
+        padding: 50px 0;
+        text-align: center;
+        width: 118.5%;
+        max-width: 10000px; /* Adjust the max-width as needed */
+        margin: 0 auto;
+        margin-left: -120px;
+        margin-bottom: 150px;
+    }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-}
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
 
-.btn-primary {
-  background-color: #ff6600;
-  border-color: #ff6600;
-}
+    .custom-padding {
+        padding-right: 100px; /* Adjust the padding as needed */
+    }
 
-.btn-outline-secondary {
-  color: #fff;
-  border-color: #fff;
-}
+    .hero .col-md-6 {
+        position: relative;
+        right: 300px;
+    }
 
-/* Features Section */
-.features {
-  padding: 80px 0;
-}
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        margin-right: 50px;
+    }
 
-.feature {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+    .btn-outline-secondary {
+      color: #fff;
+      border-color: #fff;
+    }
 
-.feature i {
-  font-size: 3rem;
-  color: #ff6600;
-  margin-bottom: 1rem;
-}
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+      margin-bottom: -500px;
+    }
 
-/* Benefits Section */
-.benefits {
-  background-color: #f8f9fa;
-  padding: 80px 0;
-  text-align: center;
-}
+    .feature {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-.benefit {
-  margin-bottom: 2rem;
-}
+    .feature i {
+      font-size: 3rem;
+      color: #0d6efd;
+      margin-bottom: 1rem;
+    }
 
-.benefit i {
-  font-size: 2rem;
-  color: #ff6600;
-  margin-bottom: 1rem;
-}
+    .mb-4 {
+        margin-bottom: 20px; /* Adjust as needed */
+    }
+
+    /* Benefits Section */
+    .benefits {
+      background-color: white;
+      padding: 80px 0;
+      text-align: center;
+      margin-top: -120px;
+    }
+
+    .benefit {
+      margin-bottom: 2rem;
+    }
+
+    .benefit i {
+      font-size: 2rem;
+      color: #0d6efd;
+      margin-bottom: 1rem;
+    }
+
+    .btn-custom-white {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+    }
+
+    .btn-custom-none {
+        background-color: transparent;
+        color: black;
+        border: none;
+    }
+
+    .btn-custom-white:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .btn-custom-none:hover {
+        transform: scale(1); /* Increases size on hover */
+        font-weight: bold; /* Makes text bold on hover */
+    }
 
 /* Product Categories Section */
-.product-categories {
-  padding: 80px 0;
-}
+    .floating-box {
+        position: relative;
+        z-index: 1;
+        padding: 10px;
+        background-color: #fff; /* Adjust background color as needed */
+        box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* Adjust shadow properties as needed */
+    }
+    .product-categories {
+        padding: 50px 0;
+    }
 
-.product-item {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+    .product-item {
+        text-align: left;   
+    }
 
-.product-item img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 1rem;
-}
+    .center-image {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
 
-/* Footer */
-footer {
-  background-color: #343a40;
-  color: #fff;
-  padding: 40px 0;
-}
+    .product-info {
+        padding: 10px;
+    }
 
-footer h4, footer h5 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
+    .explore-header {
+        font-size: 48px;
+        font-weight: bold;
+    }
 
-footer ul {
-  list-style: none;
-  padding: 0;
-}
+    .product-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333; /* Adjust text color as needed */
+    }
 
-footer ul li {
-  margin-bottom: 0.5rem;
-}
+    .product-price {
+        font-size: 14px;
+        color: #666;
+    }
 
-footer ul li a {
-  color: #fff;
-  text-decoration: none;
-}
+    .square-buttons {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        width: 25%;
+        margin-left: 550px;
+        margin-top: 25px;
+    }
 
-footer ul li a:hover {
-  color: #ccc;
-}
+    .square-buttons:hover {
+            background-color: black;
+            color: white;
+    }
 
-.input-group-append .btn {
-  background-color: #ff6600;
-  border-color: #ff6600;
-  color: #fff;
-}
+
+
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left; /* Align text to the left */
+        width: 118.5%;
+        position: relative;
+        margin-top: 25px;
+        margin-bottom: -40px;
+    }
+    footer button.btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: #fff;
+        padding: 6px 10px; /* Adjust button padding for smaller size */
+        margin-top: 10px; /* Add margin to separate from form */
+        font-size: 14px; /* Adjust font size */
+        width: 30%;
+    }
+
+    footer .form-group {
+        margin-bottom: 10px; /* Remove bottom margin for form group */
+    }
+
+    footer .signup-link {
+        text-align: left; /* Align signup text to the left */
+        margin-top: 20px; /* Add top margin to separate from form */
+    }
+
+    footer .signup-link a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    footer .input-group {
+        margin-bottom: 10px; /* Add margin below input group */
+    }
+
+    footer .input-group-append .btn {
+        padding: 8px 12px; /* Adjust button padding for smaller size */
+    }
+
+    footer h4, footer h5 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    footer ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    footer ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    footer ul li a:hover {
+      color: #ccc;
+    }
+
 </style>
-<div class="container">
-    <section class="hero">
-        <div class="row">
-            <div class="col-md-6">
-                <h1>Delivering quality food products to businesses</h1>
-                <button class="btn btn-primary">Buy Now</button>
+<div class="container-fluid">
+<section class="hero custom-padding">
+    <div class="row justify-content-end">
+        <div class="col-md-6">
+            <h1>Delivering Quality Food Products to Businesses</h1>
+            <p>At our company, we are dedicated to distributing the finest food products to businesses, ensuring their success and satisfaction.</p>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary me-2">Buy Now</button>
                 <button class="btn btn-outline-secondary">Learn More</button>
             </div>
         </div>
-    </section>
-
-    <section class="features">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Discover Our Wide Range of Products for Purchase and Delivery</h2>
-                <p>At our company, we take pride in offering a wide variety of high-quality food products from our suppliers to satisfy all your needs.</p>
-            </div>
-            <div class="col-md-3">
-                <div class="feature">
-                    <i class="fas fa-check-circle"></i>
-                    <h5>Quality Assurance</h5>
-                    <p>Our stringent quality control system ensures you always get the finest quality.</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="feature">
-                    <i class="fas fa-truck"></i>
-                    <h5>Fast Delivery</h5>
-                    <p>We are committed to providing your orders in a timely manner.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits">
-        <h2>Why Choose Our Inventory Distribution Services?</h2>
-        <p>Our company offers a comprehensive inventory handling process for reliable products, efficiency, and cost-effectiveness.</p>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="benefit">
-                    <i class="fas fa-stream"></i>
-                    <h5>Streamlined Inventory Distribution Process</h5>
-                    <p>Our company has developed a process to streamline the entire inventory distribution process.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="benefit">
-                    <i class="fas fa-chart-line"></i>
-                    <h5>Expertise in Food Product Distribution</h5>
-                    <p>Our years of experience, we specialize in coordinating the distribution of your products.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="benefit">
-                    <i class="fas fa-box"></i>
-                    <h5>Flexible Distribution Solutions</h5>
-                    <p>We offer flexible distribution solutions tailored to meet your specific business needs.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="product-categories">
-        <h2>Explore Our Products</h2>
-        <p>Explore our wide range of mouth-watering food products.</p>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Cheese">
-                    <h6>Cheese</h6>
-                    <p>$3.99</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Bread">
-                    <h6>Bread</h6>
-                    <p>$2.99</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Desserts">
-                    <h6>Desserts</h6>
-                    <p>$5.99</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Ice Cream">
-                    <h6>Ice Cream</h6>
-                    <p>$4.99</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Coffee">
-                    <h6>Coffee</h6>
-                    <p>$3.99</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Pizza">
-                    <h6>Pizza</h6>
-                    <p>$8.99</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Burger">
-                    <h6>Burger</h6>
-                    <p>$6.99</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="product-item">
-                    <img src="placeholder.jpg" alt="Salad">
-                    <h6>Salad</h6>
-                    <p>$7.99</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
+</section>
 </div>
+
+<section class="benefits">
+    <h2>Why Choose Our Inventory Distribution Services?</h2>
+    <p>Our company offers a streamlined machine learning inventory distribution process, ensuring timely delivery and optimal stock management.</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="benefit">
+                <img src="https://blog.cyberstockroom.com/wp-content/uploads/2023/03/5.png?w=1024" alt="Streamlined Inventory Distribution Process Image" class="img-fluid mb-3" style="height: 100px; width: 100px;">
+                <i class="fas fa-stream"></i>
+                <h5 font-family: "Raleway, sans-serif;>Streamlined Inventory Distribution Process</h5>
+                <p>Our company has developed a process to streamline the entire inventory distribution process.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="benefit">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715074046/m2H7i8i8A0K9b1H7-removebg-preview_i6my4b.png" alt="Expertise in Food Product Distribution Image" class="img-fluid mb-3" style="height: 100px; width: 200px;">
+                <i class="fas fa-chart-line"></i>
+                <h5>Expertise in Food Product Distribution</h5>
+                <p>Our years of experience, we specialize in coordinating the distribution of your products.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="benefit">
+                <img src="https://t3.ftcdn.net/jpg/05/25/48/58/360_F_525485816_5AOwvR0ZnuzzgfCvX4PVQY3bEuudz25J.jpg" alt="Flexible Distribution Solutions Image" class="img-fluid mb-3" style="height: 100px; width: 100px;">
+                <i class="fas fa-box"></i>
+                <h5>Flexible Distribution Solutions</h5>
+                <p>We offer flexible distribution solutions tailored to meet your specific business needs.</p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="#" class="btn btn-custom-white me-3">Learn More</a>
+        <a href="/Identity/Account/Register" class="btn btn-custom-none">Join Now ></a>
+    </div>
+</section>
+
+
+
+
+@model List<Inventory_Management_System.Models.Product>
+
+<section class="floating-box">
+    <div class="product-categories">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="explore-header">Explore Our Products</h2>
+                    <p>Explore our wide range of mouth-watering food products.</p>
+                </div>
+            </div>
+    @{
+        var random = new Random();
+        var randomizedProducts = Model.OrderBy(p => random.Next()).Take(8); // Randomize and take 8 products
+    }
+
+    <div class="row mt-4">
+        @foreach (var product in randomizedProducts)
+        {
+            <div class="col-md-3">
+                <div class="product-item">
+                    <img src="@product.ProductImg" alt="@product.ProductName" class="center-image" style="height: 364px; width: 304px;">
+                    <h6 class="product-title">@product.ProductName</h6>
+                    <p class="product-price">@product.ProductPrice.ToString("C")</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-6 text-right">
+                <a href="#" class="btn btn-primary square-buttons">Show All</a>
+        </div>
+    </div>
+</section>
+
 
 
 <footer>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
-                <h4>Logo</h4>
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt = "Company Logo" style="height: 30px; width: 200px;">
             </div>
             <div class="col-md-3">
-                <h5>Links</h5>
+                <h4><strong>About Us</strong></h4>
                 <ul class="list-unstyled">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">About Us</a></li>
                     <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
                 </ul>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">T&S</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
                 <h4>Subscribe</h4>
                 <form>
                     <div class="form-group">
@@ -284,8 +374,12 @@ footer ul li a:hover {
                     </div>
                     <button type="submit" class="btn btn-primary">Subscribe</button>
                 </form>
-                <p>Sign up to receive updates and special offers!</p>
+                <p>By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
             </div>
         </div>
     </div>
 </footer>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

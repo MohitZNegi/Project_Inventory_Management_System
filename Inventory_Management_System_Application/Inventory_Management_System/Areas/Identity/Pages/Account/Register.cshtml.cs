@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,7 +21,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Management_System.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -43,7 +38,6 @@ namespace Inventory_Management_System.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager)
-
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -79,51 +73,33 @@ namespace Inventory_Management_System.Areas.Identity.Pages.Account
 
             return temporaryPassword;
         }
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
+
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            /// 
-
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-         
+            [Required]
+            [DataType(DataType.Password)]
+            [Display(Name = "Password")]
+            public string Password { get; set; }
 
-            
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm password")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            public string ConfirmPassword { get; set; }
+
+            public string Name { get; set; }
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -142,18 +118,19 @@ namespace Inventory_Management_System.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                // Generate a temporary password based on the email
+                if (Input.Password != Input.ConfirmPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "The password and confirmation password do not match.");
+                    return Page();
+                }
+
                 var temporaryPassword = GenerateTemporaryPassword(Input.Email);
 
                 var result = await _userManager.CreateAsync(user, temporaryPassword);
 
-
                 if (result.Succeeded)
                 {
-                    // Assign the user to the "Client" role by default
-                   await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
-
-                 
+                    await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -194,15 +171,14 @@ namespace Inventory_Management_System.Areas.Identity.Pages.Account
                         TempData["ConfirmEmailMessage"] = "Registration successful. A confirmation email has been sent to your email address. Please confirm your email before logging in.";
                         return RedirectToPage("Login", new { returnUrl = returnUrl });
                     }
-
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 
