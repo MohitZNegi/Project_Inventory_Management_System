@@ -24,12 +24,20 @@
                 <input asp-for="ProductDescription" class="form-control" />
                 <span asp-validation-for="ProductDescription" class="text-danger"></span>
             </div>
-@* 
-               <div class="form-group">
-                <label asp-for="Supplier" class="control-label"></label>
-                <input asp-for="Supplier" class="form-control" />
-                <span asp-validation-for="Supplier" class="text-danger"></span>
-            </div> *@
+
+
+          <div class="form-group">
+                <label for="supplier">Supplier</label>
+                <select id="supplier" name="supplier" class="form-control">
+                    <option value="">Select Supplier</option>
+                    @foreach (var supplier in ViewBag.Suppliers)
+                    {
+                        <option value="@supplier.Value" selected="@supplier.Selected">@supplier.Text</option>
+                    }
+                </select>
+            </div>
+
+
 
             <div class="form-group">
                 <label asp-for="ProductPrice" class="control-label"></label>

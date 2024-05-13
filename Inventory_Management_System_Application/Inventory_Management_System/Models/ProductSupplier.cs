@@ -11,15 +11,25 @@ namespace Inventory_Management_System.Models
     public class ProductSupplier
     {
         [Key]
+
         public int ProductSupplierId { get; set; }
+
 
         // Foreign key properties
 
         public int ProductID { get; set; }
+
         public Product? Product { get; set; }
 
         public int SupplierID { get; set; }
         public Supplier? Supplier { get; set; }
 
+
+        public Product Product { get; set; }
+
+        public int SupplierID { get; set; }
+        public Supplier Supplier { get; set; }
+
     }
 }
+

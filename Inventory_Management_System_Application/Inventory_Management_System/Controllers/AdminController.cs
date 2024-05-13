@@ -8,11 +8,14 @@ using Inventory_Management_System.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using Inventory_Management_System.Interfaces;
-
 using Inventory_Management_System.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
+using SendGrid.Helpers.Mail;
+using Inventory_Management_System.Migrations;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -46,6 +49,7 @@ namespace Inventory_Management_System.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Products()
         {
+           // var products = _dbContext.Product_Model.Include(p => p.ProductSuppliers).ToList();
             var products = await _dbContext.Product_Model.ToListAsync();
             return View(products);
         }
@@ -71,13 +75,43 @@ namespace Inventory_Management_System.Controllers
                 return View(productView);
             }
 
+            var supplierList = suppliers.Select(s => new SelectListItem
+            {
+                Text = s.SupplierName,
+                Value = $"{s.SupplierID}-{s.SupplierName}" // Combine SupplierID and SupplierName
+            });
+
+            ViewBag.Suppliers = supplierList;
+          /*  // Retrieve a list of suppliers from the database
+            var suppliers = _dbContext.Supplier_Model.ToList();
+            // Create a SelectList with SupplierName as the text and SupplierID as the value
+            var supplierList = suppliers.Select(s => new SelectListItem
+            {
+                Text = s.SupplierName,
+                Value = s.SupplierID.ToString()
+            }) ;
+
+            // Pass the SelectList to the view
+            ViewBag.Suppliers = supplierList;
+            
+            // Create a SelectList with SupplierID as the text and SupplierID as the value
+            var supplierIDList = suppliers.Select(s => new SelectListItem
+            {
+                Text = s.SupplierID.ToString(),
+                Value = s.SupplierID.ToString()
+            });
+
+            // Pass the SelectList to the view
+            ViewBag.SuppliersID = supplierIDList;*/
+
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(ProductView productView)
+
+        public async Task<IActionResult> AddProduct(ProductView productView, string supplier)
         {
             if (ModelState.IsValid)
             {
@@ -141,6 +175,8 @@ namespace Inventory_Management_System.Controllers
                     await _dbContext.SaveChangesAsync();
                     return RedirectToAction(nameof(Products));
                 }
+
+      
             }
 
             // If ModelState is not valid or suppliers are empty, return the view with the model
@@ -151,17 +187,30 @@ namespace Inventory_Management_System.Controllers
         // GET: Admin/EditProduct/{id}
         public async Task<IActionResult> EditProduct(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            var suppliers = _dbContext.Supplier_Model.ToList();
             var product = await _dbContext.Product_Model.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
+            int selectedSupplierID = product.SupplierID;
+            var supplierList = suppliers.Select(s => new SelectListItem
+            {
+                Text = s.SupplierName,
+                Value = $"{s.SupplierID}-{s.SupplierName}", // Combine SupplierID and SupplierName
+                 Selected = s.SupplierID == product.SupplierID // Set selected supplier
+            });
 
+            ViewBag.Suppliers = supplierList;
+
+          
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+          
             return View(product);
         }
 
@@ -174,18 +223,34 @@ namespace Inventory_Management_System.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+          
+            if (!ModelState.IsValid)
             {
                 try
                 {
+                    // Retrieve SupplierID from the selected supplier string
+                    var supplierID = int.Parse(supplier.Split('-')[0]);
+
+                    // Check if the supplier value is not null or empty
+                    if (!string.IsNullOrEmpty(supplier))
+                    {
+                        // Split the selected value to extract SupplierID and SupplierName
+                        var supplierParts = supplier.Split('-');
+                        if (supplierParts.Length == 2)
+                        {
+                            product.SupplierID = int.Parse(supplierParts[0]);
+                            product.ProductSuppliers = supplierParts[1];
+                        }
+                    }
+
                     // Retrieve the existing product from the database
                     var existingProduct = await _dbContext.Product_Model.FindAsync(id);
                     if (existingProduct == null)
                     {
                         return NotFound();
                     }
-
+                    // Get the old supplier ID before updating the product
+            var oldSupplierID = existingProduct.SupplierID;
                     // Update the properties of the existing product except CreatedAt
                     existingProduct.ProductName = product.ProductName;
                     existingProduct.ProductDescription = product.ProductDescription;
@@ -195,6 +260,7 @@ namespace Inventory_Management_System.Controllers
                     existingProduct.SupplierID = product.SupplierID;
                     existingProduct.CreatedBy = product.CreatedBy;
                     existingProduct.UpdatedDate = DateTime.Now; // Update the UpdatedDate
+
 
                     // Check if the supplier value is not null or empty
                     if (!string.IsNullOrEmpty(supplier))
@@ -212,7 +278,10 @@ namespace Inventory_Management_System.Controllers
                     await _dbContext.SaveChangesAsync();
 
 
-                    await _dbContext.SaveChangesAsync();
+           
+                    // Update the supplier's product list
+                    await UpdateSupplierProductList(product.SupplierID, oldSupplierID, product.ProductName);
+
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -232,6 +301,36 @@ namespace Inventory_Management_System.Controllers
             return View(product);
         }
 
+        // Helper method to update the Products property of the supplier
+        private async Task UpdateSupplierProductList(int newSupplierID, int? oldSupplierID, string productName)
+        {
+            // If the product was previously associated with a supplier, remove it from that supplier's product list
+            if (oldSupplierID.HasValue)
+            {
+                var oldSupplier = await _dbContext.Supplier_Model.FindAsync(oldSupplierID);
+                if (oldSupplier != null)
+                {
+                    // Remove the product name from the existing Products string
+                    oldSupplier.Products = string.Join(",", oldSupplier.Products.Split(',').Where(p => p != productName));
+                    _dbContext.Update(oldSupplier);
+                }
+            }
+
+            // If newSupplierID is not null, update the product list of the new supplier
+            if (newSupplierID != 0)
+            {
+                var supplier = await _dbContext.Supplier_Model.FindAsync(newSupplierID);
+                if (supplier != null)
+                {
+                    // Append the product name to the existing Products string, separated by comma or any other delimiter
+                    supplier.Products += string.IsNullOrEmpty(supplier.Products) ? productName : "," + productName;
+                    _dbContext.Update(supplier);
+                }
+            }
+
+            // Save changes to the database
+            await _dbContext.SaveChangesAsync();
+        }
         // GET: Admin/ConfirmDeleteProduct/{id}
         public async Task<IActionResult> ConfirmDeleteProduct(int? id)
         {
@@ -255,9 +354,27 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _dbContext.Product_Model.FindAsync(id);
+           
             _dbContext.Product_Model.Remove(product);
+            // Remove the product from the supplier's product list
+            await RemoveProductFromSupplier(product);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Products));
+        }
+
+        // Helper method to remove the product from the supplier's product list
+        private async Task RemoveProductFromSupplier(Product product)
+        {
+            var suppliers = await _dbContext.Supplier_Model.Where(s => s.Products.Contains(product.ProductName)).ToListAsync();
+            foreach (var supplier in suppliers)
+            {
+                // Remove the product name from the supplier's product list
+                supplier.Products = string.Join(",", supplier.Products.Split(',').Where(p => p != product.ProductName));
+                _dbContext.Update(supplier);
+            }
+
+            // Save changes to the database
+            await _dbContext.SaveChangesAsync();
         }
 
         private bool ProductExists(int id)
@@ -269,6 +386,7 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> Suppliers()
         {
             // Retrieve all suppliers from the database
+            //var suppliers = _dbContext.Supplier_Model.Include(s => s.ProductSuppliers).ToList();
             var suppliers = await _dbContext.Supplier_Model.ToListAsync();
             return View(suppliers);
         }
@@ -291,6 +409,7 @@ namespace Inventory_Management_System.Controllers
             // Save the supplier to the database
             if (ModelState.IsValid)
             {
+                
                 _dbContext.Add(supplier);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Suppliers));
@@ -391,6 +510,11 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> DeleteSupplier(int id)
         {
             var supplier = await _dbContext.Supplier_Model.FindAsync(id);
+            // Retrieve all products associated with the supplier
+            var productsToDelete = await _dbContext.Product_Model.Where(p => p.SupplierID == id).ToListAsync();
+
+            // Delete all associated products
+            _dbContext.Product_Model.RemoveRange(productsToDelete);
             _dbContext.Supplier_Model.Remove(supplier);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Suppliers));
