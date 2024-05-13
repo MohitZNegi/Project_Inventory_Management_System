@@ -9,6 +9,7 @@ using Inventory_Management_System.Service;
 using WebPWrecover.Services;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
-
+builder.Services.AddControllersWithViews();
+builder.Services.AddSession(); // Add session support
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -59,6 +61,7 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     await DbSeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
-} 
+}
+
 
 app.Run();
