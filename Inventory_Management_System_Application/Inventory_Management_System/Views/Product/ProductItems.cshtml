@@ -14,33 +14,37 @@
     .btn-black {
         background-color: black;
         color: white;
-        border: none;
+        border: 2px solid black;
         padding: 10px 20px;
+        width: 100%;
         margin-top: 10px;
         cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
-
-        .btn-black:hover {
-            background-color: white;
-            color: black;
-            border: 2px solid black;
-        }
 
     .btn-white {
         background-color: white;
         color: black;
         border: 2px solid black;
-        margin-top: 10px;
         padding: 10px 20px;
+        width: 100%;
+        margin-top: 30px;
         cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
     }
 
-        .btn-white:hover {
-            background-color: black;
-            color: white;
-        }
+    .btn-black:hover {
+        background-color: white;
+        color: black;
+        border-color: white;
+    }
+
+    .btn-white:hover {
+        background-color: black;
+        color: white;
+        border-color: black;
+    }
+
 
     /* Footer styling */
     footer {
@@ -193,8 +197,8 @@
                             <label for="quantity">Quantity:</label>
                             <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
                         </div>
-                        <button type="button" class="btn btn-black">Add to Cart</button>
-                        <button type="button" class="btn btn-white">Buy Now</button>
+                        <button class="btn-black">Add to Cart</button>
+                        <button class="btn-white">Buy Now</button>
                     }
                     else
                     {
@@ -284,5 +288,48 @@
                 });
             });
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const btnWhite = document.querySelector('.btn-white');
+                const btnBlack = document.querySelector('.btn-black');
+
+                btnWhite.addEventListener('mouseover', function () {
+                    btnBlack.style.backgroundColor = 'white';
+                    btnBlack.style.color = 'black';
+                    btnBlack.style.borderColor = 'black';
+                    btnWhite.style.backgroundColor = 'black';
+                    btnWhite.style.color = 'white';
+                    btnWhite.style.borderColor = 'black';
+                });
+
+                btnWhite.addEventListener('mouseleave', function () {
+                    btnBlack.style.backgroundColor = 'black';
+                    btnBlack.style.color = 'white';
+                    btnBlack.style.borderColor = 'black';
+                    btnWhite.style.backgroundColor = 'white';
+                    btnWhite.style.color = 'black';
+                    btnWhite.style.borderColor = 'black';
+                });
+
+                btnBlack.addEventListener('mouseover', function () {
+                    btnWhite.style.backgroundColor = 'black';
+                    btnWhite.style.color = 'white';
+                    btnWhite.style.borderColor = 'black';
+                    btnBlack.style.backgroundColor = 'white';
+                    btnBlack.style.color = 'black';
+                    btnBlack.style.borderColor = 'black';
+                });
+
+                btnBlack.addEventListener('mouseleave', function () {
+                    btnWhite.style.backgroundColor = 'white';
+                    btnWhite.style.color = 'black';
+                    btnWhite.style.borderColor = 'black';
+                    btnBlack.style.backgroundColor = 'black';
+                    btnBlack.style.color = 'white';
+                    btnBlack.style.borderColor = 'black';
+                });
+            });
+        </script>
+
     }
 </body>

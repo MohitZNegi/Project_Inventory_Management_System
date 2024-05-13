@@ -79,27 +79,48 @@ html {
     display: block;
 }
 
-.square-button {
+.square-button-black {
+    background-color: black;
+    color: white;
     width: 100px;
     height: 40px;
+    text-decoration: none;
+    border: 2px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 0;
-    transition: background-color 0.3s, color 0.3s;
 }
 
-#login:hover {
-    background-color: black !important; /* Set background to black on hover */
-    color: white !important; /* Set text color to white on hover */
+.square-button-white {
+    background-color: white;
+    color: black;
+    width: 100px;
+    height: 40px;
+    text-decoration: none;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-#register:hover {
-    background-color: white !important; /* Set background to white on hover */
-    color: black !important; /* Set text color to black on hover */
+.square-button-black:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-.auth-buttons a {
+.square-button-white:hover {
+    background-color: black;
+    color: white;
+    border-color: black;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+    .auth-buttons a {
     color: #fff;
     text-decoration: none;
     margin-left: 20px;

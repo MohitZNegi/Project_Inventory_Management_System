@@ -4,66 +4,60 @@
     ViewData["Title"] = "Product List";
 }
 
-<h1>Product List</h1>
+<h1 class="text-center mb-4">Product List</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Description</th>
-            <th>Supplier</th>
-            <th>SupplierID</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Created By</th>
-            <th>Created Date</th>
-            <th>Updated Date</th>
-            <th>Image</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.ProductName</td>
-                <td>@product.ProductDescription</td>
-                <td>@product.ProductSuppliers</td>
-                <td>@product.SupplierID</td>
-                <td>@product.ProductPrice</td>
-                <td>@product.ProductQuantity</td>
-                <td>@product.CreatedBy</td>
-                <td>@product.CreatedDate</td>
-                @if (product.UpdatedDate == DateTime.MinValue)
-                {
-                    <td>N/A</td>
-                }
-                else
-                {
-                    <td>@product.UpdatedDate</td>
-                }
-              
-                <td>
-                    @if (!string.IsNullOrEmpty(product.ProductImg))
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Supplier</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Updated Date</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
                     {
-                        <img src="@Url.Content(product.ProductImg)" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
+                        <tr>
+                            <td>@product.ProductName</td>
+                            <td>@product.ProductDescription</td>
+                            <td>@product.ProductSuppliers</td>
+                            <td>$@product.ProductPrice</td>
+                            <td>@product.ProductQuantity</td>
+                            <td>@product.CreatedBy</td>
+                            <td>@product.CreatedDate.ToShortDateString()</td>
+                            <td>@(product.UpdatedDate != DateTime.MinValue ? product.UpdatedDate.ToShortDateString() : "N/A")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(product.ProductImg))
+                                {
+                                    <img src="@Url.Content(product.ProductImg)" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
+                                }
+                                else
+                                {
+                                    <span>No Image Available</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("EditProduct", "Admin", new { id = product.ProductID })" class="btn btn-primary">Edit</a>
+                                <a href="@Url.Action("ConfirmDeleteProduct", "Admin", new { id = product.ProductID })" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
                     }
-                    else
-                    {
-                        <span>No Image Available</span>
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditProduct", "Admin", new { id = product.ProductID }, new { @class = "button-29" })
-                    <a asp-action="ConfirmDeleteProduct" asp-route-id="@product.ProductID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<div class="col-md-5 d-flex justify-content-center">
-    <fieldset>
-        @Html.ActionLink("Add new Product", "AddProduct", "Admin", null, new { @class = "button-29", @id = "save" })
-    </fieldset>
+<div class="text-center">
+    <a href="@Url.Action("AddProduct", "Admin")" class="btn btn-success">Add New Product</a>
 </div>

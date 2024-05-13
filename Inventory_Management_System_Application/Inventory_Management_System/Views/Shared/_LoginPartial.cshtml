@@ -1,13 +1,54 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Inventory_Management_System.Areas.Identity.Data
 
+<style>
+    .square-button-black {
+        background-color: black;
+        color: white;
+        width: 100px;
+        height: 40px;
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .square-button-white {
+        background-color: white;
+        color: black;
+        width: 100px;
+        height: 40px;
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .square-button-black:hover {
+        background-color: white;
+        color: black;
+        border-color: black;
+    }
+
+    .square-button-white:hover {
+        background-color: black;
+        color: white;
+        border-color: black;
+    }
+</style>
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
             <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzP8EuFZHOfz0SJUGiyhU2lmvQvBixikdXpycVWfGlog&s" alt="Profile Image" style="height: 30px; width: 30px;" />
             </a>
@@ -17,15 +58,57 @@
                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form>
         </li>
+    }
+    else
+    {
+        <li class="nav-item me-2">
+            <a class="square-button-white" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="square-button-black" id="register" asp-area="Identity" asp-page="/Account/Register">Join Us</a>
+        </li>
+    }
 
-}
-else
-{
-    <li class="nav-item me-2">
-            <a class="nav-link btn btn-light btn-outline-dark text-black square-button" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-    <li class="nav-item">
-            <a class="nav-link btn btn-dark text-white square-button" id="register" asp-area="Identity" asp-page="/Account/Register">Join Us</a>
-    </li>
-}
 </ul>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnWhite = document.querySelector('.square-button-white');
+        const btnBlack = document.querySelector('.square-button-black');
+
+        btnWhite.addEventListener('mouseover', function () {
+            btnBlack.style.backgroundColor = 'white';
+            btnBlack.style.color = 'black';
+            btnBlack.style.borderColor = 'black';
+            btnWhite.style.backgroundColor = 'black';
+            btnWhite.style.color = 'white';
+            btnWhite.style.borderColor = 'black';
+        });
+
+        btnWhite.addEventListener('mouseleave', function () {
+            btnBlack.style.backgroundColor = 'black';
+            btnBlack.style.color = 'white';
+            btnBlack.style.borderColor = 'black';
+            btnWhite.style.backgroundColor = 'white';
+            btnWhite.style.color = 'black';
+            btnWhite.style.borderColor = 'black';
+        });
+
+        btnBlack.addEventListener('mouseover', function () {
+            btnWhite.style.backgroundColor = 'black';
+            btnWhite.style.color = 'white';
+            btnWhite.style.borderColor = 'black';
+            btnBlack.style.backgroundColor = 'white';
+            btnBlack.style.color = 'black';
+            btnBlack.style.borderColor = 'black';
+        });
+
+        btnBlack.addEventListener('mouseleave', function () {
+            btnWhite.style.backgroundColor = 'white';
+            btnWhite.style.color = 'black';
+            btnWhite.style.borderColor = 'black';
+            btnBlack.style.backgroundColor = 'black';
+            btnBlack.style.color = 'white';
+            btnBlack.style.borderColor = 'black';
+        });
+    });
+</script>

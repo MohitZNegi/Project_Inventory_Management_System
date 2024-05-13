@@ -1,69 +1,100 @@
 ﻿@model Inventory_Management_System.Models.Product
-
 @{
     ViewData["Title"] = "Edit Product";
 }
 
-<h1>Edit Product</h1>
+<style>
+    body {
+        font-family: 'Raleway', sans-serif;
+        margin: 0;
+        background-color: #f0f0f0;
+        background-image: url('https://res.cloudinary.com/dup5hdi05/image/upload/v1715226768/Untitled_design_cty4ke.png');
+        background-size: cover;
+    }
 
-<hr />
+    .floating-box {
+        width: 50%;
+        margin: 50px auto;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditProduct" enctype="multipart/form-data">
-            <input type="hidden" asp-for="ProductID" />
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
+        .form-group label {
+            font-weight: bold;
+        }
 
-            <div class="form-group">
-                <label asp-for="ProductDescription" class="control-label"></label>
-                <input asp-for="ProductDescription" class="form-control" />
-                <span asp-validation-for="ProductDescription" class="text-danger"></span>
-            </div>
-@* 
-               <div class="form-group">
-                <label asp-for="Supplier" class="control-label"></label>
-                <input asp-for="Supplier" class="form-control" />
-                <span asp-validation-for="Supplier" class="text-danger"></span>
-            </div> *@
+    .form-control {
+        width: 100%;
+    }
 
-            <div class="form-group">
-                <label asp-for="ProductPrice" class="control-label"></label>
-                <input asp-for="ProductPrice" class="form-control" />
-                <span asp-validation-for="ProductPrice" class="text-danger"></span>
-            </div>
+    .btn-primary {
+        width: 100%;
+    }
 
-            <div class="form-group">
-                <label asp-for="ProductQuantity" class="control-label"></label>
-                <input asp-for="ProductQuantity" class="form-control" />
-                <span asp-validation-for="ProductQuantity" class="text-danger"></span>
-            </div>
+    .btn-back {
+        color: black;
+        font-size: 14px;
+    }
+</style>
 
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
+<div class="floating-box">
+    <a href="/Admin/Products" class="btn-back">←Back to List</a>
+    <h1 class="text-center">Edit Product</h1>
+    <hr />
 
-            <div class="form-group">
-                <label asp-for="ProductImg" class="control-label"></label>
-                <input asp-for="ProductImg" type="file" class="form-control" />
-                <span asp-validation-for="ProductImg" class="text-danger"></span>
-            </div>
+    <form asp-action="EditProduct" asp-route-id="@Model.ProductID" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="ProductID" />
 
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label">Product Name</label>
+            <input asp-for="ProductName" class="form-control" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
 
-<div>
-    <a asp-action="Products">Back to List</a>
+        <div class="form-group">
+            <label asp-for="ProductDescription" class="control-label">Product Description</label>
+            <input asp-for="ProductDescription" class="form-control" />
+            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductPrice" class="control-label">Product Price</label>
+            <input asp-for="ProductPrice" class="form-control" />
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductQuantity" class="control-label">Product Quantity</label>
+            <input asp-for="ProductQuantity" class="form-control" />
+            <span asp-validation-for="ProductQuantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedBy" class="control-label">Created By</label>
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductImg" class="control-label">Product Image</label>
+            @if (Model.ProductImg != null)
+            {
+                <img src="@Model.ProductImg" alt="Product Image" class="img-fluid" style="max-width: 200px; margin-bottom: 10px;" />
+            }
+            <input asp-for="ProductImg" type="file" class="form-control" />
+            <span asp-validation-for="ProductImg" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </div>
+    </form>
 </div>
 
 @section Scripts {
