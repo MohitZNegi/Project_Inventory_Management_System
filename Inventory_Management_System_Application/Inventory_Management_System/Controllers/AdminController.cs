@@ -66,7 +66,7 @@ namespace Inventory_Management_System.Controllers
                     Text = s.SupplierName,
                     Value = $"{s.SupplierID}-{s.SupplierName}" // Combine SupplierID and SupplierName
                 }).ToList(); // Explicitly convert to List<SelectListItem>
-
+                ViewBag.Suppliers = supplierList;
                 var productView = new ProductView
                 {
                     Suppliers = supplierList
@@ -75,34 +75,7 @@ namespace Inventory_Management_System.Controllers
                 return View(productView);
             }
 
-            var supplierList = suppliers.Select(s => new SelectListItem
-            {
-                Text = s.SupplierName,
-                Value = $"{s.SupplierID}-{s.SupplierName}" // Combine SupplierID and SupplierName
-            });
-
-            ViewBag.Suppliers = supplierList;
-          /*  // Retrieve a list of suppliers from the database
-            var suppliers = _dbContext.Supplier_Model.ToList();
-            // Create a SelectList with SupplierName as the text and SupplierID as the value
-            var supplierList = suppliers.Select(s => new SelectListItem
-            {
-                Text = s.SupplierName,
-                Value = s.SupplierID.ToString()
-            }) ;
-
-            // Pass the SelectList to the view
-            ViewBag.Suppliers = supplierList;
-            
-            // Create a SelectList with SupplierID as the text and SupplierID as the value
-            var supplierIDList = suppliers.Select(s => new SelectListItem
-            {
-                Text = s.SupplierID.ToString(),
-                Value = s.SupplierID.ToString()
-            });
-
-            // Pass the SelectList to the view
-            ViewBag.SuppliersID = supplierIDList;*/
+    
 
             return View();
         }
@@ -135,6 +108,9 @@ namespace Inventory_Management_System.Controllers
                         CreatedDate = DateTime.Now,
                         UpdatedDate = DateTime.Now,
                     };
+                    // Retrieve SupplierID from the selected supplier string
+                    var supplierId = int.Parse(supplier.Split('-')[0]);
+
 
                     // Check if a supplier is selected
                     if (!string.IsNullOrEmpty(productView.Supplier))
@@ -153,7 +129,10 @@ namespace Inventory_Management_System.Controllers
                         }
                     }
 
+                   
 
+                    // Update the supplier's product list
+                    await UpdateSupplierProductList(supplierId, null, product.ProductName);
 
                     // Handle product image upload if available
                     if (productView.ProductImg != null && productView.ProductImg.Length > 0)
@@ -169,7 +148,7 @@ namespace Inventory_Management_System.Controllers
                             return View(productView);
                         }
                     }
-
+                  
                     // Save the product to the database
                     _dbContext.Add(product);
                     await _dbContext.SaveChangesAsync();

@@ -11448,19 +11448,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Cameron\\.nuget\\packages\\": {}
+    "C:\\Users\\23021700\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
+      "projectUniqueName": "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
       "projectName": "Inventory_Management_System",
-      "projectPath": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
-      "packagesPath": "C:\\Users\\Cameron\\.nuget\\packages\\",
-      "outputPath": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\obj\\",
+      "projectPath": "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
+      "packagesPath": "C:\\Users\\23021700\\.nuget\\packages\\",
+      "outputPath": "H:\\2024_IT_Project\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Cameron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\23021700\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11544,30 +11544,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Azure.Identity' 1.6.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-5mfx-4wcx-rv27",
-      "libraryId": "Azure.Identity",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    },
-    {
-      "code": "NU1902",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Azure.Identity' 1.6.0 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wvxc-855f-jvrv",
-      "libraryId": "Azure.Identity",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }

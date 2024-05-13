@@ -24,8 +24,7 @@ namespace Inventory_Management_System.ViewModels
         public string? Products { get; set; }
 
 
-        // Additional property for products
-        public List<ProductView> Products { get; set; }
+      
 
         [Required]
         [MaxLength(100)]
