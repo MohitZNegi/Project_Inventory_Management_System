@@ -266,45 +266,30 @@ namespace Inventory_Management_System.Controllers
         }
 
 
+        // GET: Admin/ConfirmDeleteProduct/{id}
+        public async Task<IActionResult> ConfirmDeleteProduct(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _dbContext.Product_Model.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
 
         // POST: Admin/DeleteProduct/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProduct(int id, ProductView productView)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var existingProduct = await _dbContext.Product_Model.FindAsync(id);
-                    if (existingProduct == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Update product properties
-                    existingProduct.ProductName = productView.ProductName;
-                    existingProduct.ProductDescription = productView.ProductDescription;
-                    existingProduct.ProductPrice = productView.ProductPrice;
-                    existingProduct.ProductQuantity = productView.ProductQuantity;
-                    existingProduct.CreatedBy = productView.CreatedBy;
-                    existingProduct.UpdatedDate = DateTime.Now;
-                    existingProduct.ProductImg = productView.ProductImg;
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-
-                    _dbContext.Product_Model.Remove(productView);
+            var product = await _dbContext.Product_Model.FindAsync(id);
+            _dbContext.Product_Model.Remove(product);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Products));
         }
