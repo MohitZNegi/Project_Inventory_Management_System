@@ -81,6 +81,12 @@ app.MapControllerRoute(
     defaults: new { controller = "Product", action = "ProductItems" }
 );
 
+app.MapControllerRoute(
+    name: "Products",
+    pattern: "Product/Products",
+    defaults: new { controller = "Product", action = "Products" }
+);
+
 // to access the identity pages- add razor support
 app.MapRazorPages();
 
