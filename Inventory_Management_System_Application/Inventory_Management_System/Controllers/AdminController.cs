@@ -8,11 +8,13 @@ using Inventory_Management_System.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using Inventory_Management_System.Interfaces;
-
 using Inventory_Management_System.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
+using Microsoft.CodeAnalysis;
+using SendGrid.Helpers.Mail;
+using Inventory_Management_System.Migrations;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -46,6 +48,7 @@ namespace Inventory_Management_System.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Products()
         {
+            // var products = _dbContext.Product_Model.Include(p => p.ProductSuppliers).ToList();
             var products = await _dbContext.Product_Model.ToListAsync();
             return View(products);
         }
@@ -77,7 +80,8 @@ namespace Inventory_Management_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProduct(ProductView productView)
+
+        public async Task<IActionResult> AddProduct(ProductView productView, string supplier)
         {
             if (ModelState.IsValid)
             {
@@ -88,6 +92,7 @@ namespace Inventory_Management_System.Controllers
                 {
                     // Create a SelectList for suppliers
                     var supplierSelectList = new SelectList(suppliers, "SupplierID", "SupplierName");
+
                     var product = new Product
                     {
                         // Map properties from ProductView to Product
@@ -100,6 +105,9 @@ namespace Inventory_Management_System.Controllers
                         CreatedDate = DateTime.Now,
                         UpdatedDate = DateTime.Now,
                     };
+                    // Retrieve SupplierID from the selected supplier string
+                    var supplierId = int.Parse(supplier.Split('-')[0]);
+
 
                     // Check if a supplier is selected
                     if (!string.IsNullOrEmpty(productView.Supplier))
@@ -117,6 +125,11 @@ namespace Inventory_Management_System.Controllers
                             }
                         }
                     }
+
+
+
+                    // Update the supplier's product list
+                    await UpdateSupplierProductList(supplierId, null, product.ProductName);
 
                     // Handle product image upload if available
                     if (productView.ProductImg != null && productView.ProductImg.Length > 0)
@@ -138,6 +151,8 @@ namespace Inventory_Management_System.Controllers
                     await _dbContext.SaveChangesAsync();
                     return RedirectToAction(nameof(Products));
                 }
+
+
             }
 
             // If ModelState is not valid or suppliers are empty, return the view with the model
@@ -174,51 +189,97 @@ namespace Inventory_Management_System.Controllers
 
             return View(product);
         }
+
         // POST: Admin/EditProduct/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct(int id, ProductView productView, string supplier, int SupplierID)
+        public async Task<IActionResult> EditProduct(int id, Product product, string supplier, IFormFile productImgFile)
         {
-            if (ModelState.IsValid)
+            if (id != product.ProductID)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
             {
                 try
                 {
+                    // Retrieve SupplierID from the selected supplier string
+                    var supplierID = int.Parse(supplier.Split('-')[0]);
+
+                    // Check if the supplier value is not null or empty
+                    if (!string.IsNullOrEmpty(supplier))
+                    {
+                        // Split the selected value to extract SupplierID and SupplierName
+                        var supplierParts = supplier.Split('-');
+                        if (supplierParts.Length == 2)
+                        {
+                            product.SupplierID = int.Parse(supplierParts[0]);
+                            product.ProductSuppliers = supplierParts[1];
+                        }
+                    }
+
+                    // Retrieve the existing product from the database
                     var existingProduct = await _dbContext.Product_Model.FindAsync(id);
                     if (existingProduct == null)
                     {
                         return NotFound();
                     }
+                    // Get the old supplier ID before updating the product
+                    var oldSupplierID = existingProduct.SupplierID;
+                    // Update the properties of the existing product except CreatedAt
+                    existingProduct.ProductName = product.ProductName;
+                    existingProduct.ProductDescription = product.ProductDescription;
+                    existingProduct.ProductPrice = product.ProductPrice;
+                    existingProduct.ProductQuantity = product.ProductQuantity;
+                    existingProduct.ProductSuppliers = product.ProductSuppliers;
+                    existingProduct.SupplierID = product.SupplierID;
+                    existingProduct.CreatedBy = product.CreatedBy;
+                    existingProduct.UpdatedDate = DateTime.Now; // Update the UpdatedDate
+                    existingProduct.ProductImg = product.ProductImg;
 
-                    // Update product properties
-                    existingProduct.ProductName = productView.ProductName;
-                    existingProduct.ProductDescription = productView.ProductDescription;
-                    existingProduct.ProductPrice = productView.ProductPrice;
-                    existingProduct.ProductQuantity = productView.ProductQuantity;
-                    existingProduct.CreatedBy = productView.CreatedBy;
-                    existingProduct.UpdatedDate = DateTime.Now;
 
-                    // Check if a new image file is uploaded
-                    if (productView.ProductImg != null && productView.ProductImg.Length > 0)
+                    // Check if the supplier value is not null or empty
+                    if (!string.IsNullOrEmpty(supplier))
                     {
-                        var uploadResult = await _photoService.AddPhotoAsync(productView.ProductImg);
-                        if (uploadResult.Error == null)
+                        // Split the selected value to extract SupplierID and SupplierName
+                        var supplierParts = supplier.Split('-');
+                        if (supplierParts.Length == 2)
                         {
-                            existingProduct.ProductImg = uploadResult.Url.AbsoluteUri; // Save the image URL in the database
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("ProductImgFile", "Failed to upload image.");
-                            return View(productView);
+                            product.SupplierID = int.Parse(supplierParts[0]);
+                            product.ProductSuppliers = supplierParts[1];
                         }
                     }
 
+                    if (productImgFile != null && productImgFile.Length > 0)
+    {
+        // Save the file to a storage location (e.g., using a service like _photoService)
+        var uploadResult = await _photoService.AddPhotoAsync(productImgFile);
+        if (uploadResult.Error == null)
+        {
+            // Update the ProductImg property with the URL of the uploaded image
+            existingProduct.ProductImg = uploadResult.Url.AbsoluteUri; // or the path if stored locally
+        }
+        else
+        {
+            ModelState.AddModelError("ProductImgFile", "Failed to upload image.");
+            return View(product);
+        }
+    }
+
                     _dbContext.Update(existingProduct);
                     await _dbContext.SaveChangesAsync();
-                    return RedirectToAction("EditProduct", new { id = existingProduct.ProductID });
+
+
+
+                    // Update the supplier's product list
+                    await UpdateSupplierProductList(product.SupplierID, oldSupplierID, product.ProductName);
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(id))
+                    if (!ProductExists(product.ProductID))
                     {
                         return NotFound();
                     }
@@ -227,12 +288,42 @@ namespace Inventory_Management_System.Controllers
                         throw;
                     }
                 }
+                return RedirectToAction(nameof(Products));
             }
 
-            // If ModelState is not valid, return the view with the model
-            return View(productView);
+            return View(product);
         }
 
+        // Helper method to update the Products property of the supplier
+        private async Task UpdateSupplierProductList(int newSupplierID, int? oldSupplierID, string productName)
+        {
+            // If the product was previously associated with a supplier, remove it from that supplier's product list
+            if (oldSupplierID.HasValue)
+            {
+                var oldSupplier = await _dbContext.Supplier_Model.FindAsync(oldSupplierID);
+                if (oldSupplier != null)
+                {
+                    // Remove the product name from the existing Products string
+                    oldSupplier.Products = string.Join(",", oldSupplier.Products.Split(',').Where(p => p != productName));
+                    _dbContext.Update(oldSupplier);
+                }
+            }
+
+            // If newSupplierID is not null, update the product list of the new supplier
+            if (newSupplierID != 0)
+            {
+                var supplier = await _dbContext.Supplier_Model.FindAsync(newSupplierID);
+                if (supplier != null)
+                {
+                    // Append the product name to the existing Products string, separated by comma or any other delimiter
+                    supplier.Products += string.IsNullOrEmpty(supplier.Products) ? productName : "," + productName;
+                    _dbContext.Update(supplier);
+                }
+            }
+
+            // Save changes to the database
+            await _dbContext.SaveChangesAsync();
+        }
         // GET: Admin/ConfirmDeleteProduct/{id}
         public async Task<IActionResult> ConfirmDeleteProduct(int? id)
         {
@@ -256,9 +347,27 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _dbContext.Product_Model.FindAsync(id);
+
             _dbContext.Product_Model.Remove(product);
+            // Remove the product from the supplier's product list
+            await RemoveProductFromSupplier(product);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Products));
+        }
+
+        // Helper method to remove the product from the supplier's product list
+        private async Task RemoveProductFromSupplier(Product product)
+        {
+            var suppliers = await _dbContext.Supplier_Model.Where(s => s.Products.Contains(product.ProductName)).ToListAsync();
+            foreach (var supplier in suppliers)
+            {
+                // Remove the product name from the supplier's product list
+                supplier.Products = string.Join(",", supplier.Products.Split(',').Where(p => p != product.ProductName));
+                _dbContext.Update(supplier);
+            }
+
+            // Save changes to the database
+            await _dbContext.SaveChangesAsync();
         }
 
         private bool ProductExists(int id)
@@ -270,6 +379,7 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> Suppliers()
         {
             // Retrieve all suppliers from the database
+            //var suppliers = _dbContext.Supplier_Model.Include(s => s.ProductSuppliers).ToList();
             var suppliers = await _dbContext.Supplier_Model.ToListAsync();
             return View(suppliers);
         }
@@ -292,6 +402,7 @@ namespace Inventory_Management_System.Controllers
             // Save the supplier to the database
             if (ModelState.IsValid)
             {
+
                 _dbContext.Add(supplier);
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Suppliers));
@@ -392,6 +503,11 @@ namespace Inventory_Management_System.Controllers
         public async Task<IActionResult> DeleteSupplier(int id)
         {
             var supplier = await _dbContext.Supplier_Model.FindAsync(id);
+            // Retrieve all products associated with the supplier
+            var productsToDelete = await _dbContext.Product_Model.Where(p => p.SupplierID == id).ToListAsync();
+
+            // Delete all associated products
+            _dbContext.Product_Model.RemoveRange(productsToDelete);
             _dbContext.Supplier_Model.Remove(supplier);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Suppliers));

@@ -72,6 +72,17 @@
         </div>
 
         <div class="form-group">
+            <label for="ProductSuppliers">Supplier</label>
+            <select id="ProductSuppliers" name="supplier" asp-for="SupplierID" class="form-control">
+                <option value="">Select Supplier</option>
+                @foreach (var supplier in ViewBag.Suppliers)
+                {
+                    <option value="@supplier.Value" selected="@supplier.Selected">@supplier.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
             <label asp-for="ProductQuantity" class="control-label">Product Quantity</label>
             <input asp-for="ProductQuantity" class="form-control" />
             <span asp-validation-for="ProductQuantity" class="text-danger"></span>
@@ -84,14 +95,15 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="ProductImg" class="control-label">Product Image</label>
-            @if (Model.ProductImg != null)
+            <label asp-for="ProductImgFile" class="control-label">Product Image</label>
+            @if (!string.IsNullOrEmpty(Model.ProductImg))
             {
                 <img src="@Model.ProductImg" alt="Product Image" class="img-fluid" style="max-width: 200px; margin-bottom: 10px;" />
             }
-            <input asp-for="ProductImg" type="file" class="form-control" />
-            <span asp-validation-for="ProductImg" class="text-danger"></span>
+            <input asp-for="ProductImgFile" type="file" class="form-control" />
+            <span asp-validation-for="ProductImgFile" class="text-danger"></span>
         </div>
+
 
         <div class="form-group">
             <input type="submit" value="Update" class="btn btn-primary" />

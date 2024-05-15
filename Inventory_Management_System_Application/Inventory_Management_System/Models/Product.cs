@@ -57,6 +57,7 @@ namespace Inventory_Management_System.Models
         [DataType(DataType.DateTime)]
         public DateTime UpdatedDate { get; set; }
 
-
+        [NotMapped]
+        public IFormFile ProductImgFile { get; set; }
     }
 }
