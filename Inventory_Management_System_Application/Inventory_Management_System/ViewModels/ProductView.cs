@@ -12,7 +12,7 @@ namespace Inventory_Management_System.ViewModels
             Suppliers = new List<SelectListItem>(); // Initialize Suppliers list
         }
 
-        public string? ProductName { get; set; }
+        public string ProductName { get; set; }
 
         public string? ProductDescription { get; set; }
 
@@ -30,7 +30,7 @@ namespace Inventory_Management_System.ViewModels
         [Required]
 
         public string? CreatedBy { get; set; }
-        public string? ProductSuppliers { get; set; }
+        public string ProductSuppliers { get; set; }
 
         public IFormFile? ProductImg { get; set; }
         public List<SelectListItem> Suppliers { get; set; }

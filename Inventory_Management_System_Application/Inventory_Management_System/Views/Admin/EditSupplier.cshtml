@@ -4,39 +4,105 @@
     ViewData["Title"] = "Edit Supplier";
 }
 
+<style>
+    body {
+        font-family: Raleway, sans-serif;
+        margin: 0;
+        background-color: #f0f0f0;
+        background-image: url('https://res.cloudinary.com/dup5hdi05/image/upload/v1715226768/Untitled_design_cty4ke.png');
+        background-size: cover;
+    }
+
+    .floating-box {
+        width: 400px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px auto;
+        z-index: 1000;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .btn-back {
+        color: black;
+        font-size: 13.5px;
+    }
+
+    .btn-back-container {
+        text-align: right;
+    }
+</style>
+
 <h1>Edit Supplier</h1>
 
-<form asp-action="EditSupplier" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="SupplierID" />
+<hr />
+<div class="floating-box">
+    <a href="/Admin/Suppliers" class="btn-back">←Back to List</a>
+    <h2 style="text-align: center;">Edit Supplier</h2>
+    <form asp-action="EditSupplier" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="SupplierID" />
 
-    <div class="form-group">
-        <label asp-for="SupplierName" class="control-label"></label>
-        <input asp-for="SupplierName" class="form-control" />
-        <span asp-validation-for="SupplierName" class="text-danger"></span>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="SupplierName" class="control-label">Supplier Name</label>
+            <input asp-for="SupplierName" class="form-control" />
+            <span asp-validation-for="SupplierName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Location" class="control-label">Location</label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ContactDetails" class="control-label">Contact Details</label>
+            <input asp-for="ContactDetails" class="form-control" />
+            <span asp-validation-for="ContactDetails" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedBy" class="control-label">Created By</label>
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update Supplier</button>
+        </div>
+    </form>
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
     </div>
+}
 
-    <div class="form-group">
-        <label asp-for="Location" class="control-label"></label>
-        <input asp-for="Location" class="form-control" />
-        <span asp-validation-for="Location" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ContactDetails" class="control-label"></label>
-        <input asp-for="ContactDetails" class="form-control" />
-        <span asp-validation-for="ContactDetails" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="CreatedBy" class="control-label"></label>
-        <input asp-for="CreatedBy" class="form-control" />
-        <span asp-validation-for="CreatedBy" class="text-danger"></span>
-    </div>
-
-
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Update Supplier</button>
-    </div>
-</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

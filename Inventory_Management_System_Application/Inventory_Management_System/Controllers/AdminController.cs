@@ -177,7 +177,7 @@ namespace Inventory_Management_System.Controllers
         // POST: Admin/EditProduct/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProduct(int id, ProductView productView)
+        public async Task<IActionResult> EditProduct(int id, ProductView productView, string supplier, int SupplierID)
         {
             if (ModelState.IsValid)
             {
@@ -214,7 +214,6 @@ namespace Inventory_Management_System.Controllers
 
                     _dbContext.Update(existingProduct);
                     await _dbContext.SaveChangesAsync();
-
                     return RedirectToAction("EditProduct", new { id = existingProduct.ProductID });
                 }
                 catch (DbUpdateConcurrencyException)
@@ -233,38 +232,6 @@ namespace Inventory_Management_System.Controllers
             // If ModelState is not valid, return the view with the model
             return View(productView);
         }
-
-        // Helper method to update the Products property of the supplier
-        private async Task UpdateSupplierProductList(int newSupplierID, int? oldSupplierID, string productName)
-        {
-            // If the product was previously associated with a supplier, remove it from that supplier's product list
-            if (oldSupplierID.HasValue)
-            {
-                var oldSupplier = await _dbContext.Supplier_Model.FindAsync(oldSupplierID);
-                if (oldSupplier != null)
-                {
-                    // Remove the product name from the existing Products string
-                    oldSupplier.Products = string.Join(",", oldSupplier.Products.Split(',').Where(p => p != productName));
-                    _dbContext.Update(oldSupplier);
-                }
-            }
-
-            // If newSupplierID is not null, update the product list of the new supplier
-            if (newSupplierID != 0)
-            {
-                var supplier = await _dbContext.Supplier_Model.FindAsync(newSupplierID);
-                if (supplier != null)
-                {
-                    // Append the product name to the existing Products string, separated by comma or any other delimiter
-                    supplier.Products += string.IsNullOrEmpty(supplier.Products) ? productName : "," + productName;
-                    _dbContext.Update(supplier);
-                }
-            }
-
-            // Save changes to the database
-            await _dbContext.SaveChangesAsync();
-        }
-
 
         // GET: Admin/ConfirmDeleteProduct/{id}
         public async Task<IActionResult> ConfirmDeleteProduct(int? id)

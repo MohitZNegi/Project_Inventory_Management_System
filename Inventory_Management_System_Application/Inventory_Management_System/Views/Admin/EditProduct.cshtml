@@ -50,6 +50,8 @@
 
     <form asp-action="EditProduct" asp-route-id="@Model.ProductID" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="ProductID" />
+        <input type="hidden" name="productName" value="@Model.ProductName" />
+
 
         <div class="form-group">
             <label asp-for="ProductName" class="control-label">Product Name</label>
