@@ -20,14 +20,17 @@ namespace Inventory_Management_System.Controllers
             // Retrieve all products from your database or data source
             List<Product> allProducts = _dbContext.Product_Model.ToList();
 
+            // Calculate the total number of pages based on all products
+            var pageSize = 16;
+            var totalItems = allProducts.Count;
+            var pageCount = (int)Math.Ceiling(totalItems / (double)pageSize);
+
             // Filter products based on the search query
             var filteredProducts = string.IsNullOrEmpty(searchQuery)
                 ? allProducts
                 : allProducts.Where(p => p.ProductName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
 
             // Apply pagination to the filtered products
-            var pageSize = 16;
-            var pageCount = (int)Math.Ceiling(filteredProducts.Count() / (double)pageSize);
             var productsOnPage = filteredProducts.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             // Pass the filtered and paginated products to the view
@@ -36,6 +39,7 @@ namespace Inventory_Management_System.Controllers
             ViewData["CurrentPage"] = page;
             return View(productsOnPage);
         }
+
 
 
         public async Task<IActionResult> ProductItems(int? id)
