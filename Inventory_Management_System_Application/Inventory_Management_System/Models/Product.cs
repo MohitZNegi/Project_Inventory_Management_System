@@ -20,6 +20,7 @@ namespace Inventory_Management_System.Models
 
         // Navigation property to represent the relationship
 
+
         public Supplier Supplier { get; set; }
 
         [Required]
@@ -39,6 +40,9 @@ namespace Inventory_Management_System.Models
 
         public string? ProductImg { get; set; }
 
+        [NotMapped]
+        public IFormFile? ProductImgFile { get; set; }
+
         //public Supplier? Supplier { get; set; }
 
         [Required]
@@ -49,7 +53,6 @@ namespace Inventory_Management_System.Models
 
         public string ProductSuppliers { get; set; }
 
-
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime CreatedDate { get; set; }
@@ -57,7 +60,5 @@ namespace Inventory_Management_System.Models
         [DataType(DataType.DateTime)]
         public DateTime UpdatedDate { get; set; }
 
-        [NotMapped]
-        public IFormFile ProductImgFile { get; set; }
     }
 }

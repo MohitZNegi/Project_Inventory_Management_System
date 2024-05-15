@@ -236,8 +236,6 @@ namespace Inventory_Management_System.Controllers
                     existingProduct.SupplierID = product.SupplierID;
                     existingProduct.CreatedBy = product.CreatedBy;
                     existingProduct.UpdatedDate = DateTime.Now; // Update the UpdatedDate
-                    existingProduct.ProductImg = product.ProductImg;
-
 
                     // Check if the supplier value is not null or empty
                     if (!string.IsNullOrEmpty(supplier))
@@ -252,20 +250,25 @@ namespace Inventory_Management_System.Controllers
                     }
 
                     if (productImgFile != null && productImgFile.Length > 0)
-    {
-        // Save the file to a storage location (e.g., using a service like _photoService)
-        var uploadResult = await _photoService.AddPhotoAsync(productImgFile);
-        if (uploadResult.Error == null)
-        {
-            // Update the ProductImg property with the URL of the uploaded image
-            existingProduct.ProductImg = uploadResult.Url.AbsoluteUri; // or the path if stored locally
-        }
-        else
-        {
-            ModelState.AddModelError("ProductImgFile", "Failed to upload image.");
-            return View(product);
-        }
-    }
+                    {
+                        // Save the file to a storage location (e.g., using a service like _photoService)
+                        var uploadResult = await _photoService.AddPhotoAsync(productImgFile);
+                        if (uploadResult.Error == null)
+                        {
+                            // Update the ProductImg property with the URL of the uploaded image
+                            existingProduct.ProductImg = uploadResult.Url.AbsoluteUri; // or the path if stored locally
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ProductImgFile", "Failed to upload image.");
+                            return View(product);
+                        }
+                    }
+                    else
+                    {
+                        // If no new image is uploaded, retain the existing image
+                        product.ProductImg = existingProduct.ProductImg;
+                    }
 
                     _dbContext.Update(existingProduct);
                     await _dbContext.SaveChangesAsync();
