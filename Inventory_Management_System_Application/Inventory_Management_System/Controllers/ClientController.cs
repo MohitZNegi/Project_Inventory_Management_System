@@ -138,67 +138,6 @@ namespace Inventory_Management_System.Controllers
             return View(clientVM);
         }
 
-        public IActionResult AddToCart(int productId, string productName, int quantity)
-        {
-            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            var existingItem = cart.FirstOrDefault(item => item.ProductId == productId);
-            if (existingItem != null)
-            {
-                existingItem.Quantity += quantity;
-            }
-            else
-            {
-                cart.Add(new CartItem { ProductId = productId, ProductName = productName, Quantity = quantity });
-            }
-
-            _httpContextAccessor.HttpContext.Session.SetObject("Cart", cart);
-
-            return RedirectToAction(nameof(ViewCart));
-        }
-
-        public IActionResult EditCartItem(int productId, int quantity)
-        {
-            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
-            if (cartItem != null)
-            {
-                cartItem.Quantity = quantity;
-            }
-
-            _httpContextAccessor.HttpContext.Session.SetObject("Cart", cart);
-
-            return RedirectToAction(nameof(ViewCart));
-        }
-
-        public IActionResult DeleteCartItem(int productId)
-        {
-            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            var cartItem = cart.FirstOrDefault(item => item.ProductId == productId);
-            if (cartItem != null)
-            {
-                cart.Remove(cartItem);
-            }
-
-            _httpContextAccessor.HttpContext.Session.SetObject("Cart", cart);
-
-            return RedirectToAction(nameof(ViewCart));
-        }
-
-        public IActionResult DeleteCart()
-        {
-            _httpContextAccessor.HttpContext.Session.Remove("Cart");
-
-            return RedirectToAction(nameof(ViewCart));
-        }
-
-        public IActionResult ViewCart()
-        {
-            var cart = _httpContextAccessor.HttpContext.Session.GetObject<List<CartItem>>("Cart") ?? new List<CartItem>();
-
-            return View(cart);
-        }
+        
     }
 }

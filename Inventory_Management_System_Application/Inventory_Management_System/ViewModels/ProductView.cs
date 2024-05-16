@@ -29,7 +29,7 @@ namespace Inventory_Management_System.ViewModels
 
         [Required]
 
-        public string? CreatedBy { get; set; }
+   
         public string? ProductSuppliers { get; set; }
 
         public IFormFile? ProductImg { get; set; }
