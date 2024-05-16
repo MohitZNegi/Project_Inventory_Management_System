@@ -178,6 +178,20 @@
         padding: 10px; /* Padding around the image */
     }
 
+    .cart-message {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #0d6efd;
+        color: #fff; /* White text color */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow for the box */
+        z-index: 1000; /* Ensure the box appears above other elements */
+        display: none; /* Initially hidden */
+    }
+
+
 </style>
 <body>
     <!-- Product Details Section -->
@@ -395,18 +409,32 @@
                             if (response.success) {
                                 // Update the cart count in the navbar
                                 $('#cartItemCount').text(response.cartItemCount);
-                                // Display a success message or update the UI as needed
-                                alert('Product added to cart!');
+                                // Display a success message in a floating box
+                                showCartMessage('Product added to cart!');
                             } else {
-                                // Display an error message or handle the error scenario
-                                alert('Failed to add product to cart!');
+                                // Display an error message in a floating box
+                                showCartMessage('Failed to add product to cart!', true);
                             }
                         })
                         .fail(function () {
-                            // Display an error message or handle the error scenario
-                            alert('Failed to add product to cart!');
+                            // Display an error message in a floating box
+                            showCartMessage('Failed to add product to cart!', true);
                         });
                 });
+
+                // Function to show cart message
+                function showCartMessage(message, isError = false) {
+                    var cartMessage = $('<div>').addClass('cart-message').text(message);
+                    if (isError) {
+                        cartMessage.addClass('error'); // Apply error style if needed
+                    }
+                    $('body').append(cartMessage); // Append the message box to the body
+
+                    // Show the message box
+                    cartMessage.fadeIn('fast').delay(3000).fadeOut('slow', function () {
+                        $(this).remove(); // Remove the message box from the DOM after fading out
+                    });
+                }
             });
 
         </script>

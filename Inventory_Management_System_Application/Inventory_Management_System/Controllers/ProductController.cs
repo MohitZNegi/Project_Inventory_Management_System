@@ -161,13 +161,15 @@ namespace Inventory_Management_System.Controllers
                 // Save changes to the database
                 await _dbContext.SaveChangesAsync();
 
-                // Return a JSON response indicating success
-                return Json(new { success = true });
+                // Return a JSON response indicating success along with the updated cart item count
+                var cartItemCount = await _cartService.GetCartItemCountAsync();
+                return Json(new { success = true, cartItemCount = cartItemCount });
             }
 
             // If the cart item is not found, return a JSON response indicating failure
             return Json(new { success = false });
         }
+
 
         [HttpPost]
         public async Task<IActionResult> ClearCart()
@@ -184,8 +186,9 @@ namespace Inventory_Management_System.Controllers
             // Save changes to the database
             await _dbContext.SaveChangesAsync();
 
-            // Return a JSON response indicating success
-            return Json(new { success = true });
+            // Return a JSON response indicating success along with the updated cart item count
+            var cartItemCount = await _cartService.GetCartItemCountAsync();
+            return Json(new { success = true, cartItemCount = cartItemCount });
         }
 
         public async Task<IActionResult> GetCartItemCount()
