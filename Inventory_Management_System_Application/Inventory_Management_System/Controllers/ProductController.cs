@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Inventory_Management_System.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Inventory_Management_System.Service;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -13,13 +14,15 @@ namespace Inventory_Management_System.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly CartService _cartService;
 
-        public ProductController(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public ProductController(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, CartService cartService)
         {
             _dbContext = dbContext;
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             _roleManager = roleManager;
+            _cartService = cartService;
 
         }
 
@@ -103,10 +106,14 @@ namespace Inventory_Management_System.Controllers
             // Save changes to the database
             await _dbContext.SaveChangesAsync();
 
-            // Return a JSON response indicating success
-            return Json(new { success = true });
 
+            // Return a JSON response indicating success
+            var cartItemCount = await _cartService.GetCartItemCountAsync();
+
+            // Return the updated cart item count in the response
+            return Json(new { success = true, cartItemCount = cartItemCount });
         }
+
         public IActionResult ViewCart()
         {
             // Get the current user ID
@@ -117,6 +124,7 @@ namespace Inventory_Management_System.Controllers
                 .Include(c => c.Product)
                 .Where(c => c.UserId == userId)
                 .ToList();
+
             return View(cartItems);
         }
         [HttpPost]
@@ -178,6 +186,12 @@ namespace Inventory_Management_System.Controllers
 
             // Return a JSON response indicating success
             return Json(new { success = true });
+        }
+
+        public async Task<IActionResult> GetCartItemCount()
+        {
+            var cartItemCount = await _cartService.GetCartItemCountAsync();
+            return Ok(cartItemCount);
         }
     }
 }

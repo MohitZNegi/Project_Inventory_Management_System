@@ -1,6 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Inventory_Management_System.Areas.Identity.Data
 
+<head>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/Inventory_Management_System.styles.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
 <style>
     .square-button-black {
         background-color: black;
@@ -41,16 +48,53 @@
         color: white;
         border-color: black;
     }
+
+    .cart-button {
+        position: relative;
+    }
+
+    .custom-badge {
+        position: absolute;
+        bottom: -20px; /* Adjust the bottom value to position the badge */
+        right: -5px; /* Adjust the right value to position the badge */
+        display: @(ViewBag.cartItemCount <= 0 ? "none" : "inline-block");
+        padding: 0.1em 0.4em;
+        border-radius: 6px;
+        background-color: @(ViewBag.cartItemCount <= 0 ? "transparent" : "#0d6efd");
+        color: white;
+        font-size: 0.8em;
+        line-height: 1; /* Ensure badge height matches content */
+    }
+
+        .custom-badge::before {
+            content: ""; /* Hide the badge content when count is 0 */
+            display: @(ViewBag.cartItemCount <= 0 ? "none" : "inline-block");
+            background-color: transparent;
+        }
 </style>
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject Inventory_Management_System.Service.CartService cartService
+@{
+    var cartItemCount = await cartService.GetCartItemCountAsync();
+}
+
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <a class="cart-button" href="/product/viewcart">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715835043/Cart-removebg-preview_r2drni.png" style="height: 40px; width: 40px; margin-top: 8px;" alt="Cart Icon" class="cart-icon" />
+                <!-- Display cart item count here -->
+                <span id="cartItemCount" class="custom-badge @(cartItemCount <= 0 ? "hidden" : "")">@cartItemCount</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzP8EuFZHOfz0SJUGiyhU2lmvQvBixikdXpycVWfGlog&s" alt="Profile Image" style="height: 30px; width: 30px;" />
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715835034/Profile-removebg-preview_weeu0p.png" alt="Profile Image" style="height: 40px; width: 40px;" class="profile-image" />
             </a>
         </li>
         <li class="nav-item d-flex align-items-center">

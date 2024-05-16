@@ -39,6 +39,10 @@ builder.Services.AddSingleton(new Cloudinary(new Account(
     "fnnNRbmmRg2qhv2PD3yoc0GTaZE"
 )));
 
+builder.Services.AddScoped<CartService>();
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

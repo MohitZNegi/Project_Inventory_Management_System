@@ -521,5 +521,25 @@ namespace Inventory_Management_System.Controllers
             return _dbContext.Supplier_Model.Any(e => e.SupplierID == id);
         }
 
+        public IActionResult ViewCart()
+        {
+            // Get the current user ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            // Retrieve cart items for the current user, including the related product
+            var cartItems = _dbContext.CartItem_Model
+                .Include(c => c.Product)
+                .Where(c => c.UserId == userId)
+                .ToList();
+
+            int cartItemCount = cartItems.Sum(c => c.Quantity);
+
+            // Pass the cart item count to the view
+            ViewBag.CartItemCount = cartItemCount;
+
+            return View(cartItems);
+        }
+
     }
+        
 }
