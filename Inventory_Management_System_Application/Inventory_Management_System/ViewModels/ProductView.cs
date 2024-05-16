@@ -34,5 +34,6 @@ namespace Inventory_Management_System.ViewModels
 
         public IFormFile? ProductImg { get; set; }
         public List<SelectListItem> Suppliers { get; set; }
+        public string? CreatedBy { get; set; }
     }
 }
