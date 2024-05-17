@@ -131,71 +131,71 @@ html {
     }
 
 /* Footer */
-footer {
-    background-color: #343a40;
-    color: #fff;
-    padding: 40px 0;
-    text-align: left; /* Align text to the left */
-    width: 100%;
-    position: absolute;
-    margin-top: 20px;
-    margin-left: -120px;
-}
-
-footer button.btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    color: #fff;
-    padding: 6px 10px; /* Adjust button padding for smaller size */
-    margin-top: 10px; /* Add margin to separate from form */
-    font-size: 14px; /* Adjust font size */
-    width: 20%;
-}
-
-footer .form-group {
-    margin-bottom: 0; /* Remove bottom margin for form group */
-}
-
-footer .signup-link {
-    text-align: left; /* Align signup text to the left */
-    margin-top: 20px; /* Add top margin to separate from form */
-}
-
-    footer .signup-link a {
-        color: #007bff;
-        text-decoration: none;
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left; /* Align text to the left */
+        position: absolute;
+        margin-top: 25px;
+        margin-bottom: 0px;
+        margin-left: -208px;
     }
 
-footer .input-group {
-    margin-bottom: 10px; /* Add margin below input group */
-}
-
-footer .input-group-append .btn {
-    padding: 8px 12px; /* Adjust button padding for smaller size */
-}
-
-footer h4, footer h5 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-footer ul {
-    list-style: none;
-    padding: 0;
-}
-
-    footer ul li {
-        margin-bottom: 0.5rem;
-    }
-
-        footer ul li a {
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
             color: #fff;
-            text-decoration: none;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 35%;
         }
 
-            footer ul li a:hover {
-                color: #ccc;
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
             }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
     @keyframes floatIn {
         from {
             opacity: 0;
