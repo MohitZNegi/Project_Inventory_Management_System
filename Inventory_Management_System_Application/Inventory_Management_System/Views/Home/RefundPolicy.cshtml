@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Terms & Services";
+    ViewData["Title"] = "Refund Policy";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,7 +10,7 @@
         line-height: 1.6;
         background-color: #f9f9f9;
         color: #333;
-        padding: 80px;
+        padding: 70px;
     }
 
     h1 {
@@ -19,7 +19,12 @@
         color: #2c3e50;
     }
 
-    section {
+    .refund-policy-section {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .refund-question {
         background: #fff;
         padding: 20px;
         margin-bottom: 20px;
@@ -27,12 +32,12 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-        section h2 {
+        .refund-question h2 {
             color: #34495e;
             margin-top: 0;
         }
 
-        section p {
+        .refund-question p {
             margin: 10px 0;
         }
 
@@ -53,9 +58,9 @@
         padding: 40px 0;
         text-align: left; /* Align text to the left */
         margin-top: 50px;
-        position: absolute;
-        margin-bottom: 50px;
-        width: 105.75%;
+        margin-bottom: 0px;
+        width: 100.3%;
+        margin-left: -125px;
     }
 
         footer button.btn-primary {
@@ -113,11 +118,6 @@
                         color: #ccc;
                     }
 
-    .ts-section {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
     .accordion {
         border-radius: 8px;
         overflow: hidden;
@@ -157,85 +157,71 @@
         display: block;
     }
 </style>
-<div class="ts-section">
+
+<div class="refund-policy-section">
     <div class="accordion-item">
         <div class="accordion-header">
-            <h2>Introduction</h2>
+            <h2>1. Refund Eligibility</h2>
         </div>
         <div class="accordion-body">
-            <p>Welcome to WareMaster. By accessing or using our website, you agree to comply with and be bound by the following terms and conditions of use. Please review these terms carefully.</p>
+            <p>We offer refunds on eligible purchases based on the following criteria:</p>
+            <ul>
+                <li>Refunds are eligible for products that are damaged, defective, or not as described.</li>
+                <li>Requests for refunds must be made within 30 days of receiving the product.</li>
+                <li>Refunds are eligible for unauthorized charges.</li>
+            </ul>
         </div>
     </div>
 
     <div class="accordion-item">
         <div class="accordion-header">
-            <h2>Acceptance of Terms</h2>
+            <h2>2. Refund Process</h2>
         </div>
         <div class="accordion-body">
-        <p>By using our services, you agree to these terms and conditions. If you do not agree, you may not use our website or services.</p>
+            <p>To initiate a refund request, please contact our customer support team here <a href="/home/contactus">Contact Us</a>. Provide your order details, including the invoice number and a clear description of the issue.</p>
+            <p>Refunds will be processed using the original payment method within 3-5 business days upon approval.</p>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>3. Non-Refundable Items</h2>
+        </div>
+        <div class="accordion-body">
+            <p>Some items are not eligible for refunds, including:</p>
+            <ul>
+                <li>Perishable food items that have been opened or consumed.</li>
+                <li>Customized or personalized products.</li>
+                <li>Products damaged due to improper handling or storage after delivery.</li>
+            </ul>
         </div>
     </div>
 
     <div class="accordion-item">
         <div class="accordion-header">
-            <h2>Services Description</h2>
+            <h2>4. Shipping Costs</h2>
         </div>
         <div class="accordion-body">
-            <p>WareMaster provides an AI-driven platform for purchasing food products based on inventory levels. Our AI helps determine the optimal time to purchase products to ensure efficient inventory management for companies.</p>
+
+            <p>Shipping and handling charges are non-refundable, except in cases where the return is due to our error or a defective product.</p>
+        </div>
+    </div>
+    
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>5. Cancellation Policy</h2>
+        </div>
+        <div class="accordion-body">
+            <p>Orders can be canceled before they are shipped. Once an order is shipped, it is subject to our refund policy.</p>
         </div>
     </div>
 
     <div class="accordion-item">
         <div class="accordion-header">
-            <h2>User Responsibilities</h2>
+            <h2>6. Contact Us</h2>
         </div>
         <div class="accordion-body">
-            <p>Users are responsible for maintaining the confidentiality of their account information, including their username and password. Users agree to notify us immediately of any unauthorized use of their account or any other breach of security.</p>
-        </div>
-    </div>
-
-    <div class="accordion-item">
-        <div class="accordion-header">
-            <h2>Purchasing Products</h2>
-        </div>
-        <div class="accordion-body">
-            <p>All purchases made through our platform are subject to availability and our acceptance. We reserve the right to refuse or cancel any order at any time.</p>
-        </div>
-    </div>
-
-    <div class="accordion-item">
-        <div class="accordion-header">
-            <h2>Limitation of Liability</h2>
-        </div>
-        <div class="accordion-body">
-            <p>WareMaster shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or the inability to use our services.</p>
-        </div>
-    </div>
-
-    <div class="accordion-item">
-        <div class="accordion-header">
-            <h2>Changes to the Terms</h2>
-        </div>
-        <div class="accordion-body">
-            <p>We reserve the right to modify these terms at any time. Any changes will be effective immediately upon posting on our website. Your continued use of the service after any changes signifies your acceptance of the new terms.</p>
-        </div>
-    </div>
-
-    <div class="accordion-item">
-        <div class="accordion-header">
-            <h2>Governing Law</h2>
-        </div>
-        <div class="accordion-body">
-            <p>These terms and conditions are governed by and construed in accordance with the laws of New Zealand. You agree to submit to the exclusive jurisdiction of the courts in New Zealand.</p>
-        </div>
-    </div>
-
-    <div class="accordion-item">
-        <div class="accordion-header">
-            <h2>Contact Information</h2>
-        </div>
-        <div class="accordion-body">
-            <p>If you have any questions about these terms, please contact us here <a href="/Home/ContactUs">Contact Us</a>.</p>
+            <p>If you have any questions or concerns about our refund policy, please contact us here <a href="/home/contactus">Contact Us</a>. Our customer support team is here to assist you.</p>
         </div>
     </div>
 </div>
@@ -276,7 +262,7 @@
         </div>
     </div>
 </footer>
-   
+
 <script>
     // JavaScript for accordion functionality
     const accordions = document.querySelectorAll('.accordion-item');

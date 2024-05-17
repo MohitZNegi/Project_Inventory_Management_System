@@ -42,11 +42,12 @@
         }
 
     a {
-        color: #3498db;
+        color: black;
         text-decoration: none;
     }
 
         a:hover {
+            color: black;
             text-decoration: underline;
         }
 
@@ -117,38 +118,102 @@
                         color: #ccc;
                     }
 
+    .accordion {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .accordion-item {
+        background: #fff;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .accordion-header {
+        background-color: #f1f1f1;
+        padding: 15px 20px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .accordion-body {
+        padding: 20px;
+        display: none;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .accordion.active .accordion-header {
+        background-color: #e5e5e5;
+    }
+
+    .accordion.active .accordion-body {
+        display: block;
+    }
 </style>
+    <div class="faq-section">
 
-<div class="faq-section">
-    <div class="faq-question">
-        <h2>What is your return policy?</h2>
-        <p>Our return policy allows for returns within 30 days of delivery. Please refer to our <a href="/ReturnPolicy">Return Policy</a> page for more details.</p>
-    </div>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2>What is your return policy?</h2>
+                </div>
+                <div class="accordion-body">
+                    <p>Our return policy allows for returns within 30 days of delivery. Please refer to our <a href="/home/RefundPolicy">Refund Policy</a> page for more details.</p>
+                </div>
+            </div>
 
-    <div class="faq-question">
-        <h2>How can I track my order?</h2>
-        <p>You can track your order by logging into your account and visiting the Order Tracking section. If you have any issues, please contact our customer support.</p>
-    </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2>How can I track my order?</h2>
+                </div>
+                <div class="accordion-body">
+                    <p>You can track your order by logging into your account and visiting the Order Tracking section. If you have any issues, please contact our customer support.</p>
+                </div>
+            </div>
 
-    <div class="faq-question">
-        <h2>Do you offer international shipping?</h2>
-        <p>Yes, we offer international shipping to most countries. Shipping rates and delivery times may vary depending on your location.</p>
-    </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2>Do you offer international shipping?</h2>
+                </div>
+                <div class="accordion-body">
+                    <p>Yes, we offer international shipping to most countries. Shipping rates and delivery times may vary depending on your location.</p>
+                </div>
+            </div>
 
-    <div class="faq-question">
-        <h2>Can I cancel my order?</h2>
-        <p>You can cancel your order before it has been shipped. Once the order has been shipped, it cannot be canceled.</p>
-    </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2>Can I cancel my order?</h2>
+                </div>
+                <div class="accordion-body">
+                    <p>You can cancel your order before it has been shipped. Once the order has been shipped, it cannot be canceled.</p>
+                </div>
+            </div>
 
-    <div class="faq-question">
-        <h2>What payment methods do you accept?</h2>
-        <p>We accept Visa, Mastercard, American Express, and PayPal for payment.</p>
-    </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2>What payment methods do you accept?</h2>
+                </div>
+                <div class="accordion-body">
+                    <p>We accept Visa, Mastercard, American Express, and PayPal for payment.</p>
+                </div>
+            </div>
 
-    <div class="faq-question">
-        <h2>Is my personal information secure?</h2>
-        <p>We take the security of your personal information seriously. Our website uses SSL encryption to protect your data.</p>
-    </div>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <h2>Is my personal information secure?</h2>
+                </div>
+                <div class="accordion-body">
+                    <p>We take the security of your personal information seriously. Our website uses SSL encryption to protect your data.</p>
+                </div>
+            </div>
+        </div>
+
 
     <footer>
         <div class="container">
@@ -161,19 +226,16 @@
                     <ul class="list-unstyled">
                         <li><a href="/home/contactus">Contact</a></li>
                         <li><a href="/home/faqs">FAQs</a></li>
-                        <li><a href="#">Support</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
+                        <li><a href="/home/aboutus">About Us</a></li>
                     </ul>
                 </div>
+
                 <div class="col-md-3">
                     <h4><strong>Terms</strong></h4>
                     <ul class="list-unstyled">
-                        <li><a href="#">Privacy</a></li>
+                        <li><a href="/home/privacy">Privacy</a></li>
                         <li><a href="/home/termsandservices">T&S</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Feedback</a></li>
-                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="/home/refundpolicy">Refund Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -189,5 +251,18 @@
             </div>
         </div>
     </footer>
+    <script>
+        // JavaScript for accordion functionality
+        const accordions = document.querySelectorAll('.accordion-item');
 
+        accordions.forEach(accordion => {
+            const header = accordion.querySelector('.accordion-header');
+
+            header.addEventListener('click', () => {
+                accordion.classList.toggle('active');
+                const body = accordion.querySelector('.accordion-body');
+                body.style.display = body.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
 </div>

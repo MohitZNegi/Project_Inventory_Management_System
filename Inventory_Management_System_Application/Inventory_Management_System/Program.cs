@@ -121,6 +121,12 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "FAQs" }
 );
 
+app.MapControllerRoute(
+    name: "RefundPolicy",
+    pattern: "RefundPolicy",
+    defaults: new { controller = "Home", action = "RefundPolicy" }
+);
+
 
 // to access the identity pages- add razor support
 app.MapRazorPages();
