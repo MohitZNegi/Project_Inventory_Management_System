@@ -27,9 +27,16 @@ namespace Inventory_Management_System.Service
 
         public async Task<int> GetCartItemCountAsync()
         {
+            var userId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Handle the case where the user ID is null or empty
+                return 0;
+            }
+
             try
             {
-                var userId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
 
                 if (string.IsNullOrEmpty(userId))
                 {
@@ -44,12 +51,12 @@ namespace Inventory_Management_System.Service
             }
             catch (Exception ex)
             {
-                // Log or handle the exception here
+                // Log or handle the exception
                 throw new Exception("Error retrieving cart item count", ex);
             }
         }
 
-        // Add method to update cart count asynchronously
+        // Method to update cart count asynchronously
         public async Task UpdateCartItemCountAsync()
         {
             // Call GetCartItemCountAsync to update the CartItemCount property

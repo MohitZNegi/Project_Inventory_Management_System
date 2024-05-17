@@ -48,6 +48,11 @@ namespace Inventory_Management_System.Controllers
             return View(products);
         }
 
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
     }
 
 }
