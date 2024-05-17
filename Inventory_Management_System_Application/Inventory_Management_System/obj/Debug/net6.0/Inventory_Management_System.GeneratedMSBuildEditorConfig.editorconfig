@@ -234,12 +234,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0VXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Home/FAQs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxGQVFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Home/TermsAndServices.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxUZXJtc0FuZFNlcnZpY2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Product/ProductItems.cshtml]

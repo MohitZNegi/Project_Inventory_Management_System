@@ -82,6 +82,17 @@ namespace Inventory_Management_System.Controllers
 
             return View(model);
         }
-    }
 
+        public IActionResult TermsAndServices()
+        {
+            return View();
+
+        }
+
+        public IActionResult FAQs()
+        {
+            return View();
+
+        }
+    }
 }

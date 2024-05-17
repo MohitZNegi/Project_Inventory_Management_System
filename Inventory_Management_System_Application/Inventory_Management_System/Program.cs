@@ -109,6 +109,18 @@ app.MapControllerRoute(
     defaults: new { controller = "Home", action = "ContactUs" }
 );
 
+app.MapControllerRoute(
+    name: "TermsAndServices",
+    pattern: "TermsAndServices",
+    defaults: new { controller = "Home", action = "TermsAndServices" }
+);
+
+app.MapControllerRoute(
+    name: "FAQs",
+    pattern: "FAQs",
+    defaults: new { controller = "Home", action = "FAQs" }
+);
+
 
 // to access the identity pages- add razor support
 app.MapRazorPages();
