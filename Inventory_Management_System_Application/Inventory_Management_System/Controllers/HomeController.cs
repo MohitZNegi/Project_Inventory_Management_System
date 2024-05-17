@@ -1,6 +1,7 @@
 ﻿using Inventory_Management_System.Areas.Identity.Data;
 using Inventory_Management_System.Models;
 using Inventory_Management_System.ViewModels;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -11,11 +12,13 @@ namespace Inventory_Management_System.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IEmailSender _emailSender;
 
-        public HomeController(ApplicationDbContext dbContext, ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext dbContext, ILogger<HomeController> logger, IEmailSender emailSender)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -53,6 +56,32 @@ namespace Inventory_Management_System.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ContactUs(ContactFormModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string subject = $"Contact Form from {model.FirstName} {model.LastName}";
+                string message = $"First Name: {model.FirstName}\n" +
+                                 $"Last Name: {model.LastName}\n" +
+                                 $"Email: {model.Email}\n" +
+                                 $"Phone: {model.Phone}\n" +
+                                 $"Topic: {model.Topic}\n" +
+                                 $"Message: {model.Message}";
+
+                await _emailSender.SendEmailAsync("waremaster2024@gmail.com", subject, message);
+                ViewData["Message"] = "Your message has been sent successfully!";
+                return View();
+            }
+
+            return View(model);
+        }
     }
 
 }

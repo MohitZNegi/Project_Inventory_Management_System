@@ -18,16 +18,18 @@ namespace Inventory_Management_System.Service
         {
             _options = optionsAccessor.Value;
             _logger = logger;
+
+            _logger.LogInformation($"SendGrid API Key from Options: {_options?.SendGridKey}");
         }
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
+            
             try
             {
-                if (string.IsNullOrEmpty(_options.SendGridKey))
+                if (string.IsNullOrEmpty(_options?.SendGridKey))
                 {
                     _logger.LogError("SendGrid API key is null or empty.");
-                    // You can return a status result here if needed
                     return;
                 }
 
@@ -37,7 +39,6 @@ namespace Inventory_Management_System.Service
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to send email to {toEmail}: {ex.Message}");
-                // You can handle or log the exception further as needed
             }
         }
 
@@ -62,7 +63,6 @@ namespace Inventory_Management_System.Service
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogError($"Failure sending email to {toEmail}. Status code: {response.StatusCode}");
-                // You can handle or log the failure further as needed
             }
         }
     }

@@ -14,6 +14,7 @@ using Inventory_Management_System.Helpers;
 using Inventory_Management_System.Interfaces;
 using CloudinaryDotNet;
 using Microsoft.Data.SqlClient;
+using System.Configuration;
 
 
 
@@ -54,6 +55,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
@@ -99,6 +101,12 @@ app.MapControllerRoute(
     name: "aboutUs",
     pattern: "about-us",
     defaults: new { controller = "Home", action = "AboutUs" }
+);
+
+app.MapControllerRoute(
+    name: "contactUs",
+    pattern: "contact-us",
+    defaults: new { controller = "Home", action = "ContactUs" }
 );
 
 
