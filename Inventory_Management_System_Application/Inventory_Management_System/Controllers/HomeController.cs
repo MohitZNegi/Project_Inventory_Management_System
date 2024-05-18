@@ -68,8 +68,7 @@ namespace Inventory_Management_System.Controllers
             if (ModelState.IsValid)
             {
                 string subject = $"Contact Form from {model.FirstName} {model.LastName}";
-                string message = $"First Name: {model.FirstName}\n" +
-                                 $"Last Name: {model.LastName}\n" +
+                string message = $"Name: {model.FirstName} {model.LastName}\n" +
                                  $"Email: {model.Email}\n" +
                                  $"Phone: {model.Phone}\n" +
                                  $"Topic: {model.Topic}\n" +
@@ -94,11 +93,34 @@ namespace Inventory_Management_System.Controllers
             return View();
 
         }
-        
-        public IActionResult RefundPolicy()
+
+        [HttpGet]
+        [Route("Home/Register")]
+        public IActionResult Register()
         {
             return View();
-
         }
+
+        [HttpPost]
+        [Route("Home/Register")]
+        public async Task<IActionResult> Register(Register model)
+        {
+            if (ModelState.IsValid)
+            {
+                string subject = $"Account Request from {model.FirstName} {model.LastName}";
+                string message = $"Name: {model.FirstName} {model.LastName}\n" +
+                                 $"Email: {model.Email}\n" +
+                                 $"Phone: {model.Phone}\n" +
+                                 $"Business Name: {model.Business}\n" +
+                                 $"NZBN: {model.nzbn}";
+
+                await _emailSender.SendEmailAsync("waremaster2024@gmail.com", subject, message);
+                ViewData["Message"] = "Account Request Sent";
+                return View();
+            }
+
+            return View(model);
+        }
+
     }
 }

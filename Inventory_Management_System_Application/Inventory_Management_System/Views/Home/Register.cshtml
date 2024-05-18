@@ -1,31 +1,31 @@
-﻿@model RegisterModel
+﻿@model Register
 @{
     ViewData["Title"] = "Register";
 }
 
 <head>
-    <title>Contact Us</title>
+    <title>Register</title>
     <style>
         /* Your CSS styles here */
-        .contact-section {
+        .Register-section {
             padding: 80px 0;
             background-color: white;
             text-align: center;
         }
 
-        .contact-heading {
+        .Register-heading {
             font-size: 36px;
             margin-bottom: 20px;
             font-weight: bold;
         }
 
-        .contact-paragraph {
+        .Register-paragraph {
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 40px;
         }
 
-        .contact-form {
+        .Register-form {
             max-width: 600px;
             margin: 0 auto;
             text-align: left;
@@ -34,13 +34,13 @@
             align-items: center;
         }
 
-            .contact-form .form-group {
+            .Register-form .form-group {
                 display: flex;
                 justify-content: space-between;
                 width: 100%;
             }
 
-                .contact-form .form-group input {
+                .Register-form .form-group input {
                     width: 48%;
                     padding: 10px;
                     margin-bottom: 20px;
@@ -49,9 +49,9 @@
                     font-size: 16px;
                 }
 
-            .contact-form input,
-            .contact-form select,
-            .contact-form textarea {
+            .Register-form input,
+            .Register-form select,
+            .Register-form textarea {
                 width: 100%;
                 padding: 10px;
                 margin-bottom: 20px;
@@ -60,11 +60,11 @@
                 font-size: 16px;
             }
 
-            .contact-form select {
+            .Register-form select {
                 background-color: white;
             }
 
-            .contact-form button {
+            .Register-form button {
                 padding: 10px 20px;
                 border: none;
                 border-radius: 4px;
@@ -75,7 +75,7 @@
                 transition: background-color 0.3s;
             }
 
-                .contact-form button:hover {
+                .Register-form button:hover {
                     background-color: white;
                     color: black;
                     border: 2px solid black;
@@ -181,25 +181,25 @@
     </style>
 </head>
 <body>
-    <div class="contact-section">
-        <h2 class="contact-heading">Request an Account!</h2>
-        <p class="contact-paragraph">We require you and your business to firt be verified by an admin. Please fill out this form and we will be in contact soon!</p>
-        <form asp-controller="Home" asp-action="ContactUs" method="post" class="contact-form">
+    <div class="Register-section">
+        <h2 class="Register-heading">Request an Account!</h2>
+        <p class="Register-paragraph">We require you and your business to first be verified by an admin. Please fill out this form and we will be in touch soon!</p>
+        <form asp-controller="Home" asp-action="Register" method="post" class="Register-form">
             <div class="form-group">
                 <input type="text" name="FirstName" placeholder="First Name" required />
                 <input type="text" name="LastName" placeholder="Last Name" required />
             </div>
-            <input type="email" name="Email" placeholder="Email" required />
-            <input type="tel" name="Phone" placeholder="Phone Number" required />
-            <select name="Topic" required>
-                <option value="" disabled selected>Choose a Topic</option>
-                <option value="general">General Inquiry</option>
-                <option value="support">Support</option>
-                <option value="Refund">Refund Request</option>
-                <option value="other">Other</option>
-            </select>
-            <textarea name="Message" rows="5" placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
+            <div class="form-group">
+                <input type="email" name="Email" placeholder="Email" required />
+                <input type="tel" name="Phone" placeholder="Phone Number" required />
+            </div>
+            <div class="form-group">
+                <input type="text" name="Business" placeholder="Business Name" required />
+                <input type="text" name="NZBN" placeholder="NZBN" required />
+            </div>
+            <input type="text" name="Address" placeholder="Business Address" required />
+
+            <button type="submit">Request Account</button>
         </form>
         <!-- Floating box for ViewData -->
         <div id="floatingBox" class="floating-box">
@@ -269,8 +269,8 @@
                 </text>
             }
 
-                                // Add event listener to the okay button
-                                var okayButton = document.getElementById('okayButton');
+                                            // Add event listener to the okay button
+                                            var okayButton = document.getElementById('okayButton');
             okayButton.addEventListener('click', function () {
                 hideFloatingBox();
             });
