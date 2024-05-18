@@ -1,4 +1,13 @@
 ﻿@model IEnumerable<Inventory_Management_System.Models.CartItem>
+@{
+    ViewData["Title"] = "Cart";
+}
+<head>
+
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 <style>
     .container {
@@ -7,6 +16,7 @@
         justify-content: center;
         align-items: center;
         height: 70vh;
+        min-height: 200vh;
         font-family: Arial, sans-serif;
     }
 
@@ -135,13 +145,15 @@
     footer {
         background-color: #343a40;
         color: #fff;
+        display: absolute;
         padding: 40px 0;
         text-align: left; /* Align text to the left */
         margin-top: 50px;
         margin-bottom: 0px;
-        width: 106.5%;
-        margin-left: -588px;
-    }
+        width: 100%;
+        margin-left: -405px;
+        overflow-x: hidden;
+        }
 
         footer button.btn-primary {
             background-color: #0d6efd;
@@ -155,6 +167,7 @@
 
         footer .form-group {
             margin-bottom: 10px; /* Remove bottom margin for form group */
+            margin-left: 100px;
         }
 
         footer .signup-link {
@@ -170,6 +183,11 @@
         footer .input-group {
             margin-bottom: 10px; /* Add margin below input group */
         }
+
+            footer .form-control{
+                width:100%;
+                margin-left: -100px;
+            }
 
         footer .input-group-append .btn {
             padding: 8px 12px; /* Adjust button padding for smaller size */
@@ -198,8 +216,30 @@
                         color: #ccc;
                     }
 
-</style>
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
 
+        .pagination-page-button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+            .pagination-page-button:hover {
+                background-color: #333;
+                color: white;
+                border: 0px;
+            }
+
+</style>
+</head>
 <div class="container">
     <h2 class="cart-title">Shopping Cart</h2>
 
@@ -216,14 +256,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Skip((ViewBag.CurrentPage - 1) * 10).Take(10))
             {
                 <tr data-cart-item-id="@item.CartID">
                     <td>
                         <a href="@Url.Action("ProductItems", "Product", new { id = item.Product.ProductID })" class="product-name">@item.Product.ProductName</a>
                     </td>
                     <td>
-                        <img src="@item.Product.ProductImg" alt="@item.Product.ProductName" style="width: 100px; height: auto;" /></td>
+                        <img src="@item.Product.ProductImg" alt="@item.Product.ProductName" style="width: 100px; height: auto;" />
+                    </td>
                     <td>
                         <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" />
                     </td>
@@ -237,15 +278,69 @@
         </tbody>
     </table>
 
-    <button id="clear-cart" type="button" class="btn btn-danger">Clear Cart</button>
+    <!-- Pagination -->
+    <div class="pagination">
+        @if (ViewData["PageCounts"] != null && ViewData["CurrentPages"] != null)
+        {
+            var pageCount = (int)ViewData["PageCounts"];
+            var currentPage = (int)ViewData["CurrentPages"];
 
-    <div class="confirm-message">
-        <p>Are you sure you want to clear your cart?</p>
-        <button class="confirm-btn">Confirm</button>
-        <button class="cancel-btn btn btn-secondary">Cancel</button>
+            <ul class="pagination-list">
+                @if (currentPage > 1)
+                {
+                    <li><a href="@Url.Action("Cart", new { page = currentPage - 1 })">Previous</a></li>
+                }
+
+                @for (int i = 1; i <= pageCount; i++)
+                {
+                    <li class="@(i == currentPage ? "active" : "")"><a href="@Url.Action("Cart", new { page = i })">@i</a></li>
+                }
+
+                @if (currentPage < pageCount)
+                {
+                    <li><a href="@Url.Action("Cart", new { page = currentPage + 1 })">Next</a></li>
+                }
+            </ul>
+        }
     </div>
-
 </div>
+@* 
+<footer>
+    <div class="footer">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4>Subscribe</h4>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+                <p>By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
+            </div>
+        </div>
+    </div>
+</footer> *@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

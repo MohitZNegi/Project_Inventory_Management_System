@@ -13,6 +13,30 @@ html {
   min-height: 100%;
 }
 
+h1 {
+    font-family: Raleway, sans-serif;
+}
+
+h2 {
+    font-family: Raleway, sans-serif;
+}
+
+h3 {
+    font-family: Raleway, sans-serif;
+}
+
+h4 {
+    font-family: Raleway, sans-serif;
+}
+
+h5 {
+    font-family: Raleway, sans-serif;
+}
+
+p {
+    font-family: Raleway, sans-serif;
+}
+
 /* Navbar Styles */
 .navbar {
     background-color: #333;
@@ -39,12 +63,14 @@ html {
 
     .nav-links li {
         margin-right: 20px;
+        font-family: Raleway, sans-serif;
     }
 
     .nav-links a {
         color: #fff !important;
         text-decoration: none;
         transition: color 0.3s ease;
+        font-family: Raleway, sans-serif;
     }
 
         .nav-links a:hover {

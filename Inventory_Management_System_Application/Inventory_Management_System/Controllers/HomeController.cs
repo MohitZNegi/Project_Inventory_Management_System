@@ -55,6 +55,10 @@ namespace Inventory_Management_System.Controllers
         {
             return View();
         }
+        public IActionResult RefundPolicy()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult ContactUs()

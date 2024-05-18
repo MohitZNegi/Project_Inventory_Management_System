@@ -21,8 +21,6 @@ namespace Inventory_Management_System.Service
             _httpContextAccessor = httpContextAccessor;
             _userManager = userManager;
             CartItemCount = 0;
-
-
         }
 
         public async Task<int> GetCartItemCountAsync()
@@ -37,12 +35,6 @@ namespace Inventory_Management_System.Service
 
             try
             {
-
-                if (string.IsNullOrEmpty(userId))
-                {
-                    throw new ArgumentNullException(nameof(userId), "User ID cannot be null or empty.");
-                }
-
                 var cartItemCount = await _dbContext.CartItem_Model
                     .Where(c => c.UserId == userId)
                     .SumAsync(c => c.Quantity);
@@ -53,6 +45,31 @@ namespace Inventory_Management_System.Service
             {
                 // Log or handle the exception
                 throw new Exception("Error retrieving cart item count", ex);
+            }
+        }
+
+        public async Task<int> GetTotalCartItemsAsync()
+        {
+            var userId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Handle the case where the user ID is null or empty
+                return 0;
+            }
+
+            try
+            {
+                var totalCartItems = await _dbContext.CartItem_Model
+                    .Where(c => c.UserId == userId)
+                    .CountAsync();
+
+                return totalCartItems;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+                throw new Exception("Error retrieving total cart items", ex);
             }
         }
 

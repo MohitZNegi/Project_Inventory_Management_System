@@ -196,5 +196,29 @@ namespace Inventory_Management_System.Controllers
             var cartItemCount = await _cartService.GetCartItemCountAsync();
             return Ok(cartItemCount);
         }
+
+        public async Task<IActionResult> Cart(int page = 1)
+        {
+            int pageSize = 10; // Number of items per page
+
+            // Assuming you have a method or service to get cart items asynchronously
+            var cartItems = await _cartService.GetCartItemCountAsync();
+
+            // Calculate total pages for pagination controls
+            int totalItems = await _cartService.GetTotalCartItemsAsync();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            // Pass the cart items and pagination information to the view
+            ViewBag.CartItems = cartItems;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            ViewData["PageCounts"] = ViewBag.totalPages;
+            ViewData["CurrentPages"] = ViewBag.page;
+
+            return View();
+        }
+
+
     }
 }
