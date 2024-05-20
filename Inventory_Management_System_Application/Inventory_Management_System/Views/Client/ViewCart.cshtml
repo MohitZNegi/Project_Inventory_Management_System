@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<Inventory_Management_System.Models.CartItem>
 
-    <br />
-    <br />
-    <br />
+<br />
+<br />
+<br />
 <h2>Shopping Cart</h2>
-
 
 @if (!Model.Any())
 {
@@ -28,7 +27,8 @@ else
                 <tr data-cart-item-id="@item.CartID">
                     <td>@item.Product.ProductName</td>
                     <td>
-                        <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" />
+                        <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" min="1" max="@item.Product.ProductQuantity" />
+                        <span class="text-danger" style="display: none;">Invalid quantity</span>
                     </td>
                     <td>@item.Product.ProductPrice</td>
                     <td class="cart-item-total-price">$@(item.Product.ProductPrice * item.Quantity)</td>
@@ -41,33 +41,75 @@ else
     </table>
 
     <button id="clear-cart" type="button" class="btn btn-danger">Clear Cart</button>
-    <a href="@Url.Action("Checkout", "Client")" class="btn btn-primary">Proceed to Checkout</a>
-
+    <a href="@Url.Action("Checkout", "Client")" class="btn btn-primary" id="proceed-to-checkout" disabled>Proceed to Checkout</a>
 }
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Update cart item quantity
-            $('.cart-item-quantity').on('change', function () {
-                var cartItemId = $(this).closest('tr').data('cart-item-id');
-                var newQuantity = $(this).val();
+            // Function to check if the quantity is within valid range
+            function isValidQuantity(quantity, min, max) {
+                return quantity >= min && quantity <= max;
+            }
 
-                $.ajax({
-                    url: '@Url.Action("EditCartItem", "Client")',
-                    type: 'POST',
-                    data: { id: cartItemId, quantity: newQuantity },
-                    success: function (response) {
-                        if (response.success) {
-                            updateCartItemTotalPrice(cartItemId, newQuantity);
-                        } else {
-                            alert('Failed to update cart item quantity.');
-                        }
-                    },
-                    error: function () {
-                        alert('Failed to update cart item quantity.');
+            // Update the "Proceed to Checkout" button state
+            function updateProceedButtonState() {
+                var canProceedToCheckout = true;
+                $('.cart-item-quantity').each(function () {
+                    var quantity = parseInt($(this).val());
+                    var maxQuantity = parseInt($(this).attr('max'));
+                    var minQuantity = parseInt($(this).attr('min'));
+
+                    if (!isValidQuantity(quantity, minQuantity, maxQuantity)) {
+                        canProceedToCheckout = false;
+                        return false;
                     }
                 });
+
+                $('#proceed-to-checkout').prop('disabled', !canProceedToCheckout);
+            }
+
+            // Update the cart item total price
+            function updateCartItemTotalPrice(cartItemId, newQuantity) {
+                var productPrice = $('tr[data-cart-item-id="' + cartItemId + '"] td:nth-child(3)').text().replace('$', '');
+                var totalPrice = productPrice * newQuantity;
+                $('tr[data-cart-item-id="' + cartItemId + '"] .cart-item-total-price').text('$' + totalPrice.toFixed(2));
+            }
+
+            // Handle quantity input change
+            $('.cart-item-quantity').on('input', function () {
+                var cartItemId = $(this).closest('tr').data('cart-item-id');
+                var newQuantity = parseInt($(this).val());
+
+                var maxQuantity = parseInt($(this).attr('max'));
+                var minQuantity = parseInt($(this).attr('min'));
+
+                if (!isValidQuantity(newQuantity, minQuantity, maxQuantity)) {
+                    $(this).next('.text-danger').show();
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).next('.text-danger').hide();
+                    $(this).removeClass('is-invalid');
+
+                    $.ajax({
+                        url: '@Url.Action("EditCartItem", "Client")',
+                        type: 'POST',
+                        data: { id: cartItemId, quantity: newQuantity },
+                        success: function (response) {
+                            if (response.success) {
+                                updateCartItemTotalPrice(cartItemId, newQuantity);
+                                updateProceedButtonState();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Failed to update cart item quantity.');
+                        }
+                    });
+                }
+
+                updateProceedButtonState();
             });
 
             // Delete cart item
@@ -81,6 +123,7 @@ else
                     success: function (response) {
                         if (response.success) {
                             $('tr[data-cart-item-id="' + cartItemId + '"]').remove();
+                            updateProceedButtonState();
                         } else {
                             alert('Failed to delete cart item.');
                         }
@@ -100,6 +143,7 @@ else
                         success: function (response) {
                             if (response.success) {
                                 $('#cart-table tbody').empty();
+                                updateProceedButtonState();
                             } else {
                                 alert('Failed to clear cart.');
                             }
@@ -111,12 +155,8 @@ else
                 }
             });
 
-            // Helper function to update the total price for a cart item
-            function updateCartItemTotalPrice(cartItemId, newQuantity) {
-                var productPrice = $('tr[data-cart-item-id="' + cartItemId + '"] td:nth-child(3)').text().replace('$', '');
-                var totalPrice = productPrice * newQuantity;
-                $('tr[data-cart-item-id="' + cartItemId + '"] .cart-item-total-price').text('$' + totalPrice.toFixed(2));
-            }
+            // Initialize the state of the "Proceed to Checkout" button
+            updateProceedButtonState();
         });
     </script>
 }

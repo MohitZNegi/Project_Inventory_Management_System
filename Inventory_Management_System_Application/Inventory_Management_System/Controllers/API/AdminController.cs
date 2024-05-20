@@ -122,7 +122,7 @@ namespace Inventory_Management_System.Controllers.API
 
                 var logoUrl = "https://res.cloudinary.com/dup5hdi05/image/upload/v1715060622/ware-master-high-resolution-logo-transparent_1_vj1owp.png";
                 var logo = iTextSharp.text.Image.GetInstance(logoUrl);
-                logo.ScaleAbsolute(200f, 100f); // Adjust the width and height as needed
+                logo.ScaleAbsolute(200f, 100f); 
                 document.Add(logo);
 
                 document.Add(new Paragraph($"Invoice for Order #{order.OrderId}", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));

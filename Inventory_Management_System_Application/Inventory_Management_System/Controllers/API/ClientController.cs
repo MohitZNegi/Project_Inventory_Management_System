@@ -42,9 +42,10 @@ namespace Inventory_Management_System.Controllers.API
                 return Unauthorized();
 
             // Get the cart items for the current user
-            var cartItems = _dbContext.CartItem_Model.Include(c => c.Product)
+            var cartItems = await _dbContext.CartItem_Model
+                .Include(c => c.Product)
                 .Where(c => c.UserId == user.Id)
-                .ToList();
+                .ToListAsync();
 
             if (!cartItems.Any())
                 return BadRequest("Your cart is empty.");
@@ -67,9 +68,14 @@ namespace Inventory_Management_System.Controllers.API
             // Save changes to get the OrderId
             await _dbContext.SaveChangesAsync();
 
-            // Create order items based on the cart items
+            // Create order items based on the cart items and update product quantities
             foreach (var cartItem in cartItems)
             {
+                if (cartItem.Quantity > cartItem.Product.ProductQuantity)
+                {
+                    return BadRequest($"Insufficient quantity for product {cartItem.Product.ProductName}.");
+                }
+
                 var orderItem = new OrderItem
                 {
                     OrderId = order.OrderId,
@@ -78,7 +84,10 @@ namespace Inventory_Management_System.Controllers.API
                     Price = cartItem.Product.ProductPrice
                 };
 
+                cartItem.Product.ProductQuantity -= cartItem.Quantity;
+
                 _dbContext.OrderItem_Model.Add(orderItem);
+                _dbContext.Product_Model.Update(cartItem.Product); // Update the product quantity
             }
 
             // Save the changes to the database
@@ -90,7 +99,6 @@ namespace Inventory_Management_System.Controllers.API
             return Ok(order);
         }
 
-      
         private async Task DeleteCartItems(ApplicationUser user)
         {
             // Get the cart items for the current user
@@ -102,23 +110,48 @@ namespace Inventory_Management_System.Controllers.API
         }
 
 
+
+
+
+
         [HttpPost("CancelOrder/{orderId}")]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
             // Get the current user
             var user = await _userManager.GetUserAsync(User);
 
-            // Retrieve the order by Id and ensure it belongs to the current user
+            if (user == null)
+                return Unauthorized();
+
+            // Retrieve the order by Id and ensure it belongs to the current user and is pending
             var order = await _dbContext.Order_Model
-                .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == user.Id && o.OrderStatus =="pending");
+                .FirstOrDefaultAsync(o => o.OrderId == orderId && o.UserId == user.Id && o.OrderStatus == "Pending");
 
             if (order == null)
             {
-                return NotFound("Order not found.");
+                return NotFound("Order not found or already processed.");
             }
+
+            // Retrieve the order items associated with the order
+            var orderItems = await _dbContext.OrderItem_Model
+                .Where(oi => oi.OrderId == orderId)
+                .Include(oi => oi.Product)
+                .ToListAsync();
+
+            // Update order status to "Canceled"
             order.OrderStatus = "Canceled";
-            order.OrderCreatedAt = DateTime.Now;
+            order.OrderCreatedAt = DateTime.UtcNow; // Use UTC time for consistency
             _dbContext.Order_Model.Update(order);
+
+            // Restore product quantities
+            foreach (var orderItem in orderItems)
+            {
+                var product = orderItem.Product;
+                product.ProductQuantity += orderItem.Quantity;
+                _dbContext.Product_Model.Update(product);
+            }
+
+            // Save the changes to the database
             await _dbContext.SaveChangesAsync();
 
             return Ok("Order has been canceled.");

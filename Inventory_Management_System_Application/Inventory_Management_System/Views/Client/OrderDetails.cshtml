@@ -47,13 +47,13 @@
     @if (Model.OrderStatus == "Pending")
     {
         <button class="btn btn-danger cancel-order" data-order-id="@Model.OrderId">Cancel</button>
-
     }
 }
 else
 {
     <p>Order details not found.</p>
 }
+
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

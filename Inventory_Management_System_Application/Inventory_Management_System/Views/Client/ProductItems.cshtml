@@ -164,7 +164,15 @@
                     @if (Model != null)
                     {
                         <h2>@Model.ProductName</h2>
-                        <p>$@Model.ProductPrice</p>
+                    <h3>$@Model.ProductPrice</h3>
+                    if (Model.ProductQuantity == 0)
+                    {
+                        <h3 style="color:red">Out of Stock</h3>
+                        <button id="add-to-cart-btn" class="btn btn-black" disabled>Add to Cart</button>
+                        <button type="button" class="btn btn-white" disabled>Buy Now</button>
+                    }
+                    else {
+                    <p>Available in Stock: @Model.ProductQuantity</p>
                         <div id="shortDescription">
                             @{
                                 string shortDesc = Model.ProductDescription;
@@ -191,11 +199,13 @@
                         <a href="#" id="readMoreLink">Read More</a>
                         <div class="form-group">
                             <label for="quantity">Quantity:</label>
-                            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity">
+                            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" min="1" max="@Model.ProductQuantity" >
+                            <div id="quantityValidationMessage" class="text-danger" style="display: none;">Please enter a valid quantity between 1 and @Model.ProductQuantity.</div>
                         </div>
                         <button id="add-to-cart-btn" class="btn btn-black">Add to Cart</button>
                         <button type="button" class="btn btn-white">Buy Now</button>
                     }
+                }
                     else
                     {
                         <p>Product not found.</p>
@@ -292,6 +302,14 @@
                 var productId = @Model.ProductID; // Get the product ID from the model
                 var quantity = $('#quantity').val(); // Get the quantity from the input field
 
+                // Validate the quantity
+                var inputQuantity = parseInt(quantity);
+                var availableQuantity = parseInt("@Model.ProductQuantity");
+                if (isNaN(inputQuantity) || inputQuantity < 1 || inputQuantity > availableQuantity) {
+                    alert("Please enter a valid quantity between 1 and " + availableQuantity + ".");
+                    return; // Exit function if validation fails
+                }
+
                 // Make an AJAX request to the AddToCart action
                 $.post('@Url.Action("AddToCart", "Client")', { id: productId, quantity: quantity })
                     .done(function (response) {
@@ -310,6 +328,21 @@
             });
         });
     </script>
+    <script>
+        document.getElementById("quantity").addEventListener("input", function() {
+    var inputQuantity = parseInt(this.value);
+    var availableQuantity = parseInt("@Model.ProductQuantity");
 
+    var quantityValidationMessage = document.getElementById("quantityValidationMessage");
+
+    if (isNaN(inputQuantity) || inputQuantity < 1 || inputQuantity > availableQuantity) {
+        quantityValidationMessage.style.display = "block";
+        this.setCustomValidity("Invalid quantity");
+    } else {
+        quantityValidationMessage.style.display = "none";
+        this.setCustomValidity("");
+    }
+});
+    </script>
     }
 

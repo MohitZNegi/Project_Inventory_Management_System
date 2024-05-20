@@ -124,7 +124,10 @@
                                 data: JSON.stringify(orderRequest),
                                 success: function (response) {
                                     // Handle success response
-                                    bootbox.alert('Order placed successfully!');
+                                    bootbox.alert('Order placed successfully!', function () {
+                                        // Redirect to the order confirmation page or another relevant page
+                                        window.location.href = '/Client/OrderHistory';
+                                    });
                                 },
                                 error: function (xhr, status, error) {
                                     // Log the full error response to the console
