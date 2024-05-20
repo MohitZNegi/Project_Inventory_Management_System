@@ -1,0 +1,40 @@
+﻿@model List<Inventory_Management_System.ViewModels.InvoiceViewModel>
+
+<h2>Invoices</h2>
+
+@if (Model != null && Model.Any())
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Order Date</th>
+                    <th>Due Date</th>
+                    <th>Invoice</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var invoice in Model)
+            {
+                        <tr>
+                            <td>@invoice.InvoiceId</td>
+                            <td>@invoice.OrderId</td>
+                            <td>@invoice.UserName</td>
+                            <td>@invoice.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td>@invoice.DueDate.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a href="@Url.Content("~/" + invoice.InvoiceFilePath)" target="_blank">View Invoice</a>
+                            </td>
+                            <td>@invoice.PaymentStatus</td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+}
+else
+{
+        <p>No invoices found.</p>
+}

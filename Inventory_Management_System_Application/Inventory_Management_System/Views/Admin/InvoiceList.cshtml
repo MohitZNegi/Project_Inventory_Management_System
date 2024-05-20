@@ -1,0 +1,96 @@
+﻿@model List<Inventory_Management_System.ViewModels.InvoiceViewModel>
+
+<h2>Invoices</h2>
+
+@if (Model != null && Model.Any())
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Order Date</th>
+                    <th>Due Date</th>
+                    <th>Invoice</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var invoice in Model)
+            {
+                        <tr>
+                            <td>@invoice.InvoiceId</td>
+                            <td>@invoice.OrderId</td>
+                            <td>@invoice.UserName</td>
+                            <td>@invoice.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td>@invoice.DueDate.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a href="@Url.Content("~/" + invoice.InvoiceFilePath)" target="_blank">View Invoice</a>
+                            </td>
+
+                            <td>
+                        @if (invoice.PaymentStatus == "Received")
+                        {
+                                        <span>@invoice.PaymentStatus</span>
+                        }
+                        else{
+                                <select class="form-control invoice-status" data-invoice-id="@invoice.InvoiceId" data-current-status="@invoice.PaymentStatus">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Received">Received</option>
+                                </select>
+                        }
+                            </td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+}
+else
+{
+        <p>No invoices found.</p>
+}
+
+@section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.invoice-status').each(function () {
+                    var currentStatus = $(this).data('current-status');
+                    $(this).val(currentStatus);
+                });
+
+                $('.invoice-status').change(function () {
+                    var invoiceId = $(this).data('invoice-id');
+                    var newStatus = $(this).val();
+
+                    if (newStatus === "Received") {
+                        if (confirm('Are you sure you want to update the payment status for this invoice to "Received"?')) {
+                            updateInvoiceStatus(invoiceId, newStatus);
+                        } else {
+                            // Revert back to the original status if the user cancels the confirmation
+                            var originalStatus = $(this).data('current-status');
+                            $(this).val(originalStatus);
+                        }
+                    } else {
+                        updateInvoiceStatus(invoiceId, newStatus);
+                    }
+                });
+
+                function updateInvoiceStatus(invoiceId, newStatus) {
+                    $.ajax({
+                        url: '/api/Admin/UpdateInvoiceStatus/' + invoiceId,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(newStatus),
+                        success: function (response) {
+                            alert('Invoice status updated successfully.');
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Failed to update invoice status: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        </script>
+}

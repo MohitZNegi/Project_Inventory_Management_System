@@ -61,7 +61,7 @@
         </dd>
     </dl>
 
-    @if (Model.OrderStatus != "Canceled" || Model.OrderStatus != "Delivered")
+    @if (Model.OrderStatus != "Canceled" && Model.OrderStatus != "Delivered")
     {
         <button id="updateStatusBtn" class="btn btn-success">Update Status</button>
     }

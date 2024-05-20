@@ -366,5 +366,33 @@ namespace Inventory_Management_System.Controllers
 
             return View(orderDetails);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> InvoiceList()
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return Unauthorized();
+            var invoices = await _dbContext.Invoice_Model
+                .Where(o => o.Order.UserId == user.Id)
+                .Include(i => i.Order)
+                .ThenInclude(o => o.User)
+                .Select(i => new InvoiceViewModel
+                {
+                    InvoiceId = i.InvoiceId,
+                    OrderId = i.OrderId,
+                    UserName = i.Order.User.UserName,
+                    OrderDate = i.Order.OrderDate,
+                    DueDate = i.DueDate,
+                    InvoiceFilePath = i.InvoiceFilePath,
+                    PaymentStatus = i.PaymentStatus,
+                    TotalAmount = i.Order.TotalAmount
+                })
+                .ToListAsync();
+
+            return View(invoices);
+        }
     }
 }

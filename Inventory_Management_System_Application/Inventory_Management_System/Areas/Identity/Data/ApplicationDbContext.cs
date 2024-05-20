@@ -41,4 +41,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<CartItem> CartItem_Model { get; set; }
     public DbSet<Order> Order_Model { get; set; }
     public DbSet<OrderItem> OrderItem_Model { get; set; }
+    public DbSet<Invoice> Invoice_Model { get; set; }
 }

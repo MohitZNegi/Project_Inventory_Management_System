@@ -27,24 +27,21 @@
                         {
                             <span>@order.OrderStatus</span>
                         }
-                       
                         else
                         {
                             <select class="form-control order-status" data-order-id="@order.OrderId" data-current-status="@order.OrderStatus">
                                 <option value="Pending">Pending</option>
                                 <option value="On-The-Way">On-the-Way</option>
-                               
                             </select>
                         }
                     </td>
-                    <td>@order.TotalAmount</td>
-                     <td>
+                    <td>@order.TotalAmount.ToString("C")</td>
+                    <td>
                         <a href="@Url.Action("OrderDetails", "Admin", new { orderId = order.OrderId })" class="btn btn-primary">View Details</a>
-                        @if (order.OrderStatus != "Delivered" || order.OrderStatus != "Canceled")
-                            {
+                        @if (order.OrderStatus != "Delivered" && order.OrderStatus != "Canceled")
+                        {
                             <button class="btn btn-success deliver-order" data-order-id="@order.OrderId">Delivered</button>
                         }
-                       
                     </td>
                 </tr>
             }
@@ -60,10 +57,8 @@ else
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Debugging: Log the order statuses to the console
             $('.order-status').each(function () {
                 var currentStatus = $(this).data('current-status');
-                console.log('Order ID: ' + $(this).data('order-id') + ', Current Status: ' + currentStatus);
                 $(this).val(currentStatus);
             });
 
@@ -82,7 +77,7 @@ else
             $('.deliver-order').click(function () {
                 var orderId = $(this).data('order-id');
                 if (confirm('Are you sure you want to mark this order as delivered?')) {
-                    updateOrderStatus(orderId, 'Delivered');
+                    confirmDelivery(orderId);
                 }
             });
 
@@ -98,6 +93,20 @@ else
                     },
                     error: function (xhr, status, error) {
                         alert('Failed to update order status: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            function confirmDelivery(orderId) {
+                $.ajax({
+                    url: '/api/Admin/ConfirmDelivery/' + orderId,
+                    type: 'POST',
+                    success: function (response) {
+                        alert('Order marked as delivered and invoice created successfully.');
+                        location.reload(); // Refresh the page to reflect the updated status
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Failed to confirm delivery: ' + xhr.responseText);
                     }
                 });
             }
