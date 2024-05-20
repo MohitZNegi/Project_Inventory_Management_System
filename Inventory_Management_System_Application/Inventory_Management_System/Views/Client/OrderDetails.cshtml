@@ -1,0 +1,80 @@
+﻿@model Inventory_Management_System.ViewModels.OrderDetailsViewModel
+
+<h2>Order Details</h2>
+
+@if (Model != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Order ID:</dt>
+        <dd class="col-sm-9">@Model.OrderId</dd>
+
+        <dt class="col-sm-3">Order Date:</dt>
+        <dd class="col-sm-9">@Model.OrderDate.ToString("MM/dd/yyyy")</dd>
+
+        <dt class="col-sm-3">Order Status:</dt>
+        <dd class="col-sm-9">@Model.OrderStatus</dd>
+
+        <dt class="col-sm-3">Total Amount:</dt>
+        <dd class="col-sm-9">@Model.TotalAmount</dd>
+
+        <dt class="col-sm-3">Shipping Address:</dt>
+        <dd class="col-sm-9">@Model.ShippingAddress</dd>
+
+        <dt class="col-sm-3">Order Items:</dt>
+        <dd class="col-sm-9">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+
+    @if (Model.OrderStatus == "Pending")
+    {
+        <button class="btn btn-danger cancel-order" data-order-id="@Model.OrderId">Cancel</button>
+
+    }
+}
+else
+{
+    <p>Order details not found.</p>
+}
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.cancel-order').click(function () {
+                var orderId = $(this).data('order-id');
+
+                if (confirm('Are you sure you want to cancel this order?')) {
+                    $.ajax({
+                        url: '/api/Client/CancelOrder/' + orderId,
+                        type: 'POST',
+                        success: function (response) {
+                            alert('Order has been canceled.');
+                            location.reload(); // Refresh the page to update the order history
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Failed to cancel order: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,106 @@
+﻿@model List<Inventory_Management_System.Models.Order>
+
+<h2>Admin Order Management</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.User.UserName</td>
+                    <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td>
+                        @if (order.OrderStatus == "Canceled" || order.OrderStatus == "Delivered")
+                        {
+                            <span>@order.OrderStatus</span>
+                        }
+                       
+                        else
+                        {
+                            <select class="form-control order-status" data-order-id="@order.OrderId" data-current-status="@order.OrderStatus">
+                                <option value="Pending">Pending</option>
+                                <option value="On-The-Way">On-the-Way</option>
+                               
+                            </select>
+                        }
+                    </td>
+                    <td>@order.TotalAmount</td>
+                     <td>
+                        <a href="@Url.Action("OrderDetails", "Admin", new { orderId = order.OrderId })" class="btn btn-primary">View Details</a>
+                        @if (order.OrderStatus != "Delivered" || order.OrderStatus != "Canceled")
+                            {
+                            <button class="btn btn-success deliver-order" data-order-id="@order.OrderId">Delivered</button>
+                        }
+                       
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No orders found.</p>
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Debugging: Log the order statuses to the console
+            $('.order-status').each(function () {
+                var currentStatus = $(this).data('current-status');
+                console.log('Order ID: ' + $(this).data('order-id') + ', Current Status: ' + currentStatus);
+                $(this).val(currentStatus);
+            });
+
+            $('.order-status').change(function () {
+                var orderId = $(this).data('order-id');
+                var newStatus = $(this).val();
+
+                if (newStatus === "Canceled") {
+                    alert("Cannot manually set status to 'Canceled'.");
+                    return;
+                }
+
+                updateOrderStatus(orderId, newStatus);
+            });
+
+            $('.deliver-order').click(function () {
+                var orderId = $(this).data('order-id');
+                if (confirm('Are you sure you want to mark this order as delivered?')) {
+                    updateOrderStatus(orderId, 'Delivered');
+                }
+            });
+
+            function updateOrderStatus(orderId, newStatus) {
+                $.ajax({
+                    url: '/api/Admin/UpdateOrderStatus/' + orderId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newStatus),
+                    success: function (response) {
+                        alert('Order status updated successfully.');
+                        location.reload(); // Refresh the page to reflect the updated status
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Failed to update order status: ' + xhr.responseText);
+                    }
+                });
+            }
+        });
+    </script>
+}

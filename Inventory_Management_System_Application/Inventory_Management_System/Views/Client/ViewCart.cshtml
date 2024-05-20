@@ -41,6 +41,8 @@ else
     </table>
 
     <button id="clear-cart" type="button" class="btn btn-danger">Clear Cart</button>
+    <a href="@Url.Action("Checkout", "Client")" class="btn btn-primary">Proceed to Checkout</a>
+
 }
 
 @section Scripts {
@@ -52,7 +54,7 @@ else
                 var newQuantity = $(this).val();
 
                 $.ajax({
-                    url: '@Url.Action("EditCartItem", "Product")',
+                    url: '@Url.Action("EditCartItem", "Client")',
                     type: 'POST',
                     data: { id: cartItemId, quantity: newQuantity },
                     success: function (response) {
@@ -73,7 +75,7 @@ else
                 var cartItemId = $(this).closest('tr').data('cart-item-id');
 
                 $.ajax({
-                    url: '@Url.Action("DeleteCartItem", "Product")',
+                    url: '@Url.Action("DeleteCartItem", "Client")',
                     type: 'POST',
                     data: { id: cartItemId },
                     success: function (response) {
@@ -93,7 +95,7 @@ else
             $('#clear-cart').on('click', function () {
                 if (confirm('Are you sure you want to clear your cart?')) {
                     $.ajax({
-                        url: '@Url.Action("ClearCart", "Product")',
+                        url: '@Url.Action("ClearCart", "Client")',
                         type: 'POST',
                         success: function (response) {
                             if (response.success) {

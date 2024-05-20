@@ -1,0 +1,99 @@
+﻿@model Inventory_Management_System.ViewModels.OrderDetailsViewModel
+
+
+<h2>Order Details</h2>
+
+@if (Model != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Order ID:</dt>
+        <dd class="col-sm-9">@Model.OrderId</dd>
+
+        <dt class="col-sm-3">User Name:</dt>
+        <dd class="col-sm-9">@Model.UserName</dd>
+
+        <dt class="col-sm-3">Order Date:</dt>
+        <dd class="col-sm-9">@Model.OrderDate.ToString("MM/dd/yyyy")</dd>
+
+        <dt class="col-sm-3">Order Status:</dt>
+        <dd class="col-sm-9">
+            @if (Model.OrderStatus == "Canceled" || Model.OrderStatus == "Delivered")
+            {
+                <span>@Model.OrderStatus</span>
+            }
+            else
+            {
+                <select id="orderStatus" class="form-control">
+                    <option value="Pending">Pending</option>
+                    <option value="On-The-Way">On-the-Way</option>
+                   
+                </select>
+            }
+        </dd>
+
+        <dt class="col-sm-3">Total Amount:</dt>
+        <dd class="col-sm-9">@Model.TotalAmount</dd>
+
+        <dt class="col-sm-3">Shipping Address:</dt>
+        <dd class="col-sm-9">@Model.ShippingAddress</dd>
+
+        <dt class="col-sm-3">Order Items:</dt>
+        <dd class="col-sm-9">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+
+    @if (Model.OrderStatus != "Canceled" || Model.OrderStatus != "Delivered")
+    {
+        <button id="updateStatusBtn" class="btn btn-success">Update Status</button>
+    }
+}
+else
+{
+    <p>Order details not found.</p>
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#orderStatus').val('@Model.OrderStatus'); // Set the selected status
+
+            $('#updateStatusBtn').click(function () {
+                var orderId = @Model.OrderId;
+                var newStatus = $('#orderStatus').val();
+
+                $.ajax({
+                    url: '/api/Admin/UpdateOrderStatus/' + orderId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newStatus),
+                    success: function (response) {
+                        alert('Order status updated successfully.');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Failed to update order status: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

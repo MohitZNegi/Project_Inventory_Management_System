@@ -69,7 +69,7 @@ app.UseAuthentication();;
 
 app.UseAuthorization();
 
-
+app.UseCors(); // Enable CORS
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -503,5 +503,78 @@ namespace Inventory_Management_System.Controllers
             return _dbContext.Supplier_Model.Any(e => e.SupplierID == id);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllOrders()
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return Unauthorized();
+
+            // Retrieve the order history for the user, including related order items and product details
+            var orders = await _dbContext.OrderItem_Model
+                .Include(o => o.Order.User)
+                .Include(o => o.Order)
+                .Include(o => o.Product)
+                .ToListAsync();
+
+            // Group the order items by the order they belong to
+            var groupedOrders = orders.GroupBy(o => o.OrderId)
+                                      .Select(g => g.First().Order) // Select only the unique orders
+                                      .ToList();
+
+            return View(groupedOrders);
+        }
+        [HttpGet]
+        public async Task<IActionResult> OrderDetails(int orderId)
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return Unauthorized();
+
+            // Retrieve the order from the database
+            var order = await _dbContext.Order_Model
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Retrieve order items associated with the order
+            var orderItems = await _dbContext.OrderItem_Model
+                .Include(oi => oi.Product)
+                .Where(oi => oi.OrderId == orderId)
+                .ToListAsync();
+
+            // Map the order and order items to a view model
+            var orderDetails = new OrderDetailsViewModel
+            {
+                OrderId = order.OrderId,
+                UserId = order.UserId,
+                UserName = order.User.UserName,
+                OrderCreatedAt = order.OrderCreatedAt,
+                OrderDate = order.OrderDate,
+                OrderPlacedBy = order.OrderPlacedBy,
+                ShippingAddress = order.ShippingAddress,
+                OrderStatus = order.OrderStatus,
+                TotalAmount = order.TotalAmount,
+                OrderItems = orderItems.Select(oi => new OrderItemViewModel
+                {
+                    ProductId = oi.ProductId,
+                    ProductName = oi.Product.ProductName,
+                    Quantity = oi.Quantity,
+                    Price = oi.Price
+                }).ToList()
+            };
+
+            return View(orderDetails);
+        }
+
+      
     }
 }

@@ -1,0 +1,65 @@
+﻿@model List<Inventory_Management_System.Models.Order>
+
+<h2>Order History</h2>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td>@order.OrderStatus</td>
+                    <td>@order.TotalAmount</td>
+                    <td>
+                        <a href="@Url.Action("OrderDetails", "Client", new { orderId = order.OrderId })" class="btn btn-primary">View Details</a>
+                        @if (order.OrderStatus == "Pending")
+                        {
+                            <button class="btn btn-danger cancel-order" data-order-id="@order.OrderId">Cancel</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No orders found.</p>
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.cancel-order').click(function () {
+                var orderId = $(this).data('order-id');
+
+                if (confirm('Are you sure you want to cancel this order?')) {
+                    $.ajax({
+                        url: '/api/Client/CancelOrder/' + orderId,
+                        type: 'POST',
+                        success: function (response) {
+                            alert('Order has been canceled.');
+                            location.reload(); // Refresh the page to update the order history
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Failed to cancel order: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
