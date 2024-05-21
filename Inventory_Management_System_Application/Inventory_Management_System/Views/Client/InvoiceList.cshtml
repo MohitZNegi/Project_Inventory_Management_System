@@ -28,7 +28,17 @@
                             <td>
                                 <a href="@Url.Content("~/" + invoice.InvoiceFilePath)" target="_blank">View Invoice</a>
                             </td>
-                            <td>@invoice.PaymentStatus</td>
+                        <td>
+                            @if(invoice.PaymentStatus == "Received")
+                            {
+                                <text>Completed</text>
+                            }
+                            else
+                            {
+                                <text>@invoice.PaymentStatus</text>
+                            }
+                        </td>
+                           
                         </tr>
             }
             </tbody>

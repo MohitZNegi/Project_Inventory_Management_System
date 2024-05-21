@@ -15,6 +15,7 @@ using CloudinaryDotNet;
 using Microsoft.CodeAnalysis;
 using SendGrid.Helpers.Mail;
 using Inventory_Management_System.Migrations;
+using System.Globalization;
 
 namespace Inventory_Management_System.Controllers
 {
@@ -66,7 +67,7 @@ namespace Inventory_Management_System.Controllers
                     Value = $"{s.SupplierID}-{s.SupplierName}" // Combine SupplierID and SupplierName
                 }).ToList(); // Explicitly convert to List<SelectListItem>
                 ViewBag.Suppliers = supplierList;
-                var productView = new ProductView
+                var productView = new ProductViewModel
                 {
                     Suppliers = supplierList
                 };
@@ -83,7 +84,7 @@ namespace Inventory_Management_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> AddProduct(ProductView productView, string supplier)
+        public async Task<IActionResult> AddProduct(ProductViewModel productView, string supplier)
         {
             if (ModelState.IsValid)
             {
@@ -366,7 +367,19 @@ namespace Inventory_Management_System.Controllers
             // Retrieve all suppliers from the database
             //var suppliers = _dbContext.Supplier_Model.Include(s => s.ProductSuppliers).ToList();
             var suppliers = await _dbContext.Supplier_Model.ToListAsync();
-            return View(suppliers);
+            var supplierViewModels = suppliers.Select(s => new SupplierViewModel
+            {
+                SupplierId = s.SupplierID,
+                SupplierName = s.SupplierName,
+                Location = s.Location,
+                ContactDetails = s.ContactDetails,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                AssociatedProducts = _dbContext.Product_Model.Where(p => p.SupplierID == s.SupplierID).ToList()
+            }).ToList();
+
+            return View(supplierViewModels);
+            return View(supplierViewModels);
         }
 
         // GET: Admin/AddSupplier
@@ -597,5 +610,71 @@ namespace Inventory_Management_System.Controllers
             return View(invoices);
         }
 
+        // GET: Admin Dashboard
+        public async Task<IActionResult> Dashboard()
+        {
+            // Retrieve purchase order status data
+            var purchaseOrderStatus = GetPurchaseOrderStatus();
+            ViewBag.PurchaseOrderStatus = purchaseOrderStatus;
+
+            // Retrieve daily delivery data asynchronously
+            var dailyDeliveries = await GetDailyDeliveries();
+            ViewBag.DailyDeliveries = dailyDeliveries;
+
+            // Retrieve product count data
+            var supplierViewModels = GetSupplierViewModels();
+            ViewBag.SupplierViewModels = supplierViewModels;
+
+            return View();
+        }
+
+        // Method to get Purchase Order Status
+        private PurchaseOrderStatusViewModel GetPurchaseOrderStatus()
+        {
+            var deliveredCount = _dbContext.Order_Model.Count(o => o.OrderStatus == "Delivered");
+            var pendingCount = _dbContext.Order_Model.Count(o => o.OrderStatus == "Pending");
+            var onTheWayCount = _dbContext.Order_Model.Count(o => o.OrderStatus == "On-the-way");
+
+            return new PurchaseOrderStatusViewModel
+            {
+                DeliveredCount = deliveredCount,
+                PendingCount = pendingCount,
+                OnTheWayCount = onTheWayCount
+            };
+        }
+
+        // Method to get Daily Deliveries
+        private async Task<IEnumerable<DeliveryHistoryReportViewModel>> GetDailyDeliveries()
+        {
+            var dailyDeliveries = await _dbContext.Order_Model
+                .Where(o => o.OrderStatus == "Delivered")
+                .GroupBy(o => o.OrderDate.Date)
+                .Select(g => new DeliveryHistoryReportViewModel
+                {
+                    Date = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            return dailyDeliveries;
+        }
+
+        // Method to get Supplier View Models
+        private IEnumerable<SupplierViewModel> GetSupplierViewModels()
+        {
+            var suppliers = _dbContext.Supplier_Model.ToList();
+            var supplierViewModels = suppliers.Select(s => new SupplierViewModel
+            {
+                SupplierId = s.SupplierID,
+                SupplierName = s.SupplierName,
+                Location = s.Location,
+                ContactDetails = s.ContactDetails,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                AssociatedProducts = _dbContext.Product_Model.Where(p => p.SupplierID == s.SupplierID).ToList()
+            }).ToList();
+
+            return supplierViewModels;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Inventory_Management_System.ViewModels.ProductView
+﻿@model Inventory_Management_System.ViewModels.ProductViewModel
 
 @{
     ViewData["Title"] = "Add Product";
@@ -97,7 +97,7 @@
 
         <div class="form-group">
             <label asp-for="ProductQuantity" class="control-label">Product Quantity</label>
-            <input asp-for="ProductQuantity" class="form-control" />
+            <input min="1" asp-for="ProductQuantity" class="form-control" />
             <span asp-validation-for="ProductQuantity" class="text-danger"></span>
         </div>
 

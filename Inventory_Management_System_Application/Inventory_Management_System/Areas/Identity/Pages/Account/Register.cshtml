@@ -4,216 +4,54 @@
     ViewData["Title"] = "Register";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/css/site.css" rel="stylesheet">
-</head>
-    <title>@ViewData["Title"]</title>
-<style>
-    body {
-        font-family: font-family: Raleway, sans-serif; margin: 0;
-        background-color: #f0f0f0;
-        margin: 0;
-        background-image: url('https://res.cloudinary.com/dup5hdi05/image/upload/v1715226768/Untitled_design_cty4ke.png');
-        background-size: cover;
-        padding-bottom: 1000px;
-        min-height: 100vh;
-        position: relative;
-    }
+<h1>@ViewData["Title"]</h1>
 
-    .content {
-        margin-top: 60px;
-        padding: 20px;
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        backdrop-filter: blur(5px);
-    }
-
-    /* Floating message container */
-    .floating-message {
-        position: fixed;
-        z-index: 1000;
-        font-family: font-family: Raleway, sans-serif; margin: 0;
-        text-align:center;
-        background-color: white;
-        color: black;
-        border: 2px solid black;
-        border-radius: 5px;
-        padding: 20px;
-        width: 325px;
-        height: 380px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: none;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(5px);
-    }
-
-    .close-message {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        cursor: pointer;
-    }
-    /* Footer */
-    footer {
-        background-color: #343a40;
-        color: #fff;
-        padding: 40px 0;
-        text-align: left;
-        position: absolute;
-        bottom: 0;
-        margin-top: 25px;
-        margin-bottom: -40px;
-    }
-
-    footer button.btn-primary {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-        color: #fff;
-        padding: 6px 10px;
-        margin-top: 10px;
-        font-size: 14px;
-        width: 30%;
-    }
-
-    footer .form-group {
-        margin-bottom: 0;
-    }
-
-    footer .signup-link {
-        text-align: left;
-        margin-top: 20px;
-    }
-
-        footer .signup-link a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-    footer .input-group {
-        margin-bottom: 10px;
-    }
-
-    footer .input-group-append .btn {
-        padding: 8px 12px;
-    }
-
-    footer h4, footer h5 {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-    }
-
-    footer ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    footer ul li {
-        margin-bottom: 0.5rem;
-    }
-
-    footer ul li a {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    footer ul li a:hover {
-        color: #ccc;
-    }
-</style>
-<body>
-
-    <div class="overlay" id="overlay"></div>
-    <div id="floatingMessage" class="floating-message">
-        <h3>Welcome!</h3>
-        <p>Please email <a href="mailto:waremaster1@gmail.com">waremaster1@gmail.com</a> with the following details:</p>
-        <ul>
-            <li>Your Email</li>
-            <li>Company Information</li>
-            <li>A short message explaining why you want to join us</li>
-        </ul>
-        <p>We'll be in touch shortly after you send the email to guide you through the verification process.</p>
-        <button id="exitButton" class="btn btn-primary">Understood!</button>
-    </div>
-
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt = "Company Logo" style="height: 30px; width: 200px;">
-                </div>
-                <div class="col-md-3">
-                    <h4><strong>About Us</strong></h4>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Support</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4><strong>Terms</strong></h4>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">T&S</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Feedback</a></li>
-                        <li><a href="#">Refund Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h4>Subscribe</h4>
-                    <form>
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Enter your email">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Subscribe</button>
-                    </form>
-                    <p>By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
-                </div>
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-        </div>
-    </footer>
-
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const overlay = document.getElementById('overlay');
-                const floatingMessage = document.getElementById('floatingMessage');
-                const exitButton = document.getElementById('exitButton');
-
-                // Function to close the floating message
-                function closeFloatingMessage() {
-                    window.location.href = '/home/index';
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to register.</h3>
+            <hr />
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <div>
+                        <p>
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                            about setting up this ASP.NET application to support logging in via external services</a>.
+                        </p>
+                    </div>
                 }
+                else
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
 
-                // Event listener for the exit button click
-                exitButton.addEventListener('click', closeFloatingMessage);
-
-                // Show the floating message when the page is loaded
-                overlay.style.display = 'block'; // Show the overlay
-                floatingMessage.style.display = 'block'; // Show the floating message
-            });
-
-        </script>
-        }
-</body>
-</html>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

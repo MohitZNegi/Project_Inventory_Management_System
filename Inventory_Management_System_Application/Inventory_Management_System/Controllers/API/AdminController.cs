@@ -75,6 +75,7 @@ namespace Inventory_Management_System.Controllers.API
             }
 
             order.OrderStatus = "Delivered";
+            order.OrderDate= DateTime.Now;
             _dbContext.Order_Model.Update(order);
             await _dbContext.SaveChangesAsync();
 

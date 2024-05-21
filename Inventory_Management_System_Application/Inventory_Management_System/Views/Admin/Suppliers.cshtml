@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Inventory_Management_System.Models.Supplier>
+﻿@model IEnumerable<Inventory_Management_System.ViewModels.SupplierViewModel>
 
 @{
     ViewData["Title"] = "Suppliers";
@@ -12,7 +12,8 @@
             <th>Supplier Name</th>
             <th>Location</th>
             <th>Contact Details</th>
-            <th>Products</th>
+            <th>Associated Products</th>
+            <th>Product Count</th>
             <th>Created By</th>
             <th>Created At</th>
             <th>Updated At</th>
@@ -27,24 +28,24 @@
                 <td>@supplier.Location</td>
                 <td>@supplier.ContactDetails</td>
                 <td>
-                    @if (!string.IsNullOrEmpty(supplier.Products))
+                    @if (supplier.AssociatedProducts.Any())
                     {
-                        string[] products = supplier.Products.Split(';');
-                        foreach (var product in products)
-                        {
-                            <span>@product</span>
-
-                            <br />
-                        }
+                        <ul>
+                            @foreach (var product in supplier.AssociatedProducts)
+                            {
+                                <li>@product.ProductName</li>
+                            }
+                        </ul>
                     }
                     else
                     {
                         <span>No products associated</span>
                     }
                 </td>
+                <td>@supplier.AssociatedProducts.Count</td>
                 <td>@supplier.CreatedBy</td>
-                <td>@supplier.CreatedAt</td>
-                 @if (supplier.UpdatedAt == DateTime.MinValue)
+                <td>@supplier.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                @if (supplier.UpdatedAt == DateTime.MinValue)
                 {
                     <td>N/A</td>
                 }
@@ -53,8 +54,8 @@
                     <td>@supplier.UpdatedAt</td>
                 }
                 <td>
-                    <a asp-action="EditSupplier" asp-route-id="@supplier.SupplierID">Edit</a> |
-                    <a asp-action="ConfirmDeleteSupplier" asp-route-id="@supplier.SupplierID">Delete</a>
+                    <a asp-action="EditSupplier" asp-route-id="@supplier.SupplierId">Edit</a> |
+                    <a asp-action="ConfirmDeleteSupplier" asp-route-id="@supplier.SupplierId">Delete</a>
                 </td>
             </tr>
         }

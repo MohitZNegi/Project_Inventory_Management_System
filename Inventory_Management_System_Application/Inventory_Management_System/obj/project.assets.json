@@ -2192,6 +2192,9 @@
           }
         }
       },
+      "Moment.js/2.30.1": {
+        "type": "package"
+      },
       "NETStandard.Library/1.6.1": {
         "type": "package",
         "dependencies": {
@@ -7310,6 +7313,23 @@
         "mimekit.nuspec"
       ]
     },
+    "Moment.js/2.30.1": {
+      "sha512": "LIrDTazK51DhrqkMOy97PyS1jWsUHAhaIUYgB4aQTLLUxizMjk0QRltNb535Qgs5IzN/uv1SbFr/qv3PFnkTOA==",
+      "type": "package",
+      "path": "moment.js/2.30.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/moment-with-locales.js",
+        "Content/Scripts/moment-with-locales.min.js",
+        "Content/Scripts/moment-with-locales.min.js.map",
+        "Content/Scripts/moment.js",
+        "Content/Scripts/moment.min.js",
+        "Content/Scripts/moment.min.js.map",
+        "moment.js.2.30.1.nupkg.sha512",
+        "moment.js.nuspec"
+      ]
+    },
     "NETStandard.Library/1.6.1": {
       "sha512": "WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
       "type": "package",
@@ -11588,6 +11608,7 @@
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.29",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.16",
       "MimeKit >= 4.6.0",
+      "Moment.js >= 2.30.1",
       "SendGrid >= 9.29.3",
       "iTextSharp >= 5.5.13.3"
     ]
@@ -11668,6 +11689,10 @@
           "MimeKit": {
             "target": "Package",
             "version": "[4.6.0, )"
+          },
+          "Moment.js": {
+            "target": "Package",
+            "version": "[2.30.1, )"
           },
           "SendGrid": {
             "target": "Package",

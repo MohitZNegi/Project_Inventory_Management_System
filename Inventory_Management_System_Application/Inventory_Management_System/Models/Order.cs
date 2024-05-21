@@ -17,7 +17,7 @@ namespace Inventory_Management_System.Models
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime OrderCreatedAt  { get; set; }
+        public DateTime OrderCreatedAt { get; set; }
         public DateTime OrderDate { get; set; }
         public string OrderPlacedBy { get; set; }
         public string ShippingAddress { get; set; }
@@ -27,7 +27,7 @@ namespace Inventory_Management_System.Models
         [DataType(DataType.Currency)]
         public float TotalAmount { get; set; }
 
-        
+
     }
 
 

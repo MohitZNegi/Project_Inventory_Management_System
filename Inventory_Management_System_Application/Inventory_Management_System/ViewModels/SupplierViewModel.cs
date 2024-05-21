@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Inventory_Management_System.ViewModels
 {
 
-        public class SupplierView
+        public class SupplierViewModel
         {
 
 
        
-
+        public int SupplierId { get; set; }
         [Required]
         [MaxLength(100)]
         public string? SupplierName { get; set; }
@@ -21,7 +21,7 @@ namespace Inventory_Management_System.ViewModels
         public string? ContactDetails { get; set; }
 
 
-        public string? Products { get; set; }
+       // public string? Products { get; set; }
 
 
       
@@ -35,7 +35,10 @@ namespace Inventory_Management_System.ViewModels
 
         [Required]
         public DateTime UpdatedAt { get; set; }
+
+        public List<Product> AssociatedProducts { get; set; }
     }
+
     }
 
 

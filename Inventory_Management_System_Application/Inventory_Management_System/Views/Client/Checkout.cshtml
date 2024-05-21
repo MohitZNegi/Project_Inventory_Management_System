@@ -151,5 +151,35 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the current date
+            var currentDate = new Date();
+            // Add one day to the current date
+            currentDate.setDate(currentDate.getDate() + 1);
+
+            // Calculate the max date (14 days from the default date)
+            var maxDate = new Date(currentDate);
+            maxDate.setDate(currentDate.getDate() + 14);
+
+            // Format the dates to yyyy-MM-dd
+            var formatDate = function (date) {
+                var year = date.getFullYear();
+                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                var day = ("0" + date.getDate()).slice(-2);
+                return `${year}-${month}-${day}`;
+            };
+
+            // Set the default date, min date, and max date
+            var defaultDate = formatDate(currentDate);
+            var maxDateFormatted = formatDate(maxDate);
+
+            var orderDateInput = document.getElementById('OrderDate');
+            orderDateInput.value = defaultDate;
+            orderDateInput.min = defaultDate;
+            orderDateInput.max = maxDateFormatted;
+        });
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }
