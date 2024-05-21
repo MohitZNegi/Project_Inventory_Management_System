@@ -1,0 +1,168 @@
+﻿@model Inventory_Management_System.ViewModels.WeeklySpendReportViewModel
+<style>
+    .weekly-spend-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .weekly-spend-cards {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+    }
+
+    .weekly-spend-card {
+        flex: 0 0 300px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        margin-right: 20px;
+        scroll-snap-align: center;
+    }
+
+    .arrow-btn {
+        position: absolute;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .prev-btn {
+        left: 10px;
+    }
+
+    .next-btn {
+        right: 10px;
+    }
+</style>
+<div class="container">
+    <h2>Weekly Spend Report</h2>
+
+    <div class="weekly-spend-container">
+        <div class="weekly-spend-cards">
+            @foreach (var weeklySpendData in Model.WeeklySpendData)
+            {
+                <div class="weekly-spend-card">
+                    <h5>@weeklySpendData.WeekStartDate.ToString("yyyy-MM-dd") - @weeklySpendData.WeekEndDate.ToString("yyyy-MM-dd")</h5>
+                    <p>Total Spend: @weeklySpendData.TotalSpend.ToString("C")</p>
+                </div>
+            }
+        </div>
+        <button class="arrow-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+        <button class="arrow-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+</div>
+
+
+<h2>Weekly Spend Line Graph</h2>
+<div id="weeklySpendChart"></div>
+
+
+
+@section Scripts {
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var weeklySpendData = @Html.Raw(Json.Serialize(Model.WeeklySpendData));
+
+            var dates = weeklySpendData.map(d => d.weekStartDate);
+            var totalSpend = weeklySpendData.map(d => d.totalSpend);
+
+            var data = [{
+                x: dates,
+                y: totalSpend,
+                mode: 'lines+markers',
+                type: 'scatter',
+                name: 'Weekly Spend',
+                hovertemplate:
+                    '<b>Week:</b> %{customdata.weekStartDate} - %{customdata.weekEndDate}<br>' +
+                    '<b>Total Spend:</b> $%{y}<extra></extra>',
+                customdata: weeklySpendData.map(d => ({
+                    weekStartDate: formatDate(new Date(d.weekStartDate)),
+                    weekEndDate: formatDate(new Date(d.weekEndDate))
+                }))
+            }];
+
+            var layout = {
+                title: 'Weekly Spend Report',
+                xaxis: {
+                    title: 'Week Start Date',
+                    type: 'date',
+                    range: getLastFourWeeksRange(dates) // Set default x-axis range to last four weeks
+                },
+                yaxis: {
+                    title: 'Total Spend',
+                    rangemode: 'tozero', // Ensure y-axis starts from 0
+                    autorange: true // Allow Plotly to automatically adjust y-axis range
+                }
+            };
+
+            Plotly.newPlot('weeklySpendChart', data, layout);
+
+            // Function to get the range for the last four weeks
+            function getLastFourWeeksRange(dates) {
+                var today = new Date();
+                var fourWeeksAgo = new Date(today);
+                fourWeeksAgo.setDate(today.getDate() - 28); // Subtract 28 days for four weeks
+
+                var lastIndex = dates.length - 1;
+                var lastDate = new Date(dates[lastIndex]);
+
+                return [fourWeeksAgo, lastDate];
+            }
+
+            // Function to format date as 'YYYY-MM-DD'
+            function formatDate(date) {
+                var year = date.getFullYear();
+                var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+                var day = ('0' + date.getDate()).slice(-2);
+                return year + '-' + month + '-' + day;
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const weeklySpendCards = document.querySelector('.weekly-spend-cards');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+
+            prevBtn.addEventListener('click', () => {
+                weeklySpendCards.scrollBy({
+                    left: -300,
+                    behavior: 'smooth'
+                });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                weeklySpendCards.scrollBy({
+                    left: 300,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Scroll to the latest report on load
+            weeklySpendCards.scrollTo({
+                right: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+}

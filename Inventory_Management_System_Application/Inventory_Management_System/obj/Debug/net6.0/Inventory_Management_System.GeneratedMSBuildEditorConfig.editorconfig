@@ -200,10 +200,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/DeliveryHistoryReport.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsaXZlcnlIaXN0b3J5UmVwb3J0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/EditProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -224,10 +220,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT3JkZXJEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/ProductCountReport.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvZHVjdENvdW50UmVwb3J0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/Products.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -242,6 +234,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [H:/2024_IT_Project/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/InvoiceList.cshtml]

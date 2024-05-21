@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using CloudinaryDotNet.Core;
 
+
 namespace Inventory_Management_System.Controllers
 {
     [Authorize(Roles = "Client")]
@@ -393,6 +394,50 @@ namespace Inventory_Management_System.Controllers
                 .ToListAsync();
 
             return View(invoices);
+        }
+
+        public IActionResult Dashboard()
+        {
+            var startDate = new DateTime(2024, 1, 1); // Set the desired start date
+            var endDate = DateTime.Now; // Set the desired end date
+
+            var weeklySpendData = GetWeeklySpendData(startDate, endDate);
+
+            var viewModel = new WeeklySpendReportViewModel
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                WeeklySpendData = weeklySpendData
+            };
+
+            return View(viewModel);
+        }
+
+        private List<WeeklySpendDataRange> GetWeeklySpendData(DateTime startDate, DateTime endDate)
+        {
+            var weeklySpendData = new List<WeeklySpendDataRange>();
+
+            var currentDate = startDate;
+            while (currentDate <= endDate)
+            {
+                var weekStartDate = currentDate.AddDays(-(int)currentDate.DayOfWeek);
+                var weekEndDate = weekStartDate.AddDays(6);
+
+                var weekSpend = _dbContext.Invoice_Model
+                    .Where(i => i.OrderDate >= weekStartDate && i.OrderDate <= weekEndDate && i.PaymentStatus == "Received")
+                    .Sum(i => i.Order.TotalAmount);
+
+                weeklySpendData.Add(new WeeklySpendDataRange
+                {
+                    WeekStartDate = weekStartDate,
+                    WeekEndDate = weekEndDate,
+                    TotalSpend = weekSpend
+                });
+
+                currentDate = weekEndDate.AddDays(1);
+            }
+
+            return weeklySpendData;
         }
     }
 }
