@@ -1,0 +1,147 @@
+﻿@model List<Inventory_Management_System.ViewModels.InvoiceViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+        }
+
+        .text-success {
+            color: #28a745;
+        }
+
+        .text-warning {
+            color: #ffc107;
+        }
+
+        .text-danger {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Invoices</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Invoice ID</th>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Order Date</th>
+                        <th>Due Date</th>
+                        <th>Invoice</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var invoice in Model)
+                    {
+                        <tr>
+                            <td>@invoice.InvoiceId</td>
+                            <td>@invoice.OrderId</td>
+                            <td>@invoice.UserName</td>
+                            <td>@invoice.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td>@invoice.DueDate.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a href="@Url.Content("~/" + invoice.InvoiceFilePath)" target="_blank">View Invoice</a>
+                            </td>
+                            <td>
+                                @if (invoice.PaymentStatus == "Received")
+                                {
+                                    <span class="badge badge-success">Completed</span>
+                                }
+                                else if (invoice.PaymentStatus == "Pending")
+                                {
+                                    <span class="badge badge-warning">Pending</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger">Unpaid</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No invoices found.</p>
+        }
+    </div>
+
+</body>
+</html>

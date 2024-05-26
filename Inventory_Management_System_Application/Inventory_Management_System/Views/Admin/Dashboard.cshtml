@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <canvas id="purchaseOrderStatusChart" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-6">
+        <canvas id="productCountChart" width="400" height="400"></canvas>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div id="dailyDeliveriesChart" style="height: 400px;"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Purchase Order Status Chart
+        var purchaseOrderStatusData = {
+            labels: ["Delivered", "Pending", "On-the-way"],
+            datasets: [{
+                data: [@ViewBag.PurchaseOrderStatus.DeliveredCount, @ViewBag.PurchaseOrderStatus.PendingCount, @ViewBag.PurchaseOrderStatus.OnTheWayCount],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(255, 205, 86, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 205, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var purchaseOrderStatusChartCanvas = document.getElementById('purchaseOrderStatusChart').getContext('2d');
+        var purchaseOrderStatusPieChart = new Chart(purchaseOrderStatusChartCanvas, {
+            type: 'pie',
+            data: purchaseOrderStatusData,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Purchase Order Status',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+
+        // Daily Delivery Report Chart
+        var dailyData = @Html.Raw(Json.Serialize(ViewBag.DailyDeliveries));
+
+        if (dailyData && Array.isArray(dailyData)) {
+            var dates = dailyData.map(d => d.date);
+            var counts = dailyData.map(d => d.count);
+
+            var data = [{
+                x: dates,
+                y: counts,
+                type: 'scatter',
+                mode: 'lines+markers',
+                marker: { color: 'steelblue' },
+                line: { shape: 'linear' }
+            }];
+
+            var layout = {
+                title: {
+                    text: 'Daily Delivery Report',
+                    font: { size: 16 }
+                },
+                xaxis: { title: 'Date', titlefont: { size: 14 } },
+                yaxis: { title: 'Number of Deliveries', titlefont: { size: 14 } }
+            };
+
+            Plotly.newPlot('dailyDeliveriesChart', data, layout);
+        } else {
+            console.error('Invalid daily delivery data:', dailyData);
+        }
+
+        // Product Count Chart
+        var supplierData = @Html.Raw(Json.Serialize(ViewBag.SupplierViewModels));
+
+        if (supplierData && Array.isArray(supplierData)) {
+            var supplierNames = supplierData.map(s => s.supplierName);
+            var productCounts = supplierData.map(s => s.associatedProducts.length);
+
+            var ctx = document.getElementById('productCountChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: supplierNames,
+                    datasets: [{
+                        label: 'Product Count',
+                        data: productCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Product Count by Supplier',
+                            font: { size: 16 }
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error('Invalid supplier data:', supplierData);
+        }
+    </script>
+}

@@ -5,13 +5,12 @@ using System.ComponentModel.DataAnnotations;
 namespace Inventory_Management_System.ViewModels
 {
 
-    public class ProductView
+    public class ProductViewModel
     {
-        public ProductView()
+        public ProductViewModel()
         {
             Suppliers = new List<SelectListItem>(); // Initialize Suppliers list
         }
-
         public string? ProductName { get; set; }
 
         public string? ProductDescription { get; set; }

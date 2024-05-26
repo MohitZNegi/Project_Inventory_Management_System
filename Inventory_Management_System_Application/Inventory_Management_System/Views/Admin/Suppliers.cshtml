@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Inventory_Management_System.Models.Supplier>
+﻿@model IEnumerable<Inventory_Management_System.ViewModels.SupplierViewModel>
 
 @{
     ViewData["Title"] = "Suppliers List";
@@ -6,6 +6,7 @@
 
 <h1 class="text-center mb-4">Suppliers List</h1>
 
+<<<<<<< HEAD
 <div class="container">
     <div class="row">
         <div class="col">
@@ -26,7 +27,7 @@
                     <tbody>
                         @foreach (var supplier in Model)
                         {
-                            <tr class="@((supplier.SupplierID % 2 == 0) ? "even-row" : "odd-row")">
+                            <tr class="@((supplier.SupplierId % 2 == 0) ? "even-row" : "odd-row")">
                                 <td>@supplier.SupplierName</td>
                                 <td>@supplier.Location</td>
                                 <td>@supplier.ContactDetails</td>
@@ -49,8 +50,8 @@
                                 <td>@supplier.CreatedAt</td>
                                 <td>@((supplier.UpdatedAt != DateTime.MinValue) ? supplier.UpdatedAt.ToString() : "N/A")</td>
                                 <td>
-                                    <a href="@Url.Action("EditSupplier", "Admin", new { id = supplier.SupplierID })" class="btn btn-primary btn-rounded mr-2">Edit</a>
-                                    <a href="@Url.Action("ConfirmDeleteSupplier", "Admin", new { id = supplier.SupplierID })" class="btn btn-danger btn-rounded">Delete</a>
+                                    <a href="@Url.Action("EditSupplier", "Admin", new { id = supplier.SupplierId })" class="btn btn-primary btn-rounded mr-2">Edit</a>
+                                    <a href="@Url.Action("ConfirmDeleteSupplier", "Admin", new { id = supplier.SupplierId })" class="btn btn-danger btn-rounded">Delete</a>
                                 </td>
                             </tr>
                         }
@@ -187,3 +188,62 @@
                         color: #ccc;
                     }
 </style>
+=======
+<table class="table">
+    <thead>
+        <tr>
+            <th>Supplier Name</th>
+            <th>Location</th>
+            <th>Contact Details</th>
+            <th>Associated Products</th>
+            <th>Product Count</th>
+            <th>Created By</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model)
+        {
+            <tr>
+                <td>@supplier.SupplierName</td>
+                <td>@supplier.Location</td>
+                <td>@supplier.ContactDetails</td>
+                <td>
+                    @if (supplier.AssociatedProducts.Any())
+                    {
+                        <ul>
+                            @foreach (var product in supplier.AssociatedProducts)
+                            {
+                                <li>@product.ProductName</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No products associated</span>
+                    }
+                </td>
+                <td>@supplier.AssociatedProducts.Count</td>
+                <td>@supplier.CreatedBy</td>
+                <td>@supplier.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                @if (supplier.UpdatedAt == DateTime.MinValue)
+                {
+                    <td>N/A</td>
+                }
+                else
+                {
+                    <td>@supplier.UpdatedAt</td>
+                }
+                <td>
+                    <a asp-action="EditSupplier" asp-route-id="@supplier.SupplierId">Edit</a> |
+                    <a asp-action="ConfirmDeleteSupplier" asp-route-id="@supplier.SupplierId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="AddSupplier">Add New Supplier</a>
+>>>>>>> origin/Client

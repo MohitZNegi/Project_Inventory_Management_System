@@ -186,12 +186,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkU3VwcGxpZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/AllOrders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWxsT3JkZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/ConfirmDeleteProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ29uZmlybURlbGV0ZVByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/ConfirmDeleteSupplier.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ29uZmlybURlbGV0ZVN1cHBsaWVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/EditProduct.cshtml]
@@ -206,6 +214,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/InvoiceList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW52b2ljZUxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/OrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT3JkZXJEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Admin/Products.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -214,12 +230,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU3VwcGxpZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/Checkout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENoZWNrb3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/InvoiceList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XEludm9pY2VMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/OrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XE9yZGVyRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/OrderHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XE9yZGVySGlzdG9yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/ProductItems.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XFByb2R1Y3RJdGVtcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/Update.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XFVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/ViewCart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XFZpZXdDYXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Client/ViewProfile.cshtml]
@@ -264,10 +308,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Product/Products.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxQcm9kdWN0cy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Product/ViewCart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxWaWV3Q2FydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Inventory Management/Project_Inventory_Management_System/Inventory_Management_System_Application/Inventory_Management_System/Views/Shared/Error.cshtml]

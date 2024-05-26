@@ -66,7 +66,7 @@ namespace Inventory_Management_System.Controllers
                     Value = $"{s.SupplierID}-{s.SupplierName}" // Combine SupplierID and SupplierName
                 }).ToList(); // Explicitly convert to List<SelectListItem>
 
-                var productView = new ProductView
+                var productView = new ProductViewModel
                 {
                     Suppliers = supplierList
                 };
@@ -81,7 +81,7 @@ namespace Inventory_Management_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> AddProduct(ProductView productView, string supplier)
+        public async Task<IActionResult> AddProduct(ProductViewModel productView, string supplier)
         {
             if (ModelState.IsValid)
             {
@@ -540,6 +540,166 @@ namespace Inventory_Management_System.Controllers
             return View(cartItems);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllOrders()
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return Unauthorized();
+
+            // Retrieve the order history for the user, including related order items and product details
+            var orders = await _dbContext.OrderItem_Model
+                .Include(o => o.Order.User)
+                .Include(o => o.Order)
+                .Include(o => o.Product)
+                .ToListAsync();
+
+            // Group the order items by the order they belong to
+            var groupedOrders = orders.GroupBy(o => o.OrderId)
+                                      .Select(g => g.First().Order) // Select only the unique orders
+                                      .ToList();
+
+            return View(groupedOrders);
+        }
+        [HttpGet]
+        public async Task<IActionResult> OrderDetails(int orderId)
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return Unauthorized();
+
+            // Retrieve the order from the database
+            var order = await _dbContext.Order_Model
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Retrieve order items associated with the order
+            var orderItems = await _dbContext.OrderItem_Model
+                .Include(oi => oi.Product)
+                .Where(oi => oi.OrderId == orderId)
+                .ToListAsync();
+
+            // Map the order and order items to a view model
+            var orderDetails = new OrderDetailsViewModel
+            {
+                OrderId = order.OrderId,
+                UserId = order.UserId,
+                UserName = order.User.UserName,
+                OrderCreatedAt = order.OrderCreatedAt,
+                OrderDate = order.OrderDate,
+                OrderPlacedBy = order.OrderPlacedBy,
+                ShippingAddress = order.ShippingAddress,
+                OrderStatus = order.OrderStatus,
+                TotalAmount = order.TotalAmount,
+                OrderItems = orderItems.Select(oi => new OrderItemViewModel
+                {
+                    ProductId = oi.ProductId,
+                    ProductName = oi.Product.ProductName,
+                    Quantity = oi.Quantity,
+                    Price = oi.Price
+                }).ToList()
+            };
+
+            return View(orderDetails);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> InvoiceList()
+        {
+            var invoices = await _dbContext.Invoice_Model
+                .Include(i => i.Order)
+                .ThenInclude(o => o.User)
+                .Select(i => new InvoiceViewModel
+                {
+                    InvoiceId = i.InvoiceId,
+                    OrderId = i.OrderId,
+                    UserName = i.Order.User.UserName,
+                    OrderDate = i.Order.OrderDate,
+                    DueDate = i.DueDate,
+                    InvoiceFilePath = i.InvoiceFilePath,
+                    PaymentStatus = i.PaymentStatus,
+                    TotalAmount = i.Order.TotalAmount
+                })
+                .ToListAsync();
+
+            return View(invoices);
+        }
+
+        // GET: Admin Dashboard
+        public async Task<IActionResult> Dashboard()
+        {
+            // Retrieve purchase order status data
+            var purchaseOrderStatus = GetPurchaseOrderStatus();
+            ViewBag.PurchaseOrderStatus = purchaseOrderStatus;
+
+            // Retrieve daily delivery data asynchronously
+            var dailyDeliveries = await GetDailyDeliveries();
+            ViewBag.DailyDeliveries = dailyDeliveries;
+
+            // Retrieve product count data
+            var supplierViewModels = GetSupplierViewModels();
+            ViewBag.SupplierViewModels = supplierViewModels;
+
+            return View();
+        }
+
+        // Method to get Purchase Order Status
+        private PurchaseOrderStatusViewModel GetPurchaseOrderStatus()
+        {
+            var deliveredCount = _dbContext.Order_Model.Count(o => o.OrderStatus == "Delivered");
+            var pendingCount = _dbContext.Order_Model.Count(o => o.OrderStatus == "Pending");
+            var onTheWayCount = _dbContext.Order_Model.Count(o => o.OrderStatus == "On-the-way");
+
+            return new PurchaseOrderStatusViewModel
+            {
+                DeliveredCount = deliveredCount,
+                PendingCount = pendingCount,
+                OnTheWayCount = onTheWayCount
+            };
+        }
+
+        // Method to get Daily Deliveries
+        private async Task<IEnumerable<DeliveryHistoryReportViewModel>> GetDailyDeliveries()
+        {
+            var dailyDeliveries = await _dbContext.Order_Model
+                .Where(o => o.OrderStatus == "Delivered")
+                .GroupBy(o => o.OrderDate.Date)
+                .Select(g => new DeliveryHistoryReportViewModel
+                {
+                    Date = g.Key,
+                    Count = g.Count()
+                })
+                .ToListAsync();
+
+            return dailyDeliveries;
+        }
+
+        // Method to get Supplier View Models
+        private IEnumerable<SupplierViewModel> GetSupplierViewModels()
+        {
+            var suppliers = _dbContext.Supplier_Model.ToList();
+            var supplierViewModels = suppliers.Select(s => new SupplierViewModel
+            {
+                SupplierId = s.SupplierID,
+                SupplierName = s.SupplierName,
+                Location = s.Location,
+                ContactDetails = s.ContactDetails,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                AssociatedProducts = _dbContext.Product_Model.Where(p => p.SupplierID == s.SupplierID).ToList()
+            }).ToList();
+
+            return supplierViewModels;
+        }
     }
-        
+
 }

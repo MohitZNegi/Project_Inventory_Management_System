@@ -1,0 +1,132 @@
+﻿@model List<Inventory_Management_System.Models.Order>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+            text-align: center; /* Center align table content */
+        }
+
+            .table th,
+            .table td {
+                padding: 8px;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+                border-bottom: 2px solid #dee2e6;
+                text-align: center; /* Center align table headers */
+                font-weight: bold;
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f0f0f0;
+            }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Order History</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td>@order.OrderStatus</td>
+                            <td>$@order.TotalAmount</td>
+                            <td>
+                                <a href="@Url.Action("OrderDetails", "Client", new { orderId = order.OrderId })" class="btn btn-primary">View Details</a>
+                                @if (order.OrderStatus == "Pending")
+                                {
+                                    <button class="btn btn-danger cancel-order" data-order-id="@order.OrderId">Cancel</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No orders found.</p>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.cancel-order').click(function () {
+                var orderId = $(this).data('order-id');
+
+                if (confirm('Are you sure you want to cancel this order?')) {
+                    $.ajax({
+                        url: '/api/Client/CancelOrder/' + orderId,
+                        type: 'POST',
+                        success: function (response) {
+                            alert('Order has been canceled.');
+                            location.reload(); // Refresh the page to update the order history
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Failed to cancel order: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

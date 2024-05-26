@@ -85,7 +85,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="cart-button" href="/product/viewcart">
+            <a class="cart-button" href="/client/viewcart">
                 <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715835043/Cart-removebg-preview_r2drni.png" style="height: 40px; width: 40px; margin-top: 8px;" alt="Cart Icon" class="cart-icon" />
                 <!-- Display cart item count here -->
                 <span id="cartItemCount" class="custom-badge @(cartItemCount <= 0 ? "hidden" : "")">@cartItemCount</span>
@@ -109,7 +109,7 @@
             <a class="square-button-white" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
         <li class="nav-item">
-            <a class="square-button-black" id="register" href="home/register">Join Us</a>
+            <a class="square-button-black" id="register" href="/home/register">Join Us</a>
         </li>
     }
 
