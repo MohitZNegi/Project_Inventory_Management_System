@@ -11,7 +11,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 70vh;
+            height: 75vh;
         }
 
         #cart-table {
@@ -251,8 +251,9 @@
         </tbody>
     </table>
 
-    <button id="clear-cart" type="button" class="btn btn-danger">Clear Cart</button>
-        <a href="@Url.Action("Checkout", "Client")" class="btn btn-primary" id="proceed-to-checkout" disabled>Proceed to Checkout</a>
+        <button id="clear-cart" type="button" class="btn btn-danger" style="margin-bottom: 10px;">Clear Cart</button>
+        <a href="@Url.Action("Checkout", "Client")" class="btn btn-primary" id="proceed-to-checkout" disabled style="margin-bottom: 10px;">Proceed to Checkout</a>
+
 
     <div class="confirm-message">
         <p>Are you sure you want to clear your cart?</p>

@@ -439,5 +439,10 @@ namespace Inventory_Management_System.Controllers
 
             return weeklySpendData;
         }
+
+        public IActionResult MLTemp()
+        {
+            return View();
+        }
     }
 }
