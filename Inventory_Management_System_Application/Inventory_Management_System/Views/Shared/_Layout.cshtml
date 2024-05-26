@@ -9,53 +9,23 @@
     <link rel="stylesheet" href="~/Inventory_Management_System.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/home/index">
-                    <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715060622/ware-master-high-resolution-logo-transparent_1_vj1owp.png" alt="Company Logo" class="align-top" style="height: 30px; width: 200px;">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Product/Products">Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Machine Learning</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Home/AboutUs">About Us</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                More
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/Home/ContactUs">Contact Us</a></li>
-                                <li><a class="dropdown-item" href="/Home/RefundPolicy">Refunds</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
+        @if (User.IsInRole("Admin"))
+        {
+            <partial name="_AdminNavbar" />
+        }
+        else
+        {
+            <partial name="_ClientNavbar" />
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

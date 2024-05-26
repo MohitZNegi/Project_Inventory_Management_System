@@ -2,22 +2,37 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2>Admin Dashboard</h2>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@ViewData["Title"]</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .dashboard-content {
+        margin-top: 50px; /* Adjust this value as needed */
+    }
+</style>
 
-<div class="row">
-    <div class="col-md-6">
-        <canvas id="purchaseOrderStatusChart" width="400" height="400"></canvas>
-    </div>
-    <div class="col-md-6">
-        <canvas id="productCountChart" width="400" height="400"></canvas>
-    </div>
-</div>
+    <div class="container">
+        <h2 style="text-align:center;">Admin Dashboard</h2>
 
-<div class="row mt-4">
-    <div class="col-md-12">
-        <div id="dailyDeliveriesChart" style="height: 400px;"></div>
+        <div class="dashboard-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="purchaseOrderStatusChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="productCountChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div id="dailyDeliveriesChart" style="height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
