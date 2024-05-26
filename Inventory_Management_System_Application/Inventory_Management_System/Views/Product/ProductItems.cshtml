@@ -184,7 +184,7 @@
         right: 20px;
         padding: 10px 20px;
         background-color: #0d6efd;
-        color: #fff
+        color: #fff;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
         z-index: 1000;
@@ -234,7 +234,7 @@
                             <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" min="1" value="1" oninput="validateQuantity(this)">
                         </div>
                         <button id="add-to-cart-btn" data-product-id="@Model.ProductID" button class="btn-black">Add to Cart</button>
-                        <button class="btn-white">Buy Now</button>
+                        <button id="buy-now-btn" class="btn-white">Buy Now</button>
                     }
                     else
                     {
@@ -439,6 +439,28 @@
             }
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            // Add event listener for the "Buy Now" button
+            $('#buy-now-btn').click(function () {
+                var productId = @Model.ProductID; // Get the product ID from the model
+                var quantity = $('#quantity').val(); // Get the quantity from the input field
+
+                // Make an AJAX request to the AddToCart action
+                $.post('@Url.Action("AddToCart", "Product")', { id: productId, quantity: quantity })
+                    .done(function (response) {
+                        if (response.success) {
+                            window.location.href = "/Client/Checkout"; // Redirect to checkout
+                        } else {
+                            // Display an error message in a floating box
+                            showCartMessage('Failed to add product to cart!', true);
+                        }
+                    })
+                    .fail(function () {
+                        // Display an error message in a floating box
+                        showCartMessage('Failed to add product to cart!', true);
+                    });
+            });
+        </script>
 
     }
 </body>

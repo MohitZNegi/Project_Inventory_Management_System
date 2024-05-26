@@ -1,5 +1,5 @@
 ﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
@@ -9,17 +9,21 @@
     }
 }
 
-<h1>Manage your account</h1>
-
-<div>
-    <h2>Change your account settings</h2>
-    <hr />
+<div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-md-3">
+            <h4 class="border-bottom pb-2">Account Settings</h4>
             <partial name="_ManageNav" />
         </div>
         <div class="col-md-9">
-            @RenderBody()
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="my-0">Manage Your Account</h4>
+                </div>
+                <div class="card-body">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -27,3 +31,36 @@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
+
+
+<style>
+    /* Custom styles for account management page */
+    .container {
+        max-width: 1200px;
+        margin-top: 5rem; /* Adjust this value as needed */
+        margin-bottom: 5rem; /* Adjust this value as needed */
+    }
+
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+    }
+
+    .card-header {
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+    }
+
+    h4 {
+        font-weight: 500;
+    }
+
+    .border-bottom {
+        border-bottom: 2px solid #ddd;
+    }
+
+    .pb-2 {
+        padding-bottom: 0.5rem;
+    }
+
+</style>
