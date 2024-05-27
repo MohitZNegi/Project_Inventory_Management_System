@@ -11,6 +11,73 @@
     .dashboard-content {
         margin-top: 50px; /* Adjust this value as needed */
     }
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px 0;
+        text-align: left; /* Align text to the left */
+        width: 146.2%;
+        position: relative;
+        margin-top: 25px;
+        margin-left: -300px;
+        margin-bottom: -40px;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 40%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
 </style>
 
     <div class="container">
@@ -34,6 +101,43 @@
         </div>
 
     </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4>Subscribe</h4>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+                <p>By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>

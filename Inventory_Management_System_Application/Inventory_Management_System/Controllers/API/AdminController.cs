@@ -15,10 +15,6 @@ using MimeKit;
 using Font = iTextSharp.text.Font;
 using Paragraph = iTextSharp.text.Paragraph;
 using Microsoft.AspNetCore.Hosting;
-using Inventory_Management_System.Service;
-using Microsoft.Extensions.Options;
-using WebPWrecover.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Inventory_Management_System.Controllers.API
 {
@@ -30,8 +26,6 @@ namespace Inventory_Management_System.Controllers.API
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _dbContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IOptions<AuthMessageSenderOptions> _options;
-        private readonly ILogger<EmailSender> _logger;
 
         public AdminController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
@@ -81,7 +75,7 @@ namespace Inventory_Management_System.Controllers.API
             }
 
             order.OrderStatus = "Delivered";
-            order.OrderDate= DateTime.Now;
+            order.OrderDate = DateTime.Now;
             _dbContext.Order_Model.Update(order);
             await _dbContext.SaveChangesAsync();
 
@@ -96,7 +90,7 @@ namespace Inventory_Management_System.Controllers.API
             {
                 OrderId = order.OrderId,
                 UserId = order.UserId,
-               
+
                 OrderDate = order.OrderDate,
                 DueDate = order.OrderDate.AddDays(30),
                 InvoiceFilePath = invoiceFilePath,
@@ -129,7 +123,7 @@ namespace Inventory_Management_System.Controllers.API
 
                 var logoUrl = "https://res.cloudinary.com/dup5hdi05/image/upload/v1715060622/ware-master-high-resolution-logo-transparent_1_vj1owp.png";
                 var logo = iTextSharp.text.Image.GetInstance(logoUrl);
-                logo.ScaleAbsolute(200f, 100f); 
+                logo.ScaleAbsolute(200f, 100f);
                 document.Add(logo);
 
                 document.Add(new Paragraph($"Invoice for Order #{order.OrderId}", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
@@ -184,5 +178,4 @@ namespace Inventory_Management_System.Controllers.API
 
     }
 }
-   
 
