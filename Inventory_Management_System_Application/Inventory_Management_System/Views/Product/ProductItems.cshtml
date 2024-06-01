@@ -234,7 +234,7 @@
                             <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" min="1" value="1" oninput="validateQuantity(this)">
                         </div>
                         <button id="add-to-cart-btn" data-product-id="@Model.ProductID" button class="btn-black">Add to Cart</button>
-                        <button id="buy-now-btn" class="btn-white">Buy Now</button>
+                       // <button id="buy-now-btn" class="btn-white">Buy Now</button>
                     }
                     else
                     {
@@ -405,12 +405,12 @@
                                 showCartMessage('Product added to cart!');
                             } else {
                                 // Display an error message in a floating box
-                                showCartMessage('Failed to add product to cart!', true);
+                                showCartMessage('login to add product to cart!', true);
                             }
                         })
                         .fail(function () {
                             // Display an error message in a floating box
-                            showCartMessage('Failed to add product to cart!', true);
+                            showCartMessage('login to add product to cart!', true);
                         });
                 });
 
@@ -452,12 +452,12 @@
                             window.location.href = "/Client/Checkout"; // Redirect to checkout
                         } else {
                             // Display an error message in a floating box
-                            showCartMessage('Failed to add product to cart!', true);
+                            showCartMessage('login to add product to cart!', true);
                         }
                     })
                     .fail(function () {
                         // Display an error message in a floating box
-                        showCartMessage('Failed to add product to cart!', true);
+                        showCartMessage('login to add product to cart!', true);
                     });
             });
         </script>
