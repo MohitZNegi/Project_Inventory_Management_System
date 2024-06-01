@@ -384,8 +384,21 @@ namespace Inventory_Management_System.Controllers
             // Retrieve all suppliers from the database
             //var suppliers = _dbContext.Supplier_Model.Include(s => s.ProductSuppliers).ToList();
             var suppliers = await _dbContext.Supplier_Model.ToListAsync();
-            return View(suppliers);
+            var supplierViewModels = suppliers.Select(s => new SupplierViewModel
+            {
+                SupplierId = s.SupplierID,
+                SupplierName = s.SupplierName,
+                Location = s.Location,
+                ContactDetails = s.ContactDetails,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                AssociatedProducts = _dbContext.Product_Model.Where(p => p.SupplierID == s.SupplierID).ToList()
+            }).ToList();
+
+            return View(supplierViewModels);
+            return View(supplierViewModels);
         }
+
 
         // GET: Admin/AddSupplier
         public IActionResult AddSupplier()
