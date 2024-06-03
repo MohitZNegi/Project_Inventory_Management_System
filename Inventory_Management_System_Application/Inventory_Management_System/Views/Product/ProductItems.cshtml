@@ -1,0 +1,464 @@
+﻿@model Inventory_Management_System.Models.Product
+<title>@ViewData["Product Items"]</title>
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<style>
+    .btn-black {
+        background-color: black;
+        color: white;
+        border: 2px solid black;
+        padding: 10px 20px;
+        width: 100%;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .btn-white {
+        background-color: white;
+        color: black;
+        border: 2px solid black;
+        padding: 10px 20px;
+        width: 100%;
+        margin-top: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .btn-black:hover {
+        background-color: white;
+        color: black;
+        border-color: white;
+    }
+
+    .btn-white:hover {
+        background-color: black;
+        color: white;
+        border-color: black;
+    }
+
+
+    /* Footer styling */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left;
+        position: relative;
+        margin-top: 50px;
+        margin-bottom: -40px;
+        margin-left: -200px;
+        width: 130.9%;
+    }
+
+    footer button.btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: #fff;
+        padding: 6px 10px;
+        margin-top: 10px;
+        font-size: 14px;
+        width: 30%;
+    }
+
+    footer .form-group {
+        margin-bottom: 0;
+    }
+
+    footer .signup-link {
+        text-align: left;
+        margin-top: 20px;
+    }
+
+        footer .signup-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+    footer .input-group {
+        margin-bottom: 10px;
+    }
+
+    footer .input-group-append .btn {
+        padding: 8px 12px;
+    }
+
+    footer h4, footer h5 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    footer ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+            footer ul li a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+                footer ul li a:hover {
+                    color: #ccc;
+                }
+
+    /* Container for product description */
+    .description-container {
+        max-height: 300px;
+        overflow-y: auto;
+        text-align: left;
+        max-width: 400px
+    }
+
+        .description-container h2 {
+            margin-top: 0;
+        }
+
+    .product-image {
+        display: block;
+        margin-left: 200px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .product-details {
+        margin-left: 300px;
+        width: 400px;
+        margin-top: 20px;
+        margin-top: -50px;
+        margin-left: 650px;
+        text-align: left;
+    }
+
+        .product-details hr {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+    #readMoreLink {
+        margin-top: -10px;
+        padding-bottom: 15px;
+        display: block;
+        text-decoration: underline;
+        color: #007bff;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; 
+    }
+
+    .enlarged-image {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        object-fit: contain;
+        background-color: white;
+        padding: 10px;
+    }
+
+    .cart-message {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #0d6efd;
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+        z-index: 1000;
+        display: none;
+    }
+
+
+</style>
+<body>
+    <!-- Product Details Section -->
+    <div class="container mt-5">
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+                <img src="@Model.ProductImg" alt="Product Image" id="productImage" class="img-fluid product-image" style="height:500px; cursor:pointer;" onclick="openEnlargedImage('@Model.ProductImg')">
+            </div>
+            <div class="col-md-8">
+                <div class="d-flex flex-column justify-content-center align-items-left text-left h-100" style="margin-left:200px; margin-bottom: 165px; width:400px;">
+                    @if (Model != null)
+                    {
+                        <h2>@Model.ProductName</h2>
+                        <p>$@Model.ProductPrice</p>
+                        <div id="shortDescription">
+                            @{
+                                string shortDesc = Model.ProductDescription;
+                                if (shortDesc.Length > 55)
+                                {
+                                    int lastSpace = shortDesc.LastIndexOf(' ', 55);
+                                    if (lastSpace != -1)
+                                    {
+                                        shortDesc = shortDesc.Substring(0, lastSpace) + "...";
+                                    }
+                                    else
+                                    {
+                                        shortDesc = shortDesc.Substring(0, 55) + "...";
+                                    }
+                                }
+                            }
+                            <p>@shortDesc</p>
+                        </div>
+
+                        <div id="fullDescription" style="display: none;">
+                            <p>@Model.ProductDescription</p>
+                        </div>
+                        <a href="#" id="readMoreLink">Read More</a>
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter quantity" min="1" value="1" oninput="validateQuantity(this)">
+                        </div>
+                        <button id="add-to-cart-btn" data-product-id="@Model.ProductID" button class="btn-black">Add to Cart</button>
+                       // <button id="buy-now-btn" class="btn-white">Buy Now</button>
+                    }
+                    else
+                    {
+                        <p>Product not found.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-details">
+        <hr>
+        <h4>Details</h4>
+        <p>Learn more about our product and its ingredients, nutritional information, and cooking instructions.</p>
+        <hr>
+
+        <h4>Shipping</h4>
+        <p>We offer fast and reliable shipping services to ensure that your order arrives fresh and on time.</p>
+        <hr>
+
+        <h4>Returns</h4>
+        <p>If you're not completely satisfied with your purchase, we offer hassle-free returns and refunds.</p>
+        <hr>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+                </div>
+                <div class="col-md-3">
+                    <h4><strong>About Us</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/home/contactus">Contact</a></li>
+                        <li><a href="/home/faqs">FAQs</a></li>
+                        <li><a href="/home/aboutus">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h4><strong>Terms</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/home/privacy">Privacy</a></li>
+                        <li><a href="/home/termsandservices">T&S</a></li>
+                        <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4><strong>Follow Us</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                        <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                        <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var shortDescription = document.getElementById("shortDescription");
+                var fullDescription = document.getElementById("fullDescription");
+                var readMoreLink = document.getElementById("readMoreLink");
+
+                readMoreLink.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    if (shortDescription.style.display === "none") {
+                        shortDescription.style.display = "block"; // Show short description
+                        fullDescription.style.display = "none"; // Hide full description
+                        readMoreLink.innerText = "Read More"; // Change link text
+                    } else {
+                        shortDescription.style.display = "none"; // Hide short description
+                        fullDescription.style.display = "block"; // Show full description
+                        readMoreLink.innerText = "Hide"; // Change link text
+                    }
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const btnWhite = document.querySelector('.btn-white');
+                const btnBlack = document.querySelector('.btn-black');
+
+                btnWhite.addEventListener('mouseover', function () {
+                    btnBlack.style.backgroundColor = 'white';
+                    btnBlack.style.color = 'black';
+                    btnBlack.style.borderColor = 'black';
+                    btnWhite.style.backgroundColor = 'black';
+                    btnWhite.style.color = 'white';
+                    btnWhite.style.borderColor = 'black';
+                });
+
+                btnWhite.addEventListener('mouseleave', function () {
+                    btnBlack.style.backgroundColor = 'black';
+                    btnBlack.style.color = 'white';
+                    btnBlack.style.borderColor = 'black';
+                    btnWhite.style.backgroundColor = 'white';
+                    btnWhite.style.color = 'black';
+                    btnWhite.style.borderColor = 'black';
+                });
+
+                btnBlack.addEventListener('mouseover', function () {
+                    btnWhite.style.backgroundColor = 'black';
+                    btnWhite.style.color = 'white';
+                    btnWhite.style.borderColor = 'black';
+                    btnBlack.style.backgroundColor = 'white';
+                    btnBlack.style.color = 'black';
+                    btnBlack.style.borderColor = 'black';
+                });
+
+                btnBlack.addEventListener('mouseleave', function () {
+                    btnWhite.style.backgroundColor = 'white';
+                    btnWhite.style.color = 'black';
+                    btnWhite.style.borderColor = 'black';
+                    btnBlack.style.backgroundColor = 'black';
+                    btnBlack.style.color = 'white';
+                    btnBlack.style.borderColor = 'black';
+                });
+            });
+        </script>
+        <script>
+            function openEnlargedImage(imageSrc) {
+                // Create a div for the overlay
+                const overlay = document.createElement('div');
+                overlay.classList.add('overlay');
+
+                // Create an image element for the enlarged image
+                const enlargedImage = document.createElement('img');
+                enlargedImage.src = imageSrc;
+                enlargedImage.classList.add('enlarged-image');
+
+                // Append the enlarged image to the overlay
+                overlay.appendChild(enlargedImage);
+
+                // Append the overlay to the body
+                document.body.appendChild(overlay);
+
+                // Close the enlarged image when clicking outside it
+                overlay.addEventListener('click', function (e) {
+                    if (e.target === overlay) {
+                        document.body.removeChild(overlay);
+                    }
+                });
+            }
+
+        </script>
+        <script>
+            $(function () {
+                // Add event listener for the "Add to Cart" button
+                $('#add-to-cart-btn').click(function () {
+                    var productId = @Model.ProductID; // Get the product ID from the model
+                    var quantity = $('#quantity').val(); // Get the quantity from the input field
+
+                    // Make an AJAX request to the AddToCart action
+                    $.post('@Url.Action("AddToCart", "Product")', { id: productId, quantity: quantity })
+                        .done(function (response) {
+                            if (response.success) {
+                                // Update the cart count in the navbar
+                                $('#cartItemCount').text(response.cartItemCount);
+                                // Display a success message in a floating box
+                                showCartMessage('Product added to cart!');
+                            } else {
+                                // Display an error message in a floating box
+                                showCartMessage('login to add product to cart!', true);
+                            }
+                        })
+                        .fail(function () {
+                            // Display an error message in a floating box
+                            showCartMessage('login to add product to cart!', true);
+                        });
+                });
+
+                // Function to show cart message
+                function showCartMessage(message, isError = false) {
+                    var cartMessage = $('<div>').addClass('cart-message').text(message);
+                    if (isError) {
+                        cartMessage.addClass('error'); // Apply error style if needed
+                    }
+                    $('body').append(cartMessage); // Append the message box to the body
+
+                    // Show the message box
+                    cartMessage.fadeIn('fast').delay(3000).fadeOut('slow', function () {
+                        $(this).remove(); // Remove the message box from the DOM after fading out
+                    });
+                }
+            });
+
+        </script>
+
+        <script>
+            function validateQuantity(input) {
+                if (input.value === "0") {
+                    input.value = "1"; // Reset value to 1 if user enters 0
+                }
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            // Add event listener for the "Buy Now" button
+            $('#buy-now-btn').click(function () {
+                var productId = @Model.ProductID; // Get the product ID from the model
+                var quantity = $('#quantity').val(); // Get the quantity from the input field
+
+                // Make an AJAX request to the AddToCart action
+                $.post('@Url.Action("AddToCart", "Product")', { id: productId, quantity: quantity })
+                    .done(function (response) {
+                        if (response.success) {
+                            window.location.href = "/Client/Checkout"; // Redirect to checkout
+                        } else {
+                            // Display an error message in a floating box
+                            showCartMessage('login to add product to cart!', true);
+                        }
+                    })
+                    .fail(function () {
+                        // Display an error message in a floating box
+                        showCartMessage('login to add product to cart!', true);
+                    });
+            });
+        </script>
+
+    }
+</body>

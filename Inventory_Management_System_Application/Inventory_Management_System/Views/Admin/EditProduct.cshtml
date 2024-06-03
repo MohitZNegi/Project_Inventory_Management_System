@@ -1,0 +1,221 @@
+﻿@model Inventory_Management_System.Models.Product
+@{
+    ViewData["Title"] = "Edit Product";
+}
+<link href="~/css/site.css" rel="stylesheet">
+
+<style>
+    body {
+        padding: 40px;
+        margin: 0;
+        background-color: #f0f0f0;
+        background-image: url('https://res.cloudinary.com/dup5hdi05/image/upload/v1715226768/Untitled_design_cty4ke.png');
+        background-size: cover;
+    }
+
+    .floating-box {
+        width: 50%;
+        margin: 50px auto;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+    .form-control {
+        width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .btn-back {
+        color: black;
+        font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left; /* Align text to the left */
+        margin-top: 50px;
+        margin-bottom: 0px;
+        width: 107.4%;
+        margin-left: -588px;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 35%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
+</style>
+
+<div class="floating-box">
+    <a href="/Admin/Products" class="btn-back">←Back to List</a>
+    <h1 class="text-center">Edit Product</h1>
+    <hr />
+
+    <form asp-action="EditProduct" asp-route-id="@Model.ProductID" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="ProductID" />
+        <input type="hidden" name="productName" value="@Model.ProductName" />
+
+
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label">Product Name</label>
+            <input asp-for="ProductName" class="form-control" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductDescription" class="control-label">Product Description</label>
+            <input asp-for="ProductDescription" class="form-control" />
+            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductPrice" class="control-label">Product Price</label>
+            <input asp-for="ProductPrice" class="form-control" />
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="ProductSuppliers">Supplier</label>
+            <select id="ProductSuppliers" name="supplier" asp-for="SupplierID" class="form-control">
+                <option value="">Select Supplier</option>
+                @foreach (var supplier in ViewBag.Suppliers)
+                {
+                    <option value="@supplier.Value" selected="@supplier.Selected">@supplier.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductQuantity" class="control-label">Product Quantity</label>
+            <input asp-for="ProductQuantity" class="form-control" />
+            <span asp-validation-for="ProductQuantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedBy" class="control-label">Created By</label>
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductImgFile" class="control-label">Product Image: </label>
+            @if (!string.IsNullOrEmpty(Model.ProductImg))
+            {
+                <img src="@Model.ProductImg" alt="Product Image" class="img-fluid" style="max-width: 200px; margin-bottom: 10px;" />
+            }
+            <input asp-for="ProductImgFile" type="file" class="form-control" />
+            <span asp-validation-for="ProductImgFile" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+                </div>
+                <div class="col-md-3">
+                    <h4><strong>About Us</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/home/contactus">Contact</a></li>
+                        <li><a href="/home/faqs">FAQs</a></li>
+                        <li><a href="/home/aboutus">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h4><strong>Terms</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/home/privacy">Privacy</a></li>
+                        <li><a href="/home/termsandservices">T&S</a></li>
+                        <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4><strong>Follow Us</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                        <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                        <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

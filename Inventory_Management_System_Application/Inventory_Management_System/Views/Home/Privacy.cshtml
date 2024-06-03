@@ -1,6 +1,308 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h1>@ViewData["Title"]</h1>
+<head>
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f9f9f9;
+        color: #333;
+        padding: 70px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .privacy-section {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .privacy-question {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .privacy-question h2 {
+            color: #34495e;
+            margin-top: 0;
+        }
+
+        .privacy-question p {
+            margin: 10px 0;
+        }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: black;
+            text-decoration: underline;
+        }
+
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left; /* Align text to the left */
+        margin-top: 50px;
+        margin-bottom: 0px;
+        width: 100.3%;
+        margin-left: -125px;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 35%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
+
+
+    .accordion {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .accordion-item {
+        background: #fff;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .accordion-header {
+        background-color: #f1f1f1;
+        padding: 15px 20px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .accordion-body {
+        padding: 20px;
+        display: none;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .accordion.active .accordion-header {
+        background-color: #e5e5e5;
+    }
+
+    .accordion.active .accordion-body {
+        display: block;
+    }
+
+</style>
+</head>
+
+<div class="privacy-section">
+    <!-- Accordion 1 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>1. Information We Collect?</h2>
+        </div>
+        <div class="accordion-body">
+            <p>We only collect information about you if we have a reason to do so, such as to provide our services, to communicate with you, or to improve our services. The information we collect may include:</p>
+            <ul>
+                <li>Personal Information: This may include your name, contact details (such as email address, phone number, and mailing address), and company information.</li>
+                <li>Payment Information: If you make purchases through our website, we may collect payment information, such as credit card details or other payment methods.</li>
+                <li>Usage Data: We may collect information about how you interact with our website, including your IP address, browser type, device information, and browsing patterns.</li>
+                <li>Cookies and Tracking Technologies: We use cookies and similar tracking technologies to enhance your experience on our website, analyze trends, and gather information about user behavior.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Accordion 2 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>2. How We Use Your Information</h2>
+        </div>
+        <div class="accordion-body">
+            <p>We use the information we collect in various ways, including to:</p>
+            <ul>
+                <li>To process and fulfill your orders for food products and services.</li>
+                <li>To communicate with you regarding your orders, account updates, and promotional offers.</li>
+                <li>To improve our website functionality, user experience, and customer service.</li>
+                <li>To analyze trends, conduct market research, and optimize our marketing strategies.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Accordion 3 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>3. Data Sharing and Disclosure</h2>
+        </div>
+        <div class="accordion-body">
+            <p>We may share your information with third parties under the following circumstances:</p>
+            <ul>
+                <li>Service Providers: We may engage third-party service providers to assist us in delivering our services, such as payment processors, shipping companies, and marketing agencies.</li>
+                <li>Legal Compliance: We may disclose your information when required by law or in response to legal requests, such as court orders or government inquiries.</li>
+                <li>Business Transfers: In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of the transaction. We will notify you of any such change in ownership or control of your personal information.</li>
+                <li>To analyze trends, conduct market research, and optimize our marketing strategies.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Accordion 4 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>4. Data Security</h2>
+        </div>
+        <div class="accordion-body">
+            <p>We implement security measures to protect your information from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
+        </div>
+    </div>
+
+    <!-- Accordion 5 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>5. Your Choices and Rights</h2>
+        </div>
+        <div class="accordion-body">
+            <p>You have the right to access, update, and delete your personal information stored in our systems. You can also choose to opt-out of receiving promotional communications from us.</p>
+        </div>
+    </div>
+
+    <!-- Accordion 6 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>6. Changes to This Policy</h2>
+        </div>
+        <div class="accordion-body">
+            <p>We may update this Privacy Policy periodically to reflect changes in our practices and legal requirements. We will notify you of any material updates through our website or other communication channels.</p>
+        </div>
+    </div>
+
+    <!-- Accordion 7 -->
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <h2>Contact Us</h2>
+        </div>
+        <div class="accordion-body">
+            <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us here <a href="/home/contactus">Contact Us</a></p>
+        </div>
+    </div>
+</div>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // JavaScript for accordion functionality
+    const accordions = document.querySelectorAll('.accordion-item');
+
+    accordions.forEach(accordion => {
+        const header = accordion.querySelector('.accordion-header');
+
+        header.addEventListener('click', () => {
+            accordion.classList.toggle('active');
+            const body = accordion.querySelector('.accordion-body');
+            body.style.display = body.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+</script>

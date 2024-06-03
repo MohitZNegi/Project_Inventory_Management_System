@@ -1,0 +1,468 @@
+﻿@model IEnumerable<Inventory_Management_System.Models.CartItem>
+<head>
+
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        #cart-table {
+            width: 200%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+            #cart-table th {
+                background-color: #343a40;
+                color: #fff;
+                padding: 10px;
+                text-align: center;
+            }
+
+            #cart-table td {
+                border-bottom: 1px solid #dee2e6;
+                padding: 10px;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+        .cart-item-quantity {
+            width: 80px;
+            text-align: center;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+            }
+
+        .alert {
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #333;
+            text-transform: capitalize;
+            transition: font-size 0.2s ease;
+        }
+
+            .product-name:hover {
+                text-decoration: underline;
+                color: #333;
+                font-size: 1.1em;
+            }
+
+
+        .confirm-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+        }
+
+            .confirm-message p {
+                margin-bottom: 10px;
+            }
+
+        .confirm-btn {
+            padding: 8px 16px;
+            margin-right: 5px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .confirm-btn:hover {
+                background-color: #0056b3;
+            }
+
+        .cancel-btn {
+            padding: 8px 16px;
+            background-color: red;
+            color: #fff;
+            margin-bottom: 3px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .cancel-btn:hover {
+                background-color: darkred;
+            }
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 40px 0;
+            text-align: left; /* Align text to the left */
+            width: 202%;
+            position: relative;
+            margin-top: 25px;
+            margin-left: -387.5px;
+            margin-bottom: -40px;
+        }
+
+            footer button.btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #fff;
+                padding: 6px 10px; /* Adjust button padding for smaller size */
+                margin-top: 10px; /* Add margin to separate from form */
+                font-size: 14px; /* Adjust font size */
+                width: 40%;
+            }
+
+            footer .form-group {
+                margin-bottom: 10px; /* Remove bottom margin for form group */
+            }
+            footer .form-control {
+                width:50%;
+            }
+
+            footer .signup-link {
+                text-align: left; /* Align signup text to the left */
+                margin-top: 20px; /* Add top margin to separate from form */
+            }
+
+                footer .signup-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+            footer .input-group {
+                margin-bottom: 10px; /* Add margin below input group */
+            }
+
+            footer .input-group-append .btn {
+                padding: 8px 12px; /* Adjust button padding for smaller size */
+            }
+
+            footer h4, footer h5 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                        footer ul li a:hover {
+                            color: #ccc;
+                        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="cart-title">Shopping Cart</h2>
+
+    <div id="empty-cart-msg" class="alert alert-info">Your cart is empty.</div>
+    <table id="cart-table" class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr data-cart-item-id="@item.CartID">
+                    <td>
+                        <a href="@Url.Action("ProductItems", "Product", new { id = item.Product.ProductID })" class="product-name">@item.Product.ProductName</a>
+                    </td>
+                    <td>
+                        <img src="@item.Product.ProductImg" alt="@item.Product.ProductName" style="width: 100px; height: auto;" />
+                    </td>
+                    <td>
+                        <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" />
+                    </td>
+                    <td>$@item.Product.ProductPrice</td>
+                    <td class="cart-item-total-price">$@(item.Product.ProductPrice * item.Quantity)</td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete-cart-item">Remove from Cart</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+        <button id="clear-cart" type="button" class="btn btn-danger" style="margin-bottom: 10px;">Clear Cart</button>
+        <a href="@Url.Action("Checkout", "Client")" class="btn btn-primary" id="proceed-to-checkout" disabled style="margin-bottom: 10px;">Proceed to Checkout</a>
+
+
+    <div class="confirm-message">
+        <p>Are you sure you want to clear your cart?</p>
+        <button class="confirm-btn">Confirm</button>
+        <button class="cancel-btn btn btn-secondary">Cancel</button>
+    </div>
+
+</div>
+</body>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initial check for empty cart
+            checkEmptyCart();
+
+            // Handle quantity input change
+            $('.cart-item-quantity').on('input', function () {
+                var cartItemId = $(this).closest('tr').data('cart-item-id');
+                var newQuantity = parseInt($(this).val());
+
+                if (!isValidQuantity(newQuantity)) {
+                    $(this).next('.text-danger').show();
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).next('.text-danger').hide();
+                    $(this).removeClass('is-invalid');
+
+                    $.ajax({
+                        url: '@Url.Action("EditCartItem", "Client")',
+                        type: 'POST',
+                        data: { id: cartItemId, quantity: newQuantity },
+                        success: function (response) {
+                            if (response.success) {
+                                updateCartItemTotalPrice(cartItemId, newQuantity);
+                                updateProceedButtonState();
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Failed to update cart item quantity.');
+                        }
+                    });
+                }
+
+                updateProceedButtonState();
+            });
+
+
+            // Delete cart item
+            $('.delete-cart-item').on('click', function () {
+                var cartItemId = $(this).closest('tr').data('cart-item-id');
+                showConfirmation('Are you sure you want to delete this item?', function () {
+                    $.ajax({
+                        url: '@Url.Action("DeleteCartItem", "Product")',
+                        type: 'POST',
+                        data: { id: cartItemId },
+                        success: function (response) {
+                            if (response.success) {
+                                $('tr[data-cart-item-id="' + cartItemId + '"]').remove();
+                                $('#cartItemCount').text(response.cartItemCount); // Update cart count
+                                checkEmptyCart(); // Check if cart is empty after deletion
+                            } else {
+                                showAlert('Failed to delete cart item.', 'danger');
+                            }
+                        },
+                        error: function () {
+                            showAlert('Failed to delete cart item.', 'danger');
+                        }
+                    });
+                });
+            });
+
+            // Clear cart
+            $('#clear-cart').on('click', function () {
+                showConfirmation('Are you sure you want to clear your cart?', function () {
+                    $.ajax({
+                        url: '@Url.Action("ClearCart", "Product")',
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#cart-table').remove(); // Remove the cart table
+                                $('#clear-cart').remove(); // Remove the clear cart button
+                                $('#btn-primary').remove();
+                                $('#proceed-to-checkout').remove(); // Remove the proceed to checkout button
+                                $('#cartItemCount').text(response.cartItemCount); // Update cart count
+                                checkEmptyCart();
+                            } else {
+                                showAlert('Failed to clear cart.', 'danger');
+                            }
+                        },
+                        error: function () {
+                            showAlert('Failed to clear cart.', 'danger');
+                        }
+                    });
+                });
+            });
+
+            // Helper function to update the total price for a cart item
+            function updateCartItemTotalPrice(cartItemId, newQuantity) {
+                var productPrice = parseFloat($('tr[data-cart-item-id="' + cartItemId + '"] td:nth-child(4)').text().replace('$', '').replace(',', ''));
+                var totalPrice = productPrice * newQuantity;
+                $('tr[data-cart-item-id="' + cartItemId + '"] .cart-item-total-price').text('$' + totalPrice.toFixed(2));
+            }
+
+            // Helper function to show confirmation message
+            function showConfirmation(message, confirmCallback) {
+                var confirmHtml = '<div class="confirm-message">' +
+                    '<p>' + message + '</p>' +
+                    '<button class="confirm-btn">Confirm</button>' +
+                    '<button class="cancel-btn btn btn-secondary">Cancel</button>' +
+                    '</div>';
+                $('.container').append(confirmHtml);
+
+                $('.confirm-btn').on('click', function () {
+                    $('.confirm-message').fadeOut('slow', function () {
+                        $(this).remove();
+                        if (confirmCallback && typeof confirmCallback === 'function') {
+                            confirmCallback();
+                        }
+                    });
+                });
+
+                $('.cancel-btn').on('click', function () {
+                    $('.confirm-message').fadeOut('slow', function () {
+                        $(this).remove();
+                    });
+                });
+
+                // Show the confirmation message
+                $('.confirm-message').fadeIn('slow');
+            }
+
+            // Helper function to check if cart is empty and show/hide empty cart message
+            function checkEmptyCart() {
+                var isEmpty = $('#cart-table tbody tr').length === 0;
+                var emptyCartMsg = $('#empty-cart-msg');
+
+                if (isEmpty) {
+                    $('#cart-table').remove(); // Remove the cart table
+                    $('#clear-cart').remove(); // Remove the clear cart button
+                    $('#btn-primary').remove();
+                    $('#proceed-to-checkout').remove(); // Remove the proceed to checkout button
+                    emptyCartMsg.show(); // Show empty cart message
+                } else {
+                    emptyCartMsg.hide(); // Hide empty cart message
+                }
+            }
+
+            // Function to check if the quantity is within valid range
+            function isValidQuantity(quantity) {
+                return quantity > 0;
+            }
+
+            // Update the "Proceed to Checkout" button state
+            function updateProceedButtonState() {
+                var canProceedToCheckout = true;
+                $('.cart-item-quantity').each(function () {
+                    var quantity = parseInt($(this).val());
+                    var maxQuantity = parseInt($(this).attr('max'));
+                    var minQuantity = parseInt($(this).attr('min'));
+
+                    if (!isValidQuantity(quantity, minQuantity, maxQuantity)) {
+                        canProceedToCheckout = false;
+                        return false;
+                    }
+                });
+
+                $('#proceed-to-checkout').prop('disabled', !canProceedToCheckout);
+            }
+            updateProceedButtonState();
+        });
+    </script>
+}

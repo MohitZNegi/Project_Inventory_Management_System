@@ -1,0 +1,35 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/home/index">
+            <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715060622/ware-master-high-resolution-logo-transparent_1_vj1owp.png" alt="Company Logo" class="align-top" style="height: 30px; width: 200px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#clientNavbarNav" aria-controls="clientNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="clientNavbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Product/Products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/client/mltemp">Machine Learning</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Client/Dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="clientNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        More
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="clientNavbarDropdown">
+                        <li><a class="dropdown-item" href="/Client/InvoiceList">Invoices</a></li>
+                        <li><a class="dropdown-item" href="/Client/OrderHistory">Order History</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/Home/ContactUs">Contact Us</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <partial name="_LoginPartial" />
+        </div>
+    </div>
+</nav>

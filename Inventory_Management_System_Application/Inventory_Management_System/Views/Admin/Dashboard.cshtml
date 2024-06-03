@@ -1,0 +1,244 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+<style>
+    .dashboard-content {
+        margin-top: 50px; /* Adjust this value as needed */
+    }
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px 0;
+        text-align: left; /* Align text to the left */
+        width: 146.2%;
+        position: relative;
+        margin-top: 25px;
+        margin-left: -300px;
+        margin-bottom: -40px;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 40%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
+</style>
+
+    <div class="container">
+        <h2 style="text-align:center;">Admin Dashboard</h2>
+
+        <div class="dashboard-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="purchaseOrderStatusChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="productCountChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div id="dailyDeliveriesChart" style="height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Purchase Order Status Chart
+        var purchaseOrderStatusData = {
+            labels: ["Delivered", "Pending", "On-the-way"],
+            datasets: [{
+                data: [@ViewBag.PurchaseOrderStatus.DeliveredCount, @ViewBag.PurchaseOrderStatus.PendingCount, @ViewBag.PurchaseOrderStatus.OnTheWayCount],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(255, 205, 86, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(255, 205, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var purchaseOrderStatusChartCanvas = document.getElementById('purchaseOrderStatusChart').getContext('2d');
+        var purchaseOrderStatusPieChart = new Chart(purchaseOrderStatusChartCanvas, {
+            type: 'pie',
+            data: purchaseOrderStatusData,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Purchase Order Status',
+                        font: { size: 16 }
+                    }
+                }
+            }
+        });
+
+        // Daily Delivery Report Chart
+        var dailyData = @Html.Raw(Json.Serialize(ViewBag.DailyDeliveries));
+
+        if (dailyData && Array.isArray(dailyData)) {
+            var dates = dailyData.map(d => d.date);
+            var counts = dailyData.map(d => d.count);
+
+            var data = [{
+                x: dates,
+                y: counts,
+                type: 'scatter',
+                mode: 'lines+markers',
+                marker: { color: 'steelblue' },
+                line: { shape: 'linear' }
+            }];
+
+            var layout = {
+                title: {
+                    text: 'Daily Delivery Report',
+                    font: { size: 16 }
+                },
+                xaxis: { title: 'Date', titlefont: { size: 14 } },
+                yaxis: { title: 'Number of Deliveries', titlefont: { size: 14 } }
+            };
+
+            Plotly.newPlot('dailyDeliveriesChart', data, layout);
+        } else {
+            console.error('Invalid daily delivery data:', dailyData);
+        }
+
+        // Product Count Chart
+        var supplierData = @Html.Raw(Json.Serialize(ViewBag.SupplierViewModels));
+
+        if (supplierData && Array.isArray(supplierData)) {
+            var supplierNames = supplierData.map(s => s.supplierName);
+            var productCounts = supplierData.map(s => s.associatedProducts.length);
+
+            var ctx = document.getElementById('productCountChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: supplierNames,
+                    datasets: [{
+                        label: 'Product Count',
+                        data: productCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Product Count by Supplier',
+                            font: { size: 16 }
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error('Invalid supplier data:', supplierData);
+        }
+    </script>
+}

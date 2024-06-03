@@ -1,0 +1,264 @@
+﻿@model Inventory_Management_System.ViewModels.OrderDetailsViewModel
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General styles */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        .card {
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .badge-secondary {
+            background-color: #6c757d;
+        }
+
+        .order-items-table th,
+        .order-items-table td {
+            vertical-align: middle;
+        }
+
+        .btn-cancel {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .btn-cancel:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+            }
+
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            text-align: left; /* Align text to the left */
+            width: 146.2%;
+            position: relative;
+            margin-top: 25px;
+            margin-left: -300px;
+            margin-bottom: -40px;
+        }
+
+            footer button.btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #fff;
+                padding: 6px 10px; /* Adjust button padding for smaller size */
+                margin-top: 10px; /* Add margin to separate from form */
+                font-size: 14px; /* Adjust font size */
+                width: 40%;
+            }
+
+            footer .form-group {
+                margin-bottom: 10px; /* Remove bottom margin for form group */
+            }
+
+            footer .signup-link {
+                text-align: left; /* Align signup text to the left */
+                margin-top: 20px; /* Add top margin to separate from form */
+            }
+
+                footer .signup-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+            footer .input-group {
+                margin-bottom: 10px; /* Add margin below input group */
+            }
+
+            footer .input-group-append .btn {
+                padding: 8px 12px; /* Adjust button padding for smaller size */
+            }
+
+            footer h4, footer h5 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                        footer ul li a:hover {
+                            color: #ccc;
+                        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Order Details</h2>
+
+        @if (Model != null)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Order ID:</dt>
+                        <dd class="col-sm-9">@Model.OrderId</dd>
+
+                        <dt class="col-sm-3">User Name:</dt>
+                        <dd class="col-sm-9">@Model.UserName</dd>
+
+                        <dt class="col-sm-3">Order Date:</dt>
+                        <dd class="col-sm-9">@Model.OrderDate.ToString("MM/dd/yyyy")</dd>
+
+                        <dt class="col-sm-3">Order Status:</dt>
+                        <dd class="col-sm-9">
+                            @if (Model.OrderStatus == "Canceled" || Model.OrderStatus == "Delivered")
+                            {
+                                <span class="badge badge-secondary">@Model.OrderStatus</span>
+                            }
+                            else
+                            {
+                                <select id="orderStatus" class="form-control">
+                                    <option value="Pending">Pending</option>
+                                    <option value="On-The-Way">On the Way</option>
+                                </select>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-3">Total Amount:</dt>
+                        <dd class="col-sm-9">$@Model.TotalAmount</dd>
+
+                        <dt class="col-sm-3">Shipping Address:</dt>
+                        <dd class="col-sm-9">@Model.ShippingAddress</dd>
+
+                        <dt class="col-sm-3">Order Items:</dt>
+                        <dd class="col-sm-9">
+                            <table class="table table-bordered order-items-table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>@item.ProductName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>$@item.Price</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </dd>
+                    </dl>
+
+                    @if (Model.OrderStatus != "Canceled" && Model.OrderStatus != "Delivered")
+                    {
+                        <div class="text-center mt-4">
+                            <button id="updateStatusBtn" class="btn btn-success">Update Status</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <p>Order details not found.</p>
+        }
+    </div>
+    </body>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#orderStatus').val('@Model.OrderStatus'); // Set the selected status
+
+            $('#updateStatusBtn').click(function () {
+                var orderId = @Model.OrderId;
+                var newStatus = $('#orderStatus').val();
+
+                $.ajax({
+                    url: '/api/Admin/UpdateOrderStatus/' + orderId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newStatus),
+                    success: function (response) {
+                        alert('Order status updated successfully.');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Failed to update order status: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>

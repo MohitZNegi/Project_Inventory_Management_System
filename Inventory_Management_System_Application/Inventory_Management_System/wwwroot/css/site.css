@@ -13,6 +13,230 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+h1 {
+    font-family: Raleway, sans-serif;
+}
+
+h2 {
+    font-family: Raleway, sans-serif;
+}
+
+h3 {
+    font-family: Raleway, sans-serif;
+}
+
+h4 {
+    font-family: Raleway, sans-serif;
+}
+
+h5 {
+    font-family: Raleway, sans-serif;
+}
+
+p {
+    font-family: Raleway, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+    .nav-links li {
+        margin-right: 20px;
+        font-family: Raleway, sans-serif;
+    }
+
+    .nav-links a {
+        color: #fff !important;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-family: Raleway, sans-serif;
+    }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+.navbar-brand img {
+    max-height: 100%;
+    width: auto;
+    margin-top: -4px;
+}
+
+.dropdown-menu {
+    background-color: #fff; /* Set background color to white */
+    color: #000; /* Set text color to black */
+    display: none;
+    position: absolute;
+    padding: 10px;
+    z-index: 1;
+}
+
+    .dropdown-menu .dropdown-item {
+        color: #000; /* Set text color of dropdown items to black */
+    }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #ccc; /* Set background color of hovered dropdown items */
+        }
+
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.square-button-black {
+    background-color: black;
+    color: white;
+    width: 100px;
+    height: 40px;
+    text-decoration: none;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+}
+
+.square-button-white {
+    background-color: white;
+    color: black;
+    width: 100px;
+    height: 40px;
+    text-decoration: none;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.square-button-black:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.square-button-white:hover {
+    background-color: black;
+    color: white;
+    border-color: black;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+    .auth-buttons a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+    .auth-buttons a:hover {
+        color: #ff9900;
+    }
+
+/* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left; /* Align text to the left */
+        position: absolute;
+        margin-top: 25px;
+        margin-bottom: 0px;
+        margin-left: -208px;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 35%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
+    @keyframes floatIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+@keyframes showFloatingMessage {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

@@ -1,0 +1,399 @@
+﻿@using System.Linq;
+@using Inventory_Management_System.Areas.Identity.Data;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model Inventory_Management_System.Models.Order
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
+    <style>
+        /* General styles */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+
+        .text-danger {
+            color: #dc3545;
+        }
+
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+        /* Table styles */
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+            .table th,
+            .table td {
+                padding: 8px;
+            }
+
+            .table th {
+                background-color: #f2f2f2;
+                border-bottom: 2px solid #dee2e6;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            .table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f0f0f0;
+            }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            text-align: left; /* Align text to the left */
+            width: 146.2%;
+            position: relative;
+            margin-top: 25px;
+            margin-left: -300px;
+            margin-bottom: -40px;
+        }
+
+            footer button.btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #fff;
+                padding: 6px 10px; /* Adjust button padding for smaller size */
+                margin-top: 10px; /* Add margin to separate from form */
+                font-size: 14px; /* Adjust font size */
+                width: 40%;
+            }
+
+            footer .form-group {
+                margin-bottom: 10px; /* Remove bottom margin for form group */
+            }
+
+            footer .signup-link {
+                text-align: left; /* Align signup text to the left */
+                margin-top: 20px; /* Add top margin to separate from form */
+            }
+
+                footer .signup-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+            footer .input-group {
+                margin-bottom: 10px; /* Add margin below input group */
+            }
+
+            footer .input-group-append .btn {
+                padding: 8px 12px; /* Adjust button padding for smaller size */
+            }
+
+            footer h4, footer h5 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                        footer ul li a:hover {
+                            color: #ccc;
+                        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Checkout</h2>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Cart Items</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var cartItem in ViewBag.CartItems)
+                                {
+                                    <tr>
+                                        <td>@cartItem.Product.ProductName</td>
+                                        <td>@cartItem.Quantity</td>
+                                        <td>@cartItem.Product.ProductPrice</td>
+                                        <td>@(cartItem.Quantity * cartItem.Product.ProductPrice)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Order Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="orderForm">
+                            <div class="form-group">
+                                <label asp-for="OrderDate">Order Date</label>
+                                <input asp-for="OrderDate" id="OrderDate" class="form-control" />
+                                <span asp-validation-for="OrderDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ShippingAddress">Shipping Address</label>
+                                <textarea id="ShippingAddress" name="ShippingAddress" class="form-control"></textarea>
+                                <span class="text-danger" id="shippingAddressError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Total Amount</label>
+                                <input type="text" id="TotalAmount" class="form-control" value="@ViewBag.TotalAmount" readonly />
+                            </div>
+                            <button id="placeOrderBtn" class="btn btn-primary">Place Order</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#orderForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Gather form data
+                var orderDate = $('#OrderDate').val();
+                var shippingAddress = $('#ShippingAddress').val();
+
+                // Validate the form data
+                if (!orderDate || !shippingAddress) {
+                    if (!orderDate) {
+                        $('#OrderDate').addClass('is-invalid');
+                    }
+                    if (!shippingAddress) {
+                        $('#shippingAddressError').text('Shipping Address is required.');
+                    }
+                    return;
+                }
+
+                // Show confirmation dialog
+                bootbox.confirm({
+                    message: "Are you sure you want to place this order?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            // Prepare order request object
+                            var orderRequest = {
+                                OrderDate: orderDate,
+                                ShippingAddress: shippingAddress
+                            };
+
+                            // Make AJAX POST request to the PlaceOrder API endpoint
+                            $.ajax({
+                                url: '/api/Client/PlaceOrder',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify(orderRequest),
+                                success: function (response) {
+                                    // Handle success response
+                                    bootbox.alert('Order placed successfully!', function () {
+                                        // Redirect to the order confirmation page or another relevant page
+                                        window.location.href = '/Client/OrderHistory';
+                                    });
+                                },
+                                error: function (xhr, status, error) {
+                                    // Log the full error response to the console
+                                    console.error('Error placing order:', xhr.responseText);
+
+                                    // Handle error response
+                                    var errorMessage = 'Failed to place order: ';
+                                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                        $.each(xhr.responseJSON.errors, function (key, value) {
+                                            errorMessage += key + ': ' + value.join(', ') + ' ';
+                                        });
+                                    } else {
+                                        errorMessage += xhr.responseText;
+                                    }
+                                    bootbox.alert(errorMessage);
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the current date
+            var currentDate = new Date();
+            // Add one day to the current date
+            currentDate.setDate(currentDate.getDate() + 1);
+
+            // Calculate the max date (14 days from the default date)
+            var maxDate = new Date(currentDate);
+            maxDate.setDate(currentDate.getDate() + 14);
+
+            // Format the dates to yyyy-MM-dd
+            var formatDate = function (date) {
+                var year = date.getFullYear();
+                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                var day = ("0" + date.getDate()).slice(-2);
+                return `${year}-${month}-${day}`;
+            };
+
+            // Set the default date, min date, and max date
+            var defaultDate = formatDate(currentDate);
+            var maxDateFormatted = formatDate(maxDate);
+
+            var orderDateInput = document.getElementById('OrderDate');
+            orderDateInput.value = defaultDate;
+            orderDateInput.min = defaultDate;
+            orderDateInput.max = maxDateFormatted;
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,382 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+
+<head>
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>About Us</title>
+    <style>
+        .hero-section {
+            background-color: #000;
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+            width: 118.5%;
+            max-width: 10000px;
+            margin: 70px auto;
+            margin-left: -120px;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .hero-paragraph {
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .btn-black {
+            background-color: black;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            width: 100%;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .btn-white {
+            background-color: white;
+            color: black;
+            border: 2px solid black;
+            padding: 10px 20px;
+            width: 100%;
+            margin-top: 30px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .btn-black:hover {
+            background-color: white;
+            color: black;
+            text-decoration: none;
+            border-color: black;
+        }
+
+        .btn-white:hover {
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            border-color: white;
+        }
+
+        .about-section {
+            padding: 50px 0;
+            display: flex;
+            margin-top: -50px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .about-content {
+            width: 60%;
+        }
+
+        .about-heading {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .about-paragraph {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .contact-section {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .contact-heading {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .contact-paragraph {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .image-container {
+            width: 40%;
+            text-align: center;
+        }
+
+            .image-container img {
+                max-width: 100%;
+                height: auto;
+            }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 0;
+            width: 118.5%;
+            margin-left: -120px;
+            background-color: black;
+            color: white;
+        }
+
+        .header-left {
+            flex: 1;
+            margin-right: 50px;
+        }
+
+        .header-right {
+            flex: 2;
+        }
+
+            .header-right .stats {
+                text-align: center;
+                margin-bottom: 0px;
+            }
+
+            .header-right .big-number {
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .header-right .stat-desc {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .header-right p {
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+        .header-left h2 {
+            font-weight: bold;
+            margin-left: 25px
+        }
+
+        .review-section {
+            padding: 50px 0;
+            background-color: white;
+            text-align: center;
+        }
+
+        .review-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .review {
+            flex: 0 0 45%;
+            max-width: 45%;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .review-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 40px 0;
+            text-align: left;
+            position: relative;
+            margin-top: 50px;
+            margin-bottom: -40px;
+            margin-left: -200px;
+            width: 124.7%;
+        }
+
+            footer button.btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #fff;
+                padding: 6px 10px;
+                margin-top: 10px;
+                font-size: 14px;
+                width: 30%;
+            }
+
+            footer .form-group {
+                margin-bottom: 0;
+            }
+
+            footer .signup-link {
+                text-align: left;
+                margin-top: 20px;
+            }
+
+                footer .signup-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+            footer .input-group {
+                margin-bottom: 10px;
+            }
+
+            footer .input-group-append .btn {
+                padding: 8px 12px;
+            }
+
+            footer h4, footer h5 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                        footer ul li a:hover {
+                            color: #ccc;
+                        }
+
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <h1 class="hero-title">Delivering Fresh Food</h1>
+        <p class="hero-paragraph">We have been providing top-quality food products to companies for over a decade.</p>
+        <a href="/home/faqs" class="btn-black">FAQ's</a>
+        <a href="/product/products" class="btn-white">Order Now!</a>
+    </div>
+
+    <div class="about-section">
+        <div class="about-content">
+            <h2 class="about-heading">Providing Exceptional Food Products to Companies</h2>
+            <p class="about-paragraph">At our company, we are committed to delivering the highest quality food products to companies. With a focus on freshness, taste, and nutritional value, we strive to exceed our customers' expectations. Our dedication to quality is what sets us apart in the industry.</p>
+            <a href="/home/faqs" class="btn-black">FAQ's</a>
+            <a href="/identity/register" class="btn-white">Join Now!</a>
+        </div>
+        <div class="image-container">
+            <img src="https://media.istockphoto.com/id/1284193221/photo/retail-warehouse-full-of-shelves-with-goods-in-cardboard-boxes-workers-scan-and-sort-packages.jpg?s=612x612&w=0&k=20&c=PlKUbpl9K7vwifb9DQWdQHbb2Dw8-uScC6VQuTQAxcw=" alt="Company Image" style="padding-left:20px;">
+        </div>
+    </div>
+
+
+
+
+
+    <div class="header-section">
+        <div class="header-left">
+            <h2><strong>Years of Success and Distribution Excellence</strong></h2>
+        </div>
+        <div class="header-right">
+            <div class="stats">
+                <p class="big-number">15</p>
+                <p class="stat-desc">Years of Experience in the Food Industry</p>
+            </div>
+            <div class="stats">
+                <p class="big-number">600,000</p>
+                <p class="stat-desc">Clients Served and Counting</p>
+            </div>
+            <p>With a proven track record in the industry, we have been serving numerous clients with our high-quality food products for many years. Our commitment to excellence and efficient distribution has made us a trusted partner in the market.</p>
+        </div>
+    </div>
+
+
+    <div class="contact-section">
+        <h2 class="contact-heading">Get in Touch</h2>
+        <p class="contact-paragraph">For inquiries or more information, feel free to contact us.</p>
+        <a href="/home/faqs" class="btn-black">FAQ's</a>
+        <a href="/home/contactus" class="btn-white">Contact Us</a>
+    </div>
+
+    <div class="review-section">
+        <div class="review-container">
+            <div class="review">
+                <div class="stars">
+                    &#9733;&#9733;&#9733;&#9733;&#9733;
+                </div>
+                <p class="review-text">"The quality of the food products is exceptional, and the delivery is always on time. Our company has never been disappointed with the service provided."</p>
+                <p class="reviewer-name">- John Smith</p>
+            </div>
+            <div class="review">
+                <div class="stars">
+                    &#9733;&#9733;&#9733;&#9733;&#9733;
+                </div>
+                <p class="review-text">"Their commitment to excellence and customer satisfaction is evident in every order. We've been partners for years, and their reliability is unmatched. Not to mention their AI software has helped the company so much!"</p>
+                <p class="reviewer-name">- Emily Johnson</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+                </div>
+                <div class="col-md-3">
+                    <h4><strong>About Us</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/home/contactus">Contact</a></li>
+                        <li><a href="/home/faqs">FAQs</a></li>
+                        <li><a href="/home/aboutus">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h4><strong>Terms</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/home/privacy">Privacy</a></li>
+                        <li><a href="/home/termsandservices">T&S</a></li>
+                        <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h4><strong>Follow Us</strong></h4>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                        <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                        <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+

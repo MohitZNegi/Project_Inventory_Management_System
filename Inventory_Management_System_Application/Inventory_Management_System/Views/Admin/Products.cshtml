@@ -1,0 +1,189 @@
+﻿@model IEnumerable<Inventory_Management_System.Models.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<style>
+    .even-row {
+        background-color: #f9f9f9;
+    }
+
+    .odd-row {
+        background-color: #f0f0f0;
+    }
+
+    .btn-rounded {
+        border-radius: 20px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-rounded:hover {
+            transform: translateY(-2px);
+        }
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left; /* Align text to the left */
+        margin-top: 50px;
+        position: absolute;
+        margin-bottom: 50px;
+        width: 105.75%;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px; /* Adjust button padding for smaller size */
+            margin-top: 10px; /* Add margin to separate from form */
+            font-size: 14px; /* Adjust font size */
+            width: 35%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px; /* Remove bottom margin for form group */
+        }
+
+        footer .signup-link {
+            text-align: left; /* Align signup text to the left */
+            margin-top: 20px; /* Add top margin to separate from form */
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 10px; /* Add margin below input group */
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px; /* Adjust button padding for smaller size */
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
+
+</style>
+
+<h1 class="text-center mb-4" style="margin-top:100px;">Product List</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center">Product Name</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Supplier</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center">Created By</th>
+                            <th class="text-center">Created Date</th>
+                            <th class="text-center">Updated Date</th>
+                            <th class="text-center">Image</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr class="@((@product.ProductID % 2 == 0) ? "even-row" : "odd-row")">
+                                <td>@product.ProductName</td>
+                                <td>@product.ProductDescription</td>
+                                <td>@product.ProductSuppliers</td>
+                                <td class="text-center">$@product.ProductPrice</td>
+                                <td class="text-center">@product.ProductQuantity</td>
+                                <td>@product.CreatedBy</td>
+                                <td class="text-center">@product.CreatedDate.ToShortDateString()</td>
+                                <td class="text-center">@((product.UpdatedDate != DateTime.MinValue) ? product.UpdatedDate.ToShortDateString() : "N/A")</td>
+                                <td class="text-center">
+                                    @if (!string.IsNullOrEmpty(product.ProductImg))
+                                    {
+                                        <div style="width: 100px; height: 100px; border-radius: 5px; overflow: hidden; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
+                                            <img src="@Url.Content(product.ProductImg)" alt="Product Image" style="max-width: 100%; max-height: 100%; object-fit: cover; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span>No Image Available</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("EditProduct", "Admin", new { id = product.ProductID })" class="btn btn-primary btn-rounded mr-2">Edit</a>
+                                    <a href="@Url.Action("ConfirmDeleteProduct", "Admin", new { id = product.ProductID })" class="btn btn-danger btn-rounded">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="@Url.Action("AddProduct", "Admin")" class="btn btn-success btn-rounded">Add New Product</a>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

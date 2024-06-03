@@ -1,0 +1,246 @@
+﻿@model List<Inventory_Management_System.ViewModels.InvoiceViewModel>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices</title>
+    <link href="~/css/site.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General styles */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+        }
+
+        .badge-danger {
+            background-color: #dc3545;
+        }
+
+        .text-success {
+            color: #28a745;
+        }
+
+        .text-warning {
+            color: #ffc107;
+        }
+
+        .text-danger {
+            color: #dc3545;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 40px 0;
+            text-align: left; /* Align text to the left */
+            width: 146.2%;
+            position: relative;
+            margin-top: 25px;
+            margin-left: -300px;
+            margin-bottom: -40px;
+        }
+
+            footer button.btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #fff;
+                padding: 6px 10px; /* Adjust button padding for smaller size */
+                margin-top: 10px; /* Add margin to separate from form */
+                font-size: 14px; /* Adjust font size */
+                width: 40%;
+            }
+
+            footer .form-group {
+                margin-bottom: 10px; /* Remove bottom margin for form group */
+            }
+
+            footer .signup-link {
+                text-align: left; /* Align signup text to the left */
+                margin-top: 20px; /* Add top margin to separate from form */
+            }
+
+                footer .signup-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+            footer .input-group {
+                margin-bottom: 10px; /* Add margin below input group */
+            }
+
+            footer .input-group-append .btn {
+                padding: 8px 12px; /* Adjust button padding for smaller size */
+            }
+
+            footer h4, footer h5 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                        footer ul li a:hover {
+                            color: #ccc;
+                        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Invoices</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Invoice ID</th>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Order Date</th>
+                        <th>Due Date</th>
+                        <th>Invoice</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var invoice in Model)
+                    {
+                        <tr>
+                            <td>@invoice.InvoiceId</td>
+                            <td>@invoice.OrderId</td>
+                            <td>@invoice.UserName</td>
+                            <td>@invoice.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td>@invoice.DueDate.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <a href="@Url.Content("~/" + invoice.InvoiceFilePath)" target="_blank">View Invoice</a>
+                            </td>
+                            <td>
+                                @if (invoice.PaymentStatus == "Received")
+                                {
+                                    <span class="badge badge-success">Completed</span>
+                                }
+                                else if (invoice.PaymentStatus == "Pending")
+                                {
+                                    <span class="badge badge-warning">Pending</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger">Unpaid</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No invoices found.</p>
+        }
+    </div>
+
+</body>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,22 @@
+﻿@model Client;
+
+<div class="container shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
+    <div class="row d-flex justify-content-center">
+                <div class="col-4" style="border-radius: 30px;">
+                    <br />
+                    <h3>Details:</h3>
+                    <div class="row">
+                        <div class="col">
+                            <h5>Name:</h5>
+                            <p>@Html.DisplayFor(modelItem => modelItem.First_name) @Html.DisplayFor(modelItem => modelItem.Last_name)</p>
+                        </div>
+
+</div>
+</div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

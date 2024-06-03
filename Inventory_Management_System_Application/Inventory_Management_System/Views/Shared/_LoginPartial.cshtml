@@ -1,28 +1,161 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Inventory_Management_System.Areas.Identity.Data
 
+<head>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/Inventory_Management_System.styles.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<style>
+    .square-button-black {
+        background-color: black;
+        color: white;
+        width: 100px;
+        height: 40px;
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .square-button-white {
+        background-color: white;
+        color: black;
+        width: 100px;
+        height: 40px;
+        border: 2px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    .square-button-black:hover {
+        background-color: white;
+        color: black;
+        border-color: black;
+    }
+
+    .square-button-white:hover {
+        background-color: black;
+        color: white;
+        border-color: black;
+    }
+
+    .cart-button {
+        position: relative;
+    }
+
+    .custom-badge {
+        position: absolute;
+        bottom: -20px; /* Adjust the bottom value to position the badge */
+        right: -5px; /* Adjust the right value to position the badge */
+        display: @(ViewBag.cartItemCount <= 0 ? "none" : "inline-block");
+        padding: 0.1em 0.4em;
+        border-radius: 6px;
+        background-color: @(ViewBag.cartItemCount <= 0 ? "transparent" : "#0d6efd");
+        color: white;
+        font-size: 0.8em;
+        line-height: 1; /* Ensure badge height matches content */
+    }
+
+        .custom-badge::before {
+            content: ""; /* Hide the badge content when count is 0 */
+            display: @(ViewBag.cartItemCount <= 0 ? "none" : "inline-block");
+            background-color: transparent;
+        }
+</style>
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject Inventory_Management_System.Service.CartService cartService
+@{
+    var cartItemCount = await cartService.GetCartItemCountAsync();
+}
+
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (!User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="cart-button" href="/client/viewcart">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715835043/Cart-removebg-preview_r2drni.png" style="height: 40px; width: 40px; margin-top: 8px;" alt="Cart Icon" class="cart-icon" />
+                <!-- Display cart item count here -->
+                <span id="cartItemCount" class="custom-badge @(cartItemCount <= 0 ? "hidden" : "")">@cartItemCount</span>
+            </a>
+        </li>
+        }
+
+        <li class="nav-item">
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715835034/Profile-removebg-preview_weeu0p.png" alt="Profile Image" style="height: 40px; width: 40px;" class="profile-image" />
+            </a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item me-2">
+            <a class="square-button-white" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="square-button-black" id="register" href="/home/register">Join Us</a>
+        </li>
+    }
+
 </ul>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btnWhite = document.querySelector('.square-button-white');
+        const btnBlack = document.querySelector('.square-button-black');
+
+        btnWhite.addEventListener('mouseover', function () {
+            btnBlack.style.backgroundColor = 'white';
+            btnBlack.style.color = 'black';
+            btnBlack.style.borderColor = 'black';
+            btnWhite.style.backgroundColor = 'black';
+            btnWhite.style.color = 'white';
+            btnWhite.style.borderColor = 'black';
+        });
+
+        btnWhite.addEventListener('mouseleave', function () {
+            btnBlack.style.backgroundColor = 'black';
+            btnBlack.style.color = 'white';
+            btnBlack.style.borderColor = 'black';
+            btnWhite.style.backgroundColor = 'white';
+            btnWhite.style.color = 'black';
+            btnWhite.style.borderColor = 'black';
+        });
+
+        btnBlack.addEventListener('mouseover', function () {
+            btnWhite.style.backgroundColor = 'black';
+            btnWhite.style.color = 'white';
+            btnWhite.style.borderColor = 'black';
+            btnBlack.style.backgroundColor = 'white';
+            btnBlack.style.color = 'black';
+            btnBlack.style.borderColor = 'black';
+        });
+
+        btnBlack.addEventListener('mouseleave', function () {
+            btnWhite.style.backgroundColor = 'white';
+            btnWhite.style.color = 'black';
+            btnWhite.style.borderColor = 'black';
+            btnBlack.style.backgroundColor = 'black';
+            btnBlack.style.color = 'white';
+            btnBlack.style.borderColor = 'black';
+        });
+    });
+</script>

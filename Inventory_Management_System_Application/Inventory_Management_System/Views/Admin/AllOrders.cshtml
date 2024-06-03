@@ -1,0 +1,316 @@
+﻿@model List<Inventory_Management_System.Models.Order>
+    <style>
+        /* Custom styles for admin order management */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #fff;
+            border-collapse: collapse;
+        }
+
+            .table th,
+            .table td {
+                padding: 0.75rem;
+                vertical-align: top;
+                border-top: 1px solid #dee2e6;
+            }
+
+            .table thead th {
+                vertical-align: bottom;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            .table tbody + tbody {
+                border-top: 2px solid #dee2e6;
+            }
+
+        .table-bordered {
+            border: 1px solid #dee2e6;
+        }
+
+            .table-bordered th,
+            .table-bordered td {
+                border: 1px solid #dee2e6;
+            }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+
+        .btn {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-success {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+
+        /* Additional styles for specific elements */
+        .badge-delivered {
+            background-color: #28a745; /* Green color for delivered */
+            color: #fff;
+        }
+
+        .badge-canceled {
+            background-color: #dc3545; /* Red color for canceled */
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 40px 0;
+            text-align: left; /* Align text to the left */
+            width: 146.2%;
+            position: relative;
+            margin-top: 25px;
+            margin-left: -300px;
+            margin-bottom: -40px;
+        }
+
+            footer button.btn-primary {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+                color: #fff;
+                padding: 6px 10px; /* Adjust button padding for smaller size */
+                margin-top: 10px; /* Add margin to separate from form */
+                font-size: 14px; /* Adjust font size */
+                width: 40%;
+            }
+
+            footer .form-group {
+                margin-bottom: 10px; /* Remove bottom margin for form group */
+            }
+
+            footer .signup-link {
+                text-align: left; /* Align signup text to the left */
+                margin-top: 20px; /* Add top margin to separate from form */
+            }
+
+                footer .signup-link a {
+                    color: #007bff;
+                    text-decoration: none;
+                }
+
+            footer .input-group {
+                margin-bottom: 10px; /* Add margin below input group */
+            }
+
+            footer .input-group-append .btn {
+                padding: 8px 12px; /* Adjust button padding for smaller size */
+            }
+
+            footer h4, footer h5 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
+                        footer ul li a:hover {
+                            color: #ccc;
+                        }
+    </style>
+
+<br />
+<br />
+
+    <div class="container mt-5">
+        <h2 style="text-align:center;">Admin Order Management</h2>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Total Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>@order.OrderId</td>
+                                <td>@order.User.UserName</td>
+                                <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    @if (order.OrderStatus == "Canceled" || order.OrderStatus == "Delivered")
+                                    {
+                                        <span class="badge badge-secondary @if(order.OrderStatus == "Delivered") { <text>badge-delivered</text> } else { <text>badge-canceled</text> }">@order.OrderStatus</span>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control order-status" data-order-id="@order.OrderId" data-current-status="@order.OrderStatus">
+                                            <option value="Pending">Pending</option>
+                                            <option value="On-The-Way">On-the-Way</option>
+                                        </select>
+                                    }
+                                </td>
+                                <td>@order.TotalAmount.ToString("C")</td>
+                                <td>
+                                    <a href="@Url.Action("OrderDetails", "Admin", new { orderId = order.OrderId })" class="btn btn-primary btn-sm">View Details</a>
+                                    @if (order.OrderStatus != "Delivered" && order.OrderStatus != "Canceled")
+                                    {
+                                        <button class="btn btn-success btn-sm deliver-order" data-order-id="@order.OrderId">Delivered</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p>No orders found.</p>
+        }
+    </div>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.order-status').each(function () {
+                var currentStatus = $(this).data('current-status');
+                $(this).val(currentStatus);
+            });
+
+            $('.order-status').change(function () {
+                var orderId = $(this).data('order-id');
+                var newStatus = $(this).val();
+
+                if (newStatus === "Canceled") {
+                    alert("Cannot manually set status to 'Canceled'.");
+                    return;
+                }
+
+                updateOrderStatus(orderId, newStatus);
+            });
+
+            $('.deliver-order').click(function () {
+                var orderId = $(this).data('order-id');
+                if (confirm('Are you sure you want to mark this order as delivered?')) {
+                    confirmDelivery(orderId);
+                }
+            });
+
+            function updateOrderStatus(orderId, newStatus) {
+                $.ajax({
+                    url: '/api/Admin/UpdateOrderStatus/' + orderId,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newStatus),
+                    success: function (response) {
+                        alert('Order status updated successfully.');
+                        location.reload(); // Refresh the page to reflect the updated status
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Failed to update order status: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            function confirmDelivery(orderId) {
+                $.ajax({
+                    url: '/api/Admin/ConfirmDelivery/' + orderId,
+                    type: 'POST',
+                    success: function (response) {
+                        alert('Order marked as delivered and invoice created successfully.');
+                        location.reload(); // Refresh the page to reflect the updated status
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Failed to confirm delivery: ' + xhr.responseText);
+                    }
+                });
+            }
+        });
+    </script>
+}
