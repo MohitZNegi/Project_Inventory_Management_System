@@ -5,9 +5,12 @@ using Inventory_Management_System.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Inventory_Management_System.Service;
+using Inventory_Management_System.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inventory_Management_System.Controllers
 {
+    
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
@@ -67,7 +70,10 @@ namespace Inventory_Management_System.Controllers
             return View(product);
         }
 
+  
+
         [HttpPost]
+        [Authorize(Roles = "Client")]
         public async Task<IActionResult> AddToCart(int id, int quantity)
         {
             // Get the current user ID
