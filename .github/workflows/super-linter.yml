@@ -37,14 +37,11 @@ jobs:
           dotnet-version: '7.x'
           include-prerelease: true
 
-      - name: Change directory to solution folder
-        run: cd Inventory_Management_System_Application
-
       - name: Build with dotnet
-        run: dotnet build --configuration Release Inventory_Management_System_Application.sln
+        run: dotnet build --configuration Release Inventory_Management_System_Application/Inventory_Management_System_Application.sln
 
       - name: dotnet publish
-        run: dotnet publish Inventory_Management_System_Application.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish Inventory_Management_System_Application/Inventory_Management_System_Application.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
