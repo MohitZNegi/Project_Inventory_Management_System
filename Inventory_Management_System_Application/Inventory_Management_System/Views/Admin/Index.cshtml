@@ -9,6 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clients</title>
     <style>
+        .btn-rounded {
+            border-radius: 20px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-rounded:hover {
+                transform: translateY(-2px);
+            }
         body {
             margin: 20px;
         }
@@ -144,6 +153,9 @@
             }
         </tbody>
     </table>
+    <div class="text-center mt-4">
+        <a  id="register" asp-area="Identity" asp-page="/Account/Register" class="btn btn-success btn-rounded">Add new user</a>
+    </div>
 </body>
 <footer>
     <div class="container">
