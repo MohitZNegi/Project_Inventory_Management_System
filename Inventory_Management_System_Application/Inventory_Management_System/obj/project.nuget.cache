@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "isD2j0jBQJWJyJuIi+uEucNlUS6Q4amIm4TkXTqm98UhGBij5/vUqRH8FLdKt37yH54UNBptSR1jBi/ZTI6W2w==",
+  "dgSpecHash": "0rLeWegU++AkGU9aPtzFSbb9FPFZ8AP3dl/mZr+3UByzItzK2xhQ940sGedL1avmejt/AdphGs7zRRnavgHfMA==",
   "success": true,
   "projectFilePath": "D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\Inventory_Management_System.csproj",
   "expectedPackageFiles": [
@@ -245,12 +245,6 @@
     "C:\\Users\\Cameron\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\Inventory Management\\Project_Inventory_Management_System\\Inventory_Management_System_Application\\Inventory_Management_System\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1903",
       "level": "Warning",

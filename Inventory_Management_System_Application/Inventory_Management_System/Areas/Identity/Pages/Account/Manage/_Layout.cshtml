@@ -9,7 +9,7 @@
     }
 }
 
-<div class="container mt-5 mb-5">
+<div class="main-container mt-5 mb-5" style=margin-top:120px;>
     <div class="row">
         <div class="col-md-3">
             <h4 class="border-bottom pb-2">Account Settings</h4>
@@ -28,6 +28,40 @@
     </div>
 </div>
 
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="https://res.cloudinary.com/dup5hdi05/image/upload/v1715090528/ware-master-high-resolution-logo-transparent_2_xnts9o.png" alt="Company Logo" style="height: 30px; width: 200px;">
+            </div>
+            <div class="col-md-3">
+                <h4><strong>About Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/contactus">Contact</a></li>
+                    <li><a href="/home/faqs">FAQs</a></li>
+                    <li><a href="/home/aboutus">About Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3">
+                <h4><strong>Terms</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="/home/privacy">Privacy</a></li>
+                    <li><a href="/home/termsandservices">T&S</a></li>
+                    <li><a href="/home/refundpolicy">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4><strong>Follow Us</strong></h4>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.facebook.com/profile.php?id=61560704243229" target="_blank">Facebook</a></li>
+                    <li><a href="https://x.com/WareMaster2024" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.instagram.com/waremaster/" target="_blank">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
@@ -37,13 +71,12 @@
     /* Custom styles for account management page */
     .container {
         max-width: 1200px;
-        margin-top: 5rem; /* Adjust this value as needed */
-        margin-bottom: 5rem; /* Adjust this value as needed */
     }
 
     .card {
         border: none;
         border-radius: 0.5rem;
+        margin-top: 100px;
     }
 
     .card-header {
@@ -61,6 +94,72 @@
 
     .pb-2 {
         padding-bottom: 0.5rem;
+        margin-top: 100px;
     }
 
+    /* Footer */
+    footer {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px 0;
+        text-align: left;
+        width: 101.8%;
+        position: absolute;
+        margin-top: 105px;
+    }
+
+        footer button.btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: #fff;
+            padding: 6px 10px;
+            margin-top: 10px;
+            font-size: 14px;
+            width: 30%;
+        }
+
+        footer .form-group {
+            margin-bottom: 10px;
+        }
+
+        footer .signup-link {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+            footer .signup-link a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        footer .input-group {
+            margin-bottom: 5px;
+        }
+
+        footer .input-group-append .btn {
+            padding: 8px 12px;
+        }
+
+        footer h4, footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            footer ul li {
+                margin-bottom: 0.5rem;
+            }
+
+                footer ul li a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+
+                    footer ul li a:hover {
+                        color: #ccc;
+                    }
 </style>
