@@ -188,7 +188,7 @@
                     @if (Model.OrderStatus != "Canceled" && Model.OrderStatus != "Delivered")
                     {
                         <div class="text-center mt-4">
-                            <button id="Cancel" class="btn btn-success">Cancel</button>
+                            <button id="Cancel" class="btn btn-danger btn-cancel" data-order-id="@Model.OrderId">Cancel</button>
                         </div>
                     }
                 </div>

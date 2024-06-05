@@ -182,7 +182,7 @@
         {
             <div class="col-md-3">
                 <div class="product-card">
-                    <a href="@Url.Action("ProductItems", "Product", new { id = product.ProductID })">
+                    <a href="@Url.Action("ProductItems", "Client", new { id = product.ProductID })">
                         @if (!string.IsNullOrEmpty(product.ProductImg))
                         {
                             <img src="@product.ProductImg" alt="@product.ProductName" />

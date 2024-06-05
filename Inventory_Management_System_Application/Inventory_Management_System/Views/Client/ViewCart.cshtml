@@ -232,14 +232,14 @@
             {
                 <tr data-cart-item-id="@item.CartID">
                     <td>
-                        <a href="@Url.Action("ProductItems", "Product", new { id = item.Product.ProductID })" class="product-name">@item.Product.ProductName</a>
+                        <a href="@Url.Action("ProductItems", "Client", new { id = item.Product.ProductID })" class="product-name">@item.Product.ProductName</a>
                     </td>
                     <td>
                         <img src="@item.Product.ProductImg" alt="@item.Product.ProductName" style="width: 100px; height: auto;" />
                     </td>
                     <td>
-                        <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" />
-                    </td>
+                            <input type="number" name="quantity" class="form-control cart-item-quantity" value="@item.Quantity" min="1" max="@item.Product.ProductQuantity" />
+                        </td>
                     <td>$@item.Product.ProductPrice</td>
                     <td class="cart-item-total-price">$@(item.Product.ProductPrice * item.Quantity)</td>
                     <td>
@@ -303,16 +303,27 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+       
         $(document).ready(function () {
             // Initial check for empty cart
             checkEmptyCart();
+
+            // Update the cart item total price
+            function updateCartItemTotalPrice(cartItemId, newQuantity) {
+                var productPrice = $('tr[data-cart-item-id="' + cartItemId + '"] td:nth-child(3)').text().replace('$', '');
+                var totalPrice = productPrice * newQuantity;
+                $('tr[data-cart-item-id="' + cartItemId + '"] .cart-item-total-price').text('$' + totalPrice.toFixed(2));
+            }
 
             // Handle quantity input change
             $('.cart-item-quantity').on('input', function () {
                 var cartItemId = $(this).closest('tr').data('cart-item-id');
                 var newQuantity = parseInt($(this).val());
 
-                if (!isValidQuantity(newQuantity)) {
+                var maxQuantity = parseInt($(this).attr('max'));
+                var minQuantity = parseInt($(this).attr('min'));
+
+                if (!isValidQuantity(newQuantity, minQuantity, maxQuantity)) {
                     $(this).next('.text-danger').show();
                     $(this).addClass('is-invalid');
                 } else {
@@ -339,6 +350,7 @@
 
                 updateProceedButtonState();
             });
+
 
 
             // Delete cart item
@@ -442,8 +454,8 @@
             }
 
             // Function to check if the quantity is within valid range
-            function isValidQuantity(quantity) {
-                return quantity > 0;
+            function isValidQuantity(quantity, min, max) {
+                return quantity >= min && quantity <= max;
             }
 
             // Update the "Proceed to Checkout" button state
@@ -464,5 +476,7 @@
             }
             updateProceedButtonState();
         });
+
+   
     </script>
 }
